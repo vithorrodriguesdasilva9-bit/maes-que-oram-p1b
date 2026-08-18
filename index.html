@@ -114,6 +114,88 @@ button{cursor:pointer}
 @media(max-width:620px){.header{height:auto;min-height:104px;padding:14px 15px}.header:after{display:none}.greeting h1{font-size:21px}.head-actions .secondary,.bell{display:none}.content{padding:10px}.filterbar,.kpis,.stats4,.qualitygrid,.formgrid,.peoplegrid{grid-template-columns:1fr}.donutrow{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}}
 @media print{.sidebar,.header,.filterbar,.report-actions{display:none!important}.main{margin:0;width:100%}.content{padding:0}.page{display:none!important}#reports{display:block!important}.reportbox{box-shadow:none;border:0}}
 </style>
+
+<style id="enterprise-premium-layer">
+:root{
+  --navy:#062f63;--navy-deep:#031d3e;--navy-soft:#0b4b8a;
+  --gold:#d49a18;--gold-bright:#f0b52e;--gold-soft:#fff7df;
+  --surface:#ffffff;--surface-2:#f8fbff;--surface-3:#f2f6fb;
+  --border:#dfe8f2;--border-soft:#edf2f7;--text:#173b69;--muted:#71839a;
+  --shadow-card:0 10px 30px rgba(5,47,99,.08);
+  --shadow-hover:0 18px 42px rgba(5,47,99,.13);
+  --radius-xl:18px;--radius-lg:14px;--radius-md:11px;
+}
+body{background:
+  radial-gradient(circle at 78% 0%,rgba(212,154,24,.055),transparent 22%),
+  linear-gradient(180deg,#fbfdff 0%,#f5f8fc 32%,#f2f6fb 100%)}
+.header{height:112px;padding:17px 30px;background:rgba(255,255,255,.96);box-shadow:0 1px 0 rgba(5,47,99,.04)}
+.greeting h1{font-size:30px;letter-spacing:-.035em}
+.greeting p{font-size:10px;letter-spacing:.02em}
+.head-actions{gap:8px}
+.cloud-status{display:flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid var(--border);background:#fff;border-radius:999px;font-size:8px;font-weight:800;color:var(--muted);box-shadow:0 3px 10px rgba(5,47,99,.05)}
+.cloud-status i{width:7px;height:7px;border-radius:50%;background:#d99d15;box-shadow:0 0 0 4px rgba(217,157,21,.1)}
+.cloud-status.online{color:#167254}.cloud-status.online i{background:#20a56c;box-shadow:0 0 0 4px rgba(32,165,108,.10)}
+.cloud-status.offline{color:#b44444}.cloud-status.offline i{background:#d95755;box-shadow:0 0 0 4px rgba(217,87,85,.10)}
+.content{padding:16px 20px 44px}
+.filterbar{position:sticky;top:112px;z-index:18;padding:11px 13px;border-radius:15px;border-color:rgba(212,224,237,.95);box-shadow:0 8px 26px rgba(5,47,99,.07);background:rgba(255,255,255,.96);backdrop-filter:blur(16px)}
+.select,.search,.field,.textarea{min-height:38px;border-color:#dce6f0;background:#fbfdff;transition:.16s ease}
+.select:hover,.search:hover,.field:hover{border-color:#b9ccdf;background:#fff}
+.kpis{gap:13px;margin-bottom:14px}
+.kpi{border:1px solid #e1e9f2;border-left:0;min-height:132px;border-radius:17px;box-shadow:var(--shadow-card);position:relative;overflow:hidden;padding:17px 18px}
+.kpi:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--gold-bright),var(--gold))}
+.kpi:after{content:"";position:absolute;width:115px;height:115px;border-radius:50%;right:-52px;top:-48px;background:radial-gradient(circle,rgba(212,154,24,.08),transparent 68%)}
+.kpi:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:#d5e0eb}
+.kicon{width:52px;height:52px;border-radius:16px;background:linear-gradient(145deg,#0a4b89,#04254f);box-shadow:0 8px 18px rgba(5,47,99,.16);font-size:21px}
+.kpi small{letter-spacing:.035em;font-size:8px;text-transform:uppercase}
+.kpi b{font-size:35px}
+.kpi span{margin-top:13px;color:#607a9a}
+.card,.formcard,.reportbox,.setting,.person,.quality,.stat{border:1px solid #e1e9f2;box-shadow:var(--shadow-card);border-radius:17px;transition:.18s ease}
+.card:hover,.person:hover{box-shadow:var(--shadow-hover);border-color:#d6e1ec}
+.card{padding:17px}
+.cardhead{margin-bottom:14px}.card h3,.cardhead h3{font-size:12.5px;letter-spacing:-.01em}
+.card-kicker{display:block;color:var(--gold);font-size:7.5px;text-transform:uppercase;letter-spacing:.10em;font-weight:900;margin-bottom:4px}
+.sectiontitle{margin:8px 2px 15px}.sectiontitle h2{font-size:27px;letter-spacing:-.035em}.sectiontitle p{font-size:9.5px;max-width:720px}
+.data-health{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:0 0 13px}
+.health-item{background:#fff;border:1px solid var(--border);border-radius:13px;padding:11px 13px;box-shadow:0 4px 15px rgba(5,47,99,.05);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.health-item small{display:block;font-size:7.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;font-weight:800}
+.health-item b{font-size:15px;color:var(--navy)}
+.health-item.good{border-left:3px solid #28a56d}.health-item.attn{border-left:3px solid var(--gold)}.health-item.info{border-left:3px solid #2d79bd}
+.tablewrap{border:1px solid #edf2f7;border-radius:12px;max-height:540px}
+.datatable{font-size:8.7px}
+.datatable thead{position:sticky;top:0;z-index:4}
+.datatable th{background:#f5f8fc;padding:10px 9px;text-transform:uppercase;letter-spacing:.045em;font-size:7.3px;color:#597390;border-bottom:1px solid #dae5ef}
+.datatable td{padding:10px 9px;vertical-align:middle}
+.datatable tbody tr:nth-child(even) td{background:#fbfdff}
+.datatable tbody tr:hover td{background:#f1f7fd}
+.source-pill,.status-pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:5px 7px;font-size:7px;font-weight:850;white-space:nowrap}
+.source-pill.firebase{background:#eef7f2;color:#147353}.source-pill.base{background:#eff5fb;color:#1f609a}
+.status-pill.warn{background:#fff5e8;color:#b66b00}.status-pill.good{background:#eaf7f1;color:#167254}
+.row-actions{display:flex;gap:5px;white-space:nowrap}
+.iconbtn{border:1px solid #dce6f0;background:#fff;color:#416386;border-radius:8px;padding:6px 8px;font-size:7.5px;font-weight:800;transition:.15s}
+.iconbtn:hover{background:#f2f7fc;border-color:#b9ccdf}.iconbtn.danger{color:#b33f45}.iconbtn.danger:hover{background:#fff0f0;border-color:#efc7c8}
+.group-toolbar{display:flex;align-items:center;gap:8px}
+.compact-select{border:1px solid var(--border);border-radius:9px;background:#fff;padding:7px 9px;font-size:8px;color:var(--text)}
+.result-chip{font-size:8px;font-weight:800;color:#55728f;background:#f2f6fa;border:1px solid #e1e9f1;border-radius:999px;padding:6px 8px}
+.peoplegrid{gap:12px}.person{padding:15px;position:relative;overflow:hidden}.person:after{content:"";position:absolute;width:75px;height:75px;border-radius:50%;right:-35px;top:-30px;background:rgba(212,154,24,.06)}
+.person-avatar{border-radius:14px;box-shadow:0 7px 15px rgba(5,47,99,.14)}
+.entity{border-color:#e3ebf3;background:#fbfdff}
+.alert{border:1px solid transparent}.alert.red{border-color:#f7d8d6}.alert.amber{border-color:#f4dfbd}.alert.blue{border-color:#d9e8fa}
+.citybar{grid-template-columns:minmax(95px,1.2fr) 2fr 64px}.bar{height:8px}
+.empty-state{display:grid;place-items:center;text-align:center;padding:36px 18px;color:var(--muted)}
+.empty-state b{display:block;color:var(--navy);font-size:11px;margin-bottom:5px}.empty-state span{font-size:8.5px}
+.toast-stack{position:fixed;right:22px;bottom:22px;z-index:150;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{min-width:260px;max-width:360px;background:#fff;border:1px solid var(--border);border-left:4px solid #2b7ab9;border-radius:12px;box-shadow:0 16px 40px rgba(3,29,62,.18);padding:11px 13px;animation:toastIn .2s ease;pointer-events:auto}
+.toast.success{border-left-color:#22a06b}.toast.error{border-left-color:#d95755}.toast b{display:block;font-size:9px;color:var(--navy)}.toast span{font-size:8px;color:var(--muted);line-height:1.45}
+@keyframes toastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.confirm-modal{position:fixed;inset:0;z-index:145;background:rgba(3,29,62,.44);display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(6px)}
+.confirm-modal.open{display:flex}.confirm-box{width:min(440px,96vw);background:#fff;border-radius:18px;padding:20px;box-shadow:0 30px 80px rgba(3,29,62,.30);border:1px solid rgba(255,255,255,.8)}
+.confirm-icon{width:44px;height:44px;border-radius:14px;background:#fff0f0;color:#bb4648;display:grid;place-items:center;font-size:20px;margin-bottom:12px}
+.confirm-box h3{margin:0;color:var(--navy);font-size:15px}.confirm-box p{font-size:9px;color:var(--muted);line-height:1.55;margin:7px 0 16px}
+.confirm-actions{display:flex;justify-content:flex-end;gap:8px}
+@media(max-width:1050px){.data-health{grid-template-columns:1fr 1fr}.group-toolbar{flex-wrap:wrap}}
+@media(max-width:620px){.data-health{grid-template-columns:1fr}.filterbar{position:relative;top:auto}.cloud-status{display:none}}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -137,6 +219,7 @@ button{cursor:pointer}
 <header class="header">
   <div class="greeting"><h1 id="headerTitle">Que bom ter você aqui!</h1><p id="headerSub">Acompanhe e fortaleça cada grupo de oração.</p></div>
   <div class="head-actions">
+    <div class="cloud-status" id="cloudStatus"><i></i><span>Conectando ao Firebase</span></div>
     <button class="primary" onclick="openNewModal()">＋ Novo Cadastro</button>
     <div class="bell">♧<b id="bellCount">0</b></div>
     <div class="avatar">P1B</div>
@@ -152,6 +235,13 @@ button{cursor:pointer}
     <input class="search globalSearch" placeholder="Buscar paróquia, comunidade ou coordenadora...">
     <button class="secondary" onclick="resetFilters()">⌑ Limpar Filtros</button>
   </div>
+
+  <div class="data-health">
+    <div class="health-item good"><div><small>Completude da base</small><b id="healthComplete">—</b></div><span class="status-pill good">Qualidade</span></div>
+    <div class="health-item attn"><div><small>Registros para revisar</small><b id="healthReview">—</b></div><span class="status-pill warn">Atenção</span></div>
+    <div class="health-item info"><div><small>Cadastros em nuvem</small><b id="healthCloud">—</b></div><span class="status-pill good">Firestore</span></div>
+    <div class="health-item info"><div><small>Resultado dos filtros</small><b id="healthFiltered">—</b></div><span class="status-pill good">Atual</span></div>
+  </div>
   <div class="kpis">
     <div class="kpi"><div class="kicon">♧</div><div><small>Grupos de Oração</small><b class="kGroups">—</b><span class="mini-gold" id="kGroupTrend">Base consolidada</span></div></div>
     <div class="kpi"><div class="kicon">♜</div><div><small>Dioceses</small><b class="kDioceses">—</b><span>Territórios com grupos ativos</span></div></div>
@@ -166,7 +256,7 @@ button{cursor:pointer}
       <div class="donutrow"><div class="donut" id="dioceseDonut"><div class="donutcenter"><div><b class="kGroups">—</b><small>Total</small></div></div></div><div class="legend" id="dioceseLegend"></div></div>
     </div>
     <div class="card">
-      <div class="cardhead"><h3>Evolução dos Grupos por Ano</h3><a onclick="go('evolution')">Analisar</a></div>
+      <div class="cardhead"><h3>Evolução Acumulada dos Grupos</h3><a onclick="go('evolution')">Analisar</a></div>
       <div class="chart" id="yearChart"></div>
       <div class="evo-stats" id="yearStats"></div>
     </div>
@@ -199,7 +289,7 @@ button{cursor:pointer}
 <section class="page" id="groups">
   <div class="sectiontitle"><div><h2>Grupos</h2><p>Consulta operacional de todos os grupos cadastrados.</p></div><button class="primary" onclick="openNewModal()">＋ Novo Grupo</button></div>
   <div class="filterbar commonFilters"><div class="filterbox"><label>Ano</label><select class="select fY"></select></div><div class="filterbox"><label>Diocese</label><select class="select fD"></select></div><div class="filterbox"><label>Cidade</label><select class="select fC"></select></div><input class="search globalSearch" placeholder="Buscar grupo..."><button class="secondary" onclick="resetFilters()">Limpar</button></div>
-  <div class="card"><div class="cardhead"><h3>Base de Grupos</h3><span class="tag" id="groupCount"></span></div><div class="tablewrap"><table class="datatable"><thead><tr><th>Início</th><th>Diocese</th><th>Paróquia</th><th>Comunidade / Rede / Grupo</th><th>Cidade</th><th>Coordenadora</th><th>Telefone</th><th>Origem</th></tr></thead><tbody id="groupTable"></tbody></table></div></div>
+  <div class="card"><div class="cardhead"><div><span class="card-kicker">Gestão operacional</span><h3>Base de Grupos</h3></div><div class="group-toolbar"><span class="result-chip" id="groupCount"></span><select id="groupSort" class="compact-select" onchange="setGroupSort(this.value)"><option value="alpha">Diocese / Paróquia</option><option value="recent">Mais recentes</option><option value="city">Cidade</option><option value="quality">Pendências primeiro</option></select></div></div><div class="tablewrap"><table class="datatable"><thead><tr><th>Início</th><th>Diocese</th><th>Paróquia</th><th>Comunidade / Rede / Grupo</th><th>Cidade</th><th>Coordenadora</th><th>Telefone</th><th>Origem</th><th>Ações</th></tr></thead><tbody id="groupTable"></tbody></table></div></div>
 </section>
 
 <section class="page" id="people">
@@ -211,7 +301,7 @@ button{cursor:pointer}
 <section class="page" id="evolution">
   <div class="sectiontitle"><div><h2>Evolução</h2><p>Histórico de implantação e crescimento dos grupos.</p></div></div>
   <div class="filterbar commonFilters"><div class="filterbox"><label>Ano</label><select class="select fY"></select></div><div class="filterbox"><label>Diocese</label><select class="select fD"></select></div><div class="filterbox"><label>Cidade</label><select class="select fC"></select></div><input class="search globalSearch" placeholder="Buscar..."><button class="secondary" onclick="resetFilters()">Limpar</button></div>
-  <div class="card"><div class="cardhead"><h3>Evolução anual</h3></div><div class="chart" style="height:330px" id="bigYearChart"></div></div>
+  <div class="card"><div class="cardhead"><h3>Evolução acumulada ao longo dos anos</h3></div><div class="chart" style="height:330px" id="bigYearChart"></div></div>
   <div class="grid-2"><div class="card"><div class="cardhead"><h3>Implantações por Diocese</h3></div><div class="citybars" id="evoDioceseBars"></div></div><div class="card"><div class="cardhead"><h3>Indicadores Históricos</h3></div><div class="alerts" id="evoInsights"></div></div></div>
 </section>
 
@@ -225,7 +315,7 @@ button{cursor:pointer}
   <div class="sectiontitle"><div><h2>Cadastros</h2><p>Inclua novos grupos, paróquias, redes e pessoas. Os dados são gravados no Firestore e passam a aparecer no app automaticamente.</p></div><button class="primary" onclick="openNewModal()">＋ Novo Cadastro</button></div>
   <div class="form-layout">
     <div class="formcard">
-      <div class="cardhead"><h3>Novo grupo / núcleo</h3><span class="tag">Cadastro operacional</span></div>
+      <div class="cardhead"><div><span class="card-kicker">Firestore em tempo real</span><h3>Novo grupo / núcleo</h3></div><span class="tag">Cadastro operacional</span></div>
       <div id="inlineForm"></div>
     </div>
     <div class="formcard">
@@ -305,7 +395,7 @@ let FIREBASE_DATA=[];
 let DATA=[];
 let FIREBASE_EDIT_ID=null;
 let FIREBASE_CONNECTED=false;
-const state={year:'',diocese:'',city:'',search:''};
+const state={year:'',diocese:'',city:'',search:'',groupSort:'alpha'};
 const colors=['#0a4d91','#0784be','#0ca7c8','#d7a126','#a53b35','#6d4b9a','#b384cb','#8b7848','#2f7f6f'];
 
 function txt(s){return String(s??'').trim().replace(/\s+/g,' ')}
@@ -335,9 +425,9 @@ function filtered(){
   const q=fold(state.search);
   return DATA.filter(x=>(!state.year||String(x.ano)===state.year)&&(!state.diocese||fold(x.diocese_curta)===fold(state.diocese))&&(!state.city||fold(x.cidade)===fold(state.city))&&(!q||x.busca.includes(q)))
 }
-function metric(a){return {groups:a.length,dioceses:uniqueCount(a,x=>fold(x.diocese)),parishes:uniqueCount(a,parishKey),cities:uniqueCount(a,x=>fold(x.cidade)),people:uniqueCount(a,personKey)}}
+function metric(a){return {groups:a.length,dioceses:uniqueCount(a.filter(x=>fold(x.diocese)),x=>fold(x.diocese)),parishes:uniqueCount(a.filter(x=>fold(x.paroquia)),parishKey),cities:uniqueCount(a.filter(x=>fold(x.cidade)),x=>fold(x.cidade)),people:uniqueCount(a.filter(x=>fold(x.coordenadora)),personKey)}}
 function setText(cls,v){document.querySelectorAll('.'+cls).forEach(e=>e.textContent=v)}
-function countsBy(a,fn){const m=new Map();a.forEach(x=>{const k=fn(x);if(k)m.set(k,(m.get(k)||0)+1)});return [...m.entries()].sort((a,b)=>b[1]-a[1]||String(a[0]).localeCompare(String(b[0]),'pt-BR'))}
+function countsBy(a,fn){const m=new Map();a.forEach(x=>{const k=txt(fn(x));if(k&&fold(k)!=='nao informado')m.set(k,(m.get(k)||0)+1)});return [...m.entries()].sort((a,b)=>b[1]-a[1]||String(a[0]).localeCompare(String(b[0]),'pt-BR'))}
 function dateValue(x){return /^\d{4}-\d{2}-\d{2}$/.test(x.inicio||'')?new Date(x.inicio+'T00:00:00').getTime():0}
 
 function refreshOptions(){
@@ -348,7 +438,7 @@ function refreshOptions(){
   document.querySelectorAll('.fY').forEach(e=>e.onchange=()=>{state.year=e.value;sync();renderAll()});
   document.querySelectorAll('.fD').forEach(e=>e.onchange=()=>{state.diocese=e.value;sync();renderAll()});
   document.querySelectorAll('.fC').forEach(e=>e.onchange=()=>{state.city=e.value;sync();renderAll()});
-  document.querySelectorAll('.globalSearch').forEach(e=>e.oninput=()=>{state.search=e.value;sync();renderAll()});
+  document.querySelectorAll('.globalSearch').forEach(e=>e.oninput=()=>{clearTimeout(e._debounce);e._debounce=setTimeout(()=>{state.search=e.value;sync();renderAll()},120)});
   refreshDatalists();
 }
 function sync(){
@@ -365,8 +455,9 @@ function renderDonut(a){
   dioceseDonut.style.background='conic-gradient('+parts.join(',')+')';dioceseLegend.innerHTML=legend.join('');
 }
 function yearSeries(a){const m=new Map();a.forEach(x=>{if(x.ano)m.set(x.ano,(m.get(x.ano)||0)+1)});return [...m.entries()].sort((a,b)=>a[0]-b[0])}
+function cumulativeYearSeries(a){let total=0;return yearSeries(a).map(([year,n])=>[year,(total+=n)])}
 function lineChart(el,a,big=false){
-  const s=yearSeries(a);if(!s.length){el.innerHTML='<div style="padding:40px;text-align:center;color:#75869d;font-size:10px">Sem datas válidas para exibir.</div>';return}
+  const s=cumulativeYearSeries(a);if(!s.length){el.innerHTML='<div style="padding:40px;text-align:center;color:#75869d;font-size:10px">Sem datas válidas para exibir.</div>';return}
   const W=big?1000:640,H=big?300:190,p={l:35,r:20,t:20,b:28};const max=Math.max(...s.map(x=>x[1]),1);const x=i=>p.l+(s.length===1?0:(W-p.l-p.r)*i/(s.length-1));const y=v=>H-p.b-(H-p.t-p.b)*v/max;
   let grid='';for(let i=0;i<=4;i++){const yy=p.t+(H-p.t-p.b)*i/4;grid+='<line x1="'+p.l+'" y1="'+yy+'" x2="'+(W-p.r)+'" y2="'+yy+'" class="chart-grid"/>'}
   const pts=s.map((d,i)=>x(i)+','+y(d[1])).join(' ');const area=p.l+','+(H-p.b)+' '+pts+' '+x(s.length-1)+','+(H-p.b);
@@ -391,6 +482,13 @@ function qualityIssue(x){
 function renderAll(){
   const a=filtered(),m=metric(a),al=alerts(a);setText('kGroups',m.groups);setText('kDioceses',m.dioceses);setText('kParishes',m.parishes);setText('kCities',m.cities);setText('kPeople',m.people);
   document.getElementById('bellCount').textContent=al.total;
+  const reviewCount=a.filter(x=>qualityIssue(x).length).length;
+  const completeness=a.length?Math.round((a.length-reviewCount)/a.length*100):0;
+  if(document.getElementById('healthComplete')) healthComplete.textContent=completeness+'%';
+  if(document.getElementById('healthReview')) healthReview.textContent=reviewCount;
+  if(document.getElementById('healthCloud')) healthCloud.textContent=FIREBASE_DATA.length;
+  if(document.getElementById('healthFiltered')) healthFiltered.textContent=a.length+' / '+DATA.length;
+  updateCloudStatus();
   renderOverview(a,m,al);renderTerritory(a);renderGroups(a);renderPeople(a);renderEvolution(a);renderQuality(a);renderRegistry();renderReport(a,m,al)
 }
 function renderOverview(a,m,al){
@@ -408,10 +506,38 @@ function renderTerritory(a){
   bars(dioceseBars,countsBy(a,x=>x.diocese_curta),10);bars(territoryCityBars,countsBy(a,x=>x.cidade),12);territoryCount.textContent=a.length+' registros';
   territoryTable.innerHTML=a.map(x=>'<tr><td>'+esc(x.diocese_curta)+'</td><td>'+esc(x.cidade)+'</td><td>'+esc(x.paroquia)+'</td><td>'+esc(x.comunidade)+'</td><td>'+esc(x.endereco)+'</td><td>'+esc(x.coordenadora)+'</td><td>'+esc(x.telefone||'—')+'</td></tr>').join('');
 }
-function renderGroups(a){groupCount.textContent=a.length+' registros';groupTable.innerHTML=[...a].sort((x,z)=>x.diocese_curta.localeCompare(z.diocese_curta,'pt-BR')||x.paroquia.localeCompare(z.paroquia,'pt-BR')).map(x=>'<tr><td>'+esc(x.inicio_exibicao)+'</td><td>'+esc(x.diocese_curta)+'</td><td>'+esc(x.paroquia)+'</td><td><b>'+esc(x.comunidade)+'</b></td><td>'+esc(x.cidade)+'</td><td>'+esc(x.coordenadora)+'</td><td class="phone">'+esc(x.telefone||'—')+'</td><td>'+esc(x.origem)+'</td></tr>').join('')}
+function setGroupSort(v){state.groupSort=v;renderAll()}
+function renderGroups(a){
+  groupCount.textContent=a.length+' registros';
+  let rows=[...a];
+  if(state.groupSort==='recent') rows.sort((x,z)=>dateValue(z)-dateValue(x));
+  else if(state.groupSort==='city') rows.sort((x,z)=>x.cidade.localeCompare(z.cidade,'pt-BR')||x.paroquia.localeCompare(z.paroquia,'pt-BR'));
+  else if(state.groupSort==='quality') rows.sort((x,z)=>qualityIssue(z).length-qualityIssue(x).length||x.diocese_curta.localeCompare(z.diocese_curta,'pt-BR'));
+  else rows.sort((x,z)=>x.diocese_curta.localeCompare(z.diocese_curta,'pt-BR')||x.paroquia.localeCompare(z.paroquia,'pt-BR'));
+
+  if(document.getElementById('groupSort')) groupSort.value=state.groupSort;
+
+  groupTable.innerHTML=rows.map(x=>{
+    const source=x.origem==='Firebase'
+      ?'<span class="source-pill firebase">● Firestore</span>'
+      :'<span class="source-pill base">Base original</span>';
+    const actions=x._id
+      ?`<div class="row-actions"><button class="iconbtn" onclick="editFirebaseById('${x._id}')">Editar</button><button class="iconbtn danger" onclick="removeFirebaseById('${x._id}')">Excluir</button></div>`
+      :'<span style="color:#98a6b7;font-size:7.5px">Somente leitura</span>';
+    return '<tr><td>'+esc(x.inicio_exibicao)+'</td><td>'+esc(x.diocese_curta)+'</td><td>'+esc(x.paroquia)+'</td><td><b>'+esc(x.comunidade||'—')+'</b></td><td>'+esc(x.cidade||'—')+'</td><td>'+esc(x.coordenadora||'—')+'</td><td class="phone">'+(x.telefone?'<a href="tel:'+esc(phoneKey(x.telefone))+'" style="color:#b77d00;text-decoration:none">'+esc(x.telefone)+'</a>':'—')+'</td><td>'+source+'</td><td>'+actions+'</td></tr>'
+  }).join('')||'<tr><td colspan="9"><div class="empty-state"><div><b>Nenhum grupo encontrado</b><span>Ajuste os filtros ou limpe a pesquisa para visualizar outros registros.</span></div></div></td></tr>';
+}
 function renderPeople(a){
-  const map=new Map();a.forEach(x=>{const k=personKey(x);if(!map.has(k))map.set(k,{name:x.coordenadora,phone:x.telefone,rows:[]});map.get(k).rows.push(x)});
-  peopleGrid.innerHTML=[...map.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')).map(p=>{const initials=p.name.split(' ').filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();return '<div class="person"><div class="person-avatar">'+esc(initials||'?')+'</div><h4>'+esc(p.name||'Não informado')+'</h4><p><b>'+p.rows.length+' grupo'+(p.rows.length===1?'':'s')+'</b><br>'+esc(uniq(p.rows.map(x=>x.diocese_curta)).join(', '))+'<br>'+esc(uniq(p.rows.map(x=>x.cidade)).join(', '))+'<br>'+esc(p.phone||'Telefone não informado')+'</p></div>'}).join('')
+  const map=new Map();
+  a.filter(x=>fold(x.coordenadora)).forEach(x=>{
+    const k=personKey(x);
+    if(!map.has(k))map.set(k,{name:x.coordenadora,phone:x.telefone,rows:[]});
+    map.get(k).rows.push(x)
+  });
+  peopleGrid.innerHTML=[...map.values()].sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')).map(p=>{
+    const initials=p.name.split(' ').filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+    return '<div class="person"><div class="person-avatar">'+esc(initials||'?')+'</div><h4>'+esc(p.name)+'</h4><p><b>'+p.rows.length+' grupo'+(p.rows.length===1?'':'s')+'</b><br>'+esc(uniq(p.rows.map(x=>x.diocese_curta)).join(', '))+'<br>'+esc(uniq(p.rows.map(x=>x.cidade)).join(', '))+'<br>'+(p.phone?'<a href="tel:'+esc(phoneKey(p.phone))+'" style="color:#b77d00;text-decoration:none">'+esc(p.phone)+'</a>':'Telefone não informado')+'</p></div>'
+  }).join('')||'<div class="empty-state" style="grid-column:1/-1"><div><b>Nenhuma coordenadora encontrada</b><span>Os filtros atuais não retornaram responsáveis cadastradas.</span></div></div>'
 }
 function renderEvolution(a){lineChart(bigYearChart,a,true);bars(evoDioceseBars,countsBy(a,x=>x.diocese_curta),10);const ys=yearSeries(a),years=ys.map(x=>x[0]),first=years.length?Math.min(...years):'—',last=years.length?Math.max(...years):'—';evoInsights.innerHTML='<div class="alert blue"><span class="alertico">▣</span><div><strong>Primeiro início registrado</strong></div><span>'+first+'</span></div><div class="alert blue"><span class="alertico">↗</span><div><strong>Registro mais recente</strong></div><span>'+last+'</span></div><div class="alert blue"><span class="alertico">♧</span><div><strong>Anos com implantação</strong></div><span>'+ys.length+'</span></div>'}
 function renderQuality(a){
@@ -515,12 +641,12 @@ async function saveForm(root){
 
     clearForm(root);
     status.className='form-status show ok';
-    status.textContent='Cadastro salvo no Firestore. O painel foi atualizado automaticamente.';
+    status.textContent='Cadastro salvo no Firestore. O painel foi atualizado automaticamente.';showToast('Cadastro publicado','Os dados já estão sincronizados em todos os dispositivos.','success');
     setTimeout(()=>{if(root===modalForm)closeNewModal()},650);
   }catch(err){
     console.error('Erro ao salvar no Firestore:',err);
     status.className='form-status show bad';
-    status.textContent='Não foi possível salvar no Firebase. Verifique as regras do Firestore e a conexão.';
+    status.textContent='Não foi possível salvar no Firebase. Verifique as regras do Firestore e a conexão.';showToast('Erro no Firebase','O cadastro não foi salvo.','error');
   }
 }
 
@@ -530,13 +656,7 @@ function closeNewModal(){newModal.classList.remove('open')}
 async function removeFirebase(i){
   const x=FIREBASE_DATA[i];
   if(!x||!x._id)return;
-  if(!confirm('Excluir este cadastro do Firestore? A alteração aparecerá para todos os usuários.'))return;
-  try{
-    await db.collection('grupos').doc(x._id).delete();
-  }catch(err){
-    console.error('Erro ao excluir:',err);
-    alert('Não foi possível excluir o cadastro no Firebase.');
-  }
+  return removeFirebaseById(x._id);
 }
 
 function editFirebase(i){
@@ -623,15 +743,69 @@ function startFirestoreSync(){
     rebuild();
   },err=>{
     FIREBASE_CONNECTED=false;
-    console.error('Erro na sincronização do Firestore:',err);
+    console.error('Erro na sincronização do Firestore:',err);showToast('Conexão com Firebase','Não foi possível sincronizar o Firestore.','error');
     rebuild();
   });
 }
+
+
+function showToast(title,message,type='success'){
+  const root=document.getElementById('toastStack');if(!root)return;
+  const el=document.createElement('div');el.className='toast '+type;
+  el.innerHTML='<b>'+esc(title)+'</b><span>'+esc(message)+'</span>';
+  root.appendChild(el);setTimeout(()=>el.remove(),3800);
+}
+function updateCloudStatus(){
+  const el=document.getElementById('cloudStatus');if(!el)return;
+  el.className='cloud-status '+(FIREBASE_CONNECTED?'online':'offline');
+  el.innerHTML='<i></i><span>'+(FIREBASE_CONNECTED?'Firestore sincronizado':'Firebase indisponível')+'</span>';
+}
+function askConfirm(title,text){
+  return new Promise(resolve=>{
+    const modal=document.getElementById('confirmModal');
+    confirmTitle.textContent=title;confirmText.textContent=text;modal.classList.add('open');
+    const done=v=>{modal.classList.remove('open');confirmOk.onclick=null;confirmCancel.onclick=null;resolve(v)};
+    confirmOk.onclick=()=>done(true);confirmCancel.onclick=()=>done(false);
+  })
+}
+async function removeFirebaseById(id){
+  const x=FIREBASE_DATA.find(r=>r._id===id);if(!x)return;
+  const ok=await askConfirm('Excluir cadastro?','O grupo "'+(x.comunidade||x.paroquia)+'" será removido do Firestore e desaparecerá para todos os usuários.');
+  if(!ok)return;
+  try{await db.collection('grupos').doc(id).delete();showToast('Cadastro excluído','O registro foi removido do Firestore.','success')}
+  catch(err){console.error(err);showToast('Erro ao excluir','Não foi possível remover o registro.','error')}
+}
+function editFirebaseById(id){
+  const i=FIREBASE_DATA.findIndex(r=>r._id===id);if(i>=0)editFirebase(i)
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='/'&&!['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName)){
+    e.preventDefault();const s=document.querySelector('.page.active .globalSearch');if(s)s.focus()
+  }
+  if(e.key==='Escape'){
+    if(document.getElementById('newModal')?.classList.contains('open')) closeNewModal()
+    if(document.getElementById('confirmModal')?.classList.contains('open')) confirmCancel.click()
+  }
+});
 
 mountForms();
 rebuild();
 startFirestoreSync();
 
 </script>
+
+<div class="toast-stack" id="toastStack"></div>
+<div class="confirm-modal" id="confirmModal">
+  <div class="confirm-box">
+    <div class="confirm-icon">!</div>
+    <h3 id="confirmTitle">Confirmar exclusão</h3>
+    <p id="confirmText">Esta ação não poderá ser desfeita.</p>
+    <div class="confirm-actions">
+      <button class="secondary" id="confirmCancel">Cancelar</button>
+      <button class="primary" id="confirmOk" style="background:linear-gradient(135deg,#d95755,#b83e44)">Excluir</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
