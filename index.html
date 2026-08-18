@@ -196,6 +196,252 @@ body{background:
 @media(max-width:620px){.data-health{grid-template-columns:1fr}.filterbar{position:relative;top:auto}.cloud-status{display:none}}
 </style>
 
+
+<style id="final-layout-polish">
+/* ===== SIDEBAR FINAL ===== */
+.sidebar{
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  padding-bottom:0;
+}
+.brand{
+  height:150px;
+  min-height:150px;
+  padding:12px 18px 8px;
+}
+.brand img{
+  width:190px;
+  max-height:128px;
+}
+.nav{
+  flex:0 0 auto;
+  padding:8px 8px 4px;
+  gap:2px;
+}
+.navbtn{
+  min-height:39px;
+  padding:8px 13px;
+  border-radius:10px;
+  font-size:12px;
+}
+.navico{
+  width:22px;
+  height:22px;
+  font-size:16px;
+}
+.navbadge{
+  padding:3px 7px;
+  font-size:7px;
+}
+
+/* elimina a sobreposição do bloco antigo */
+.quote{
+  position:relative;
+  left:auto;
+  right:auto;
+  bottom:auto;
+  margin:auto 17px 10px;
+  padding:16px 15px 15px;
+  border:1px solid rgba(239,181,46,.82);
+  border-radius:17px;
+  background:
+    linear-gradient(180deg,rgba(3,29,62,.30),rgba(3,29,62,.56)),
+    radial-gradient(circle at 50% 0%,rgba(239,181,46,.10),transparent 46%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.06),
+    0 13px 28px rgba(0,0,0,.12);
+  text-align:center;
+  font-family:Georgia,serif;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.quote:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,transparent,rgba(255,255,255,.035),transparent);
+}
+.quote i{
+  display:block;
+  color:#ffc64a;
+  font-size:26px;
+  line-height:1;
+  font-style:normal;
+  margin-bottom:5px;
+}
+.quote p{
+  position:relative;
+  margin:0 auto;
+  max-width:190px;
+  color:#fff;
+  font-size:12px;
+  line-height:1.55;
+  font-weight:600;
+  letter-spacing:.005em;
+}
+.quote small{
+  position:relative;
+  display:block;
+  margin-top:9px;
+  font-family:Inter,Arial,sans-serif;
+  font-size:7.5px;
+  line-height:1;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  color:#ffc64a;
+  opacity:1;
+}
+.quote-decoration{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:10px;
+  color:#ffc64a;
+}
+.quote-decoration:before,
+.quote-decoration:after{
+  content:"";
+  width:46px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,#d99b16);
+}
+.quote-decoration:after{
+  background:linear-gradient(90deg,#d99b16,transparent);
+}
+.quote-decoration span{
+  font-size:12px;
+}
+
+.sidebar-footer{
+  position:relative;
+  z-index:2;
+  flex:0 0 auto;
+  text-align:center;
+  color:rgba(255,255,255,.72);
+  font-size:7.5px;
+  line-height:1.55;
+  padding:0 14px 12px;
+}
+.sidebar-footer b{
+  display:block;
+  color:#fff;
+  font-size:8px;
+  margin-bottom:2px;
+  font-weight:650;
+}
+
+/* ===== HEADER COM ACABAMENTO DO NOVO MOCKUP ===== */
+.greeting{
+  padding-bottom:7px;
+}
+.greeting:after{
+  content:"";
+  display:block;
+  width:220px;
+  height:1px;
+  margin-top:10px;
+  background:linear-gradient(90deg,transparent 0%,#d49a18 12%,#efb52e 50%,#d49a18 88%,transparent 100%);
+  opacity:.75;
+}
+.greeting h1{
+  line-height:1.04;
+}
+.greeting p{
+  margin-top:4px;
+}
+
+/* ===== RODAPÉ / STATUS DA VISÃO GERAL ===== */
+.system-strip{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  gap:0;
+  margin-top:12px;
+  background:rgba(255,255,255,.96);
+  border:1px solid #dfe8f2;
+  border-radius:15px;
+  box-shadow:0 8px 24px rgba(5,47,99,.06);
+  overflow:hidden;
+}
+.system-item{
+  min-height:60px;
+  padding:11px 15px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  position:relative;
+}
+.system-item:not(:last-child):after{
+  content:"";
+  position:absolute;
+  right:0;
+  top:13px;
+  bottom:13px;
+  width:1px;
+  background:#e2eaf2;
+}
+.system-ico{
+  width:31px;
+  height:31px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  background:#f1f6fb;
+  color:#37668f;
+  font-size:13px;
+  flex-shrink:0;
+}
+.system-item small{
+  display:block;
+  color:#8795a8;
+  font-size:7px;
+  line-height:1.2;
+  margin-bottom:3px;
+}
+.system-item b{
+  display:block;
+  color:#173b69;
+  font-size:8.5px;
+}
+.system-item.sync b{color:#167254}
+.sync-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#20a56c;
+  box-shadow:0 0 0 4px rgba(32,165,108,.10);
+  margin-right:2px;
+}
+
+/* Melhor enquadramento vertical */
+@media(max-height:820px) and (min-width:951px){
+  .brand{height:125px;min-height:125px}
+  .brand img{width:165px;max-height:106px}
+  .navbtn{min-height:35px;padding:6px 12px}
+  .quote{padding:11px 12px;margin:6px 15px 7px}
+  .quote p{font-size:10px;line-height:1.45}
+  .quote i{font-size:21px;margin-bottom:3px}
+  .quote small{margin-top:6px;font-size:6.8px}
+  .quote-decoration{margin-top:6px}
+  .sidebar-footer{padding-bottom:7px}
+}
+@media(max-height:690px) and (min-width:951px){
+  .quote{display:none}
+  .sidebar-footer{margin-top:auto;padding-top:8px}
+}
+@media(max-width:950px){
+  .sidebar-footer,.quote{display:none}
+  .system-strip{grid-template-columns:1fr 1fr}
+  .system-item:nth-child(2):after{display:none}
+}
+@media(max-width:620px){
+  .system-strip{grid-template-columns:1fr}
+  .system-item:after{display:none!important}
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -212,7 +458,16 @@ body{background:
     <button class="navbtn" data-page="reports"><span class="navico">▧</span>Relatórios</button>
     <button class="navbtn" data-page="settings"><span class="navico">⚙</span>Configurações</button>
   </nav>
-  <div class="quote"><i>“</i><p>Clamai a mim, e eu vos responderei.</p><small>Jeremias 33:3</small></div>
+  <div class="quote" aria-label="Versículo em destaque">
+  <i>“</i>
+  <p>Clamai a mim, e eu vos responderei.</p>
+  <small>Jeremias 33:3</small>
+  <div class="quote-decoration"><span>♥</span></div>
+</div>
+<div class="sidebar-footer">
+  <b>© <span id="sidebarYear"></span> Mães que Oram pelos Filhos</b>
+  Província 1B
+</div>
 </aside>
 
 <main class="main">
@@ -274,6 +529,24 @@ body{background:
     <div class="card">
       <div class="cardhead"><h3>Top 5 Cidades</h3><a onclick="go('territory')">Ver todas</a></div>
       <div class="citybars" id="topCityBars"></div>
+    </div>
+  </div>
+  <div class="system-strip">
+    <div class="system-item">
+      <div class="system-ico">◷</div>
+      <div><small>Última atualização</small><b id="lastUpdateText">Sincronizando...</b></div>
+    </div>
+    <div class="system-item">
+      <div class="system-ico">☁</div>
+      <div><small>Fonte de dados</small><b>Firebase Firestore</b></div>
+    </div>
+    <div class="system-item">
+      <div class="system-ico">◇</div>
+      <div><small>Ambiente</small><b>Produção</b></div>
+    </div>
+    <div class="system-item sync">
+      <div class="system-ico"><span class="sync-dot"></span></div>
+      <div><small>Sincronização</small><b id="systemSyncText">Ativa</b></div>
     </div>
   </div>
 </section>
@@ -740,9 +1013,11 @@ function startFirestoreSync(){
   db.collection('grupos').onSnapshot(snapshot=>{
     FIREBASE_CONNECTED=true;
     FIREBASE_DATA=snapshot.docs.map(doc=>prepare({...doc.data(),_id:doc.id},'Firebase'));
+    updateInterfaceMeta();
     rebuild();
   },err=>{
     FIREBASE_CONNECTED=false;
+    updateInterfaceMeta();
     console.error('Erro na sincronização do Firestore:',err);showToast('Conexão com Firebase','Não foi possível sincronizar o Firestore.','error');
     rebuild();
   });
@@ -788,7 +1063,26 @@ document.addEventListener('keydown',e=>{
   }
 });
 
+
+function updateInterfaceMeta(){
+  const yearEl=document.getElementById('sidebarYear');
+  if(yearEl) yearEl.textContent=new Date().getFullYear();
+  const last=document.getElementById('lastUpdateText');
+  if(last){
+    last.textContent=new Intl.DateTimeFormat('pt-BR',{
+      day:'2-digit',month:'2-digit',year:'numeric',
+      hour:'2-digit',minute:'2-digit'
+    }).format(new Date());
+  }
+  const sync=document.getElementById('systemSyncText');
+  if(sync){
+    sync.textContent=FIREBASE_CONNECTED?'Ativa':'Verificando';
+    sync.style.color=FIREBASE_CONNECTED?'#167254':'#b77d00';
+  }
+}
+
 mountForms();
+updateInterfaceMeta();
 rebuild();
 startFirestoreSync();
 
