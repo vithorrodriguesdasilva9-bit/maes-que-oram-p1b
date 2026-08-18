@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano de Inglês — Vithor & Janaina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1D9E75;--green-l:#E1F5EE;--green-d:#085041;
+  --purple:#534AB7;--purple-l:#EEEDFE;--purple-d:#3C3489;
+  --amber:#BA7517;--amber-l:#FAEEDA;--amber-d:#633806;
+  --coral:#993C1D;--coral-l:#FAECE7;--coral-d:#712B13;
+  --bg:#F8F7F4;--card:#FFFFFF;--border:#E8E5DF;
+  --text:#1A1A18;--muted:#6B6960;--hint:#A8A59E;
+  --radius:12px;--shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+}
+
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* ── USER SWITCHER ── */
+.user-bar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(248,247,244,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.75rem 1.5rem;gap:1rem;
+}
+.app-brand{display:flex;align-items:center;gap:10px}
+.app-brand-icon{width:32px;height:32px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
+.app-brand-name{font-family:'DM Serif Display',serif;font-size:17px;color:var(--text)}
+.user-tabs{display:flex;gap:6px;background:var(--border);border-radius:99px;padding:3px}
+.user-tab{
+  padding:6px 18px;border-radius:99px;border:none;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;
+  cursor:pointer;transition:all .2s;color:var(--muted);background:transparent;
+  display:flex;align-items:center;gap:7px;
+}
+.user-tab.active{background:#fff;color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.user-tab .avatar{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;letter-spacing:-.2px}
+.vithor-av{background:var(--green-l);color:var(--green-d)}
+.janaina-av{background:var(--purple-l);color:var(--purple-d)}
+
+/* ── MAIN ── */
+.user-panel{display:none;padding-top:64px}
+.user-panel.active{display:block}
+
+/* ── HERO ── */
+.hero{padding:2.5rem 1.5rem 2rem;max-width:900px;margin:0 auto}
+.eyebrow{font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:500;margin-bottom:.6rem}
+.eyebrow.v{color:var(--green)}
+.eyebrow.j{color:var(--purple)}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(28px,5vw,42px);line-height:1.08;color:var(--text);margin-bottom:.5rem}
+.hero h1 em{font-style:italic}
+.hero h1 em.v{color:var(--green)}
+.hero h1 em.j{color:var(--purple)}
+.hero-sub{font-size:14px;color:var(--muted);line-height:1.65;max-width:500px;margin-bottom:1.5rem}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:480px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:.85rem 1rem;box-shadow:var(--shadow)}
+.stat-n{font-family:'DM Serif Display',serif;font-size:26px;line-height:1}
+.stat-n.v{color:var(--green)}
+.stat-n.j{color:var(--purple)}
+.stat-l{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* ── WEEK NAV ── */
+.week-nav{padding:0 1.5rem 1rem;max-width:900px;margin:0 auto;display:flex;gap:8px;flex-wrap:wrap}
+.wbtn{padding:8px 20px;border-radius:99px;border:1px solid var(--border);background:var(--card);font-size:13px;font-weight:500;cursor:pointer;color:var(--muted);font-family:'DM Sans',sans-serif;transition:all .18s;box-shadow:var(--shadow)}
+.wbtn.v-active{background:var(--green);color:#fff;border-color:var(--green)}
+.wbtn.j-active{background:var(--purple);color:#fff;border-color:var(--purple)}
+
+/* ── WEEK PANEL ── */
+.wpanel{display:none;max-width:900px;margin:0 auto;padding:0 1.5rem 3rem}
+.wpanel.show{display:block}
+.week-hd{display:flex;align-items:baseline;gap:12px;margin-bottom:1rem}
+.week-title{font-family:'DM Serif Display',serif;font-size:22px}
+.week-theme{font-size:13px;color:var(--muted);font-style:italic}
+
+/* ── PROGRESS ── */
+.prog-wrap{margin-bottom:1.25rem}
+.prog-top{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px}
+.prog-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width .4s ease}
+.prog-fill.v{background:var(--green)}
+.prog-fill.j{background:var(--purple)}
+
+/* ── DAY CARDS ── */
+.days{display:grid;gap:10px}
+.day-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .2s}
+.day-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06)}
+.day-head{display:flex;align-items:center;gap:12px;padding:.85rem 1.1rem;cursor:pointer;user-select:none;transition:background .15s}
+.day-head:hover{background:#FAFAF8}
+.day-num{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;transition:all .2s}
+.day-num.locked{background:var(--bg);color:var(--hint);border:1px solid var(--border)}
+.day-num.done-v{background:var(--green-l);color:var(--green-d)}
+.day-num.done-j{background:var(--purple-l);color:var(--purple-d)}
+.day-info{flex:1;min-width:0}
+.day-title{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.day-meta{font-size:12px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cat-badge{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:500;flex-shrink:0}
+.b-greet{background:var(--purple-l);color:var(--purple-d)}
+.b-verb{background:var(--green-l);color:var(--green-d)}
+.b-connect{background:var(--amber-l);color:var(--amber-d)}
+.b-time{background:var(--coral-l);color:var(--coral-d)}
+.b-mix{background:#EEF2FF;color:#3730A3}
+.chev{font-size:12px;color:var(--hint);transition:transform .2s;margin-left:4px;flex-shrink:0}
+.chev.open{transform:rotate(180deg)}
+
+.day-body{display:none;border-top:1px solid var(--border);background:#FDFCFB}
+.day-body.open{display:block}
+
+/* ── MOTIVATION ── */
+.motivation{font-family:'DM Serif Display',serif;font-style:italic;font-size:15px;line-height:1.55;border-left:2px solid;padding:1rem 1.1rem;margin:0}
+.motivation.v{border-color:var(--green);color:var(--green-d);background:var(--green-l)}
+.motivation.j{border-color:var(--purple);color:var(--purple-d);background:var(--purple-l)}
+
+/* ── EXERCISES ── */
+.ex-wrap{padding:1rem 1.1rem}
+.ex-sec-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--hint);font-weight:500;margin-bottom:.6rem;display:flex;align-items:center;gap:6px}
+.ex-list{display:grid;gap:5px}
+.ex-item{
+  background:#fff;border:1px solid var(--border);border-radius:8px;
+  padding:.6rem .85rem;font-size:13px;display:flex;gap:10px;align-items:flex-start;
+  cursor:pointer;transition:border-color .15s;position:relative;
+}
+.ex-item:hover{border-color:#C8C4BC}
+.ex-item.revealed{border-color:var(--green)}
+.ex-num{font-size:11px;color:var(--hint);min-width:20px;padding-top:1px;font-weight:500}
+.ex-text{flex:1;line-height:1.5}
+.ex-answer{
+  display:none;font-size:12px;color:var(--green-d);
+  background:var(--green-l);border-radius:5px;padding:.3rem .6rem;
+  margin-top:4px;line-height:1.5;
+}
+.ex-item.revealed .ex-answer{display:block}
+.ex-toggle{font-size:11px;color:var(--hint);flex-shrink:0;padding-top:2px}
+
+/* ── TIP ── */
+.tip-box{background:#fff;border:1px solid var(--border);border-radius:8px;padding:.85rem 1rem;margin:0 1.1rem 1rem}
+.tip-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--hint);font-weight:500;margin-bottom:.35rem}
+.tip-text{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* ── ACTIONS ── */
+.day-actions{display:flex;gap:8px;padding:.85rem 1.1rem;border-top:1px solid var(--border);flex-wrap:wrap}
+.btn-done{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 16px;border-radius:99px;border:1px solid;
+  font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:all .18s;
+}
+.btn-done.v{border-color:var(--green);color:var(--green);background:transparent}
+.btn-done.v:hover,.btn-done.v.done{background:var(--green);color:#fff}
+.btn-done.j{border-color:var(--purple);color:var(--purple);background:transparent}
+.btn-done.j:hover,.btn-done.j.done{background:var(--purple);color:#fff}
+.btn-reveal{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:99px;border:1px solid var(--border);
+  font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;
+  background:var(--card);color:var(--muted);transition:all .18s;
+}
+.btn-reveal:hover{border-color:#A8A59E}
+
+/* ── SECTION LABEL ── */
+.sec-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hint);font-weight:500;margin-bottom:.6rem;max-width:900px;margin-left:auto;margin-right:auto;padding:0 1.5rem}
+
+/* ── SPLASH ── */
+.splash{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:2rem;background:var(--bg);
+}
+.splash-card{
+  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  padding:3rem 2.5rem;max-width:480px;width:100%;text-align:center;
+  box-shadow:0 8px 40px rgba(0,0,0,.08);
+}
+.splash-icon{width:64px;height:64px;border-radius:16px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;margin:0 auto 1.5rem}
+.splash-title{font-family:'DM Serif Display',serif;font-size:28px;margin-bottom:.5rem}
+.splash-sub{font-size:14px;color:var(--muted);margin-bottom:2rem;line-height:1.6}
+.splash-users{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.splash-user{
+  border:1.5px solid var(--border);border-radius:var(--radius);padding:1.25rem 1rem;
+  cursor:pointer;transition:all .2s;background:transparent;font-family:'DM Sans',sans-serif;
+}
+.splash-user:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.splash-user.sv:hover{border-color:var(--green)}
+.splash-user.sj:hover{border-color:var(--purple)}
+.splash-av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;margin:0 auto .75rem}
+.splash-av.sv{background:var(--green-l);color:var(--green-d)}
+.splash-av.sj{background:var(--purple-l);color:var(--purple-d)}
+.splash-name{font-size:15px;font-weight:500;color:var(--text)}
+.splash-role{font-size:12px;color:var(--muted);margin-top:2px}
+
+@media(max-width:600px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .day-title{font-size:13px}.day-meta{font-size:11px}
+  .splash-card{padding:2rem 1.5rem}
+  .user-bar{padding:.65rem 1rem}
+  .hero{padding:1.5rem 1rem 1.5rem}
+  .wpanel{padding:0 1rem 3rem}
+  .week-nav{padding:0 1rem 1rem}
+  .sec-label{padding:0 1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div class="splash" id="splash">
+  <div class="splash-card">
+    <div class="splash-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+    <h1 class="splash-title">Plano de Inglês</h1>
+    <p class="splash-sub">30 dias · 900 exercícios · 4 pilares.<br>Escolha seu plano para começar.</p>
+    <div class="splash-users">
+      <button class="splash-user sv" onclick="enterUser('v')">
+        <div class="splash-av sv">V</div>
+        <div class="splash-name">Vithor</div>
+        <div class="splash-role">Plano de estudo</div>
+      </button>
+      <button class="splash-user sj" onclick="enterUser('j')">
+        <div class="splash-av sj">J</div>
+        <div class="splash-name">Janaina</div>
+        <div class="splash-role">Plano de estudo</div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <!-- TOP BAR -->
+  <div class="user-bar">
+    <div class="app-brand">
+      <div class="app-brand-icon"><i class="fa-solid fa-book-open-reader"></i></div>
+      <span class="app-brand-name">Inglês 30 dias</span>
+    </div>
+    <div class="user-tabs">
+      <button class="user-tab" id="tab-v" onclick="switchUser('v')">
+        <div class="avatar vithor-av">V</div> Vithor
+      </button>
+      <button class="user-tab" id="tab-j" onclick="switchUser('j')">
+        <div class="avatar janaina-av">J</div> Janaina
+      </button>
+    </div>
+  </div>
+
+  <!-- VITHOR -->
+  <div class="user-panel" id="panel-v">
+    <div class="hero">
+      <div class="eyebrow v">Plano de estudo — Vithor</div>
+      <h1>Inglês do jeito <em class="v">certo.</em></h1>
+      <p class="hero-sub">30 exercícios por dia. 4 categorias. 1 mês pra você se comunicar de verdade.</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-n v" id="done-count-v">0</div><div class="stat-l">dias concluídos</div></div>
+        <div class="stat"><div class="stat-n v">900</div><div class="stat-l">exercícios totais</div></div>
+        <div class="stat"><div class="stat-n v">4</div><div class="stat-l">pilares</div></div>
+        <div class="stat"><div class="stat-n v">~25</div><div class="stat-l">min por dia</div></div>
+      </div>
+    </div>
+    <p class="sec-label">Semanas</p>
+    <div class="week-nav" id="wnav-v"></div>
+    <div id="wcontainer-v"></div>
+  </div>
+
+  <!-- JANAINA -->
+  <div class="user-panel" id="panel-j">
+    <div class="hero">
+      <div class="eyebrow j">Plano de estudo — Janaina</div>
+      <h1>Inglês <em class="j">passo a passo.</em></h1>
+      <p class="hero-sub">30 dias de dedicação. Cada dia com foco, motivação e 30 exercícios práticos.</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-n j" id="done-count-j">0</div><div class="stat-l">dias concluídos</div></div>
+        <div class="stat"><div class="stat-n j">900</div><div class="stat-l">exercícios totais</div></div>
+        <div class="stat"><div class="stat-n j">4</div><div class="stat-l">pilares</div></div>
+        <div class="stat"><div class="stat-n j">~25</div><div class="stat-l">min por dia</div></div>
+      </div>
+    </div>
+    <p class="sec-label">Semanas</p>
+    <div class="week-nav" id="wnav-j"></div>
+    <div id="wcontainer-j"></div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+const DAYS=[
+  {d:1,w:1,title:"Cumprimentos básicos",cat:"greet",meta:"Como se apresentar e abrir uma conversa",
+   motivation:"Toda jornada começa com uma palavra. Hoje você dá o primeiro passo — e isso já te coloca na frente de 90% das pessoas.",
+   tip:"Repita cada frase em voz alta 3x. O som é tão importante quanto o significado.",
+   ex:[
+    {q:"Traduza: 'Olá, tudo bem?'",a:"Hi, how are you?"},
+    {q:"Complete: '___, nice to meet you!'",a:"Hi! Nice to meet you!"},
+    {q:"Como você pergunta o nome de alguém?",a:"What's your name?"},
+    {q:"Responda 'How are you?' positivamente",a:"I'm great, thanks! / I'm doing well!"},
+    {q:"Traduza: 'Me chamo Ana.'",a:"My name is Ana."},
+    {q:"Como dizer 'Prazer em te conhecer de volta'?",a:"Nice to meet you too!"},
+    {q:"Traduza: 'De onde você é?'",a:"Where are you from?"},
+    {q:"Responda como se fosse de São Paulo",a:"I'm from São Paulo."},
+    {q:"Como perguntar 'Você fala inglês?'",a:"Do you speak English?"},
+    {q:"Diga que você fala um pouco de inglês",a:"I speak a little English."},
+    {q:"Traduza: 'Pode repetir, por favor?'",a:"Can you repeat that, please?"},
+    {q:"Como dizer 'Eu não entendi'?",a:"I didn't understand."},
+    {q:"Como pedir pra falar mais devagar?",a:"Can you speak more slowly, please?"},
+    {q:"Traduza: 'Até logo!'",a:"See you later! / Bye!"},
+    {q:"Como dizer tchau de forma mais formal?",a:"Goodbye! / Have a good day!"},
+    {q:"'Good morning' é usado até qual horário?",a:"Até meio-dia / 12pm"},
+    {q:"Traduza: 'Boa tarde!'",a:"Good afternoon!"},
+    {q:"Quando usar 'Good evening'?",a:"A partir das 18h / 6pm"},
+    {q:"Como dizer 'Que bom te ver!'",a:"Good to see you! / Great to see you!"},
+    {q:"Traduza: 'Como foi seu dia?'",a:"How was your day?"},
+    {q:"Responda que seu dia foi ótimo",a:"It was great, thanks for asking!"},
+    {q:"Como perguntar onde fica o banheiro?",a:"Where is the bathroom/restroom?"},
+    {q:"Traduza: 'Você pode me ajudar?'",a:"Can you help me?"},
+    {q:"Como dizer 'Com licença' pra chamar atenção?",a:"Excuse me!"},
+    {q:"Traduza: 'Não tem problema'",a:"No problem! / That's okay!"},
+    {q:"Como perguntar 'O que você faz?'",a:"What do you do? / What's your job?"},
+    {q:"Diga que você estuda inglês",a:"I study English."},
+    {q:"Como encerrar uma conversa educadamente?",a:"It was nice talking to you! See you soon!"},
+    {q:"'Nice to meet you' e 'Good to meet you' são iguais?",a:"Sim, ambos significam 'prazer em conhecer'"},
+    {q:"Crie uma apresentação de 3 frases em inglês",a:"Ex: Hi! My name is [nome]. I'm from São Paulo. Nice to meet you!"}
+  ]},
+  {d:2,w:1,title:"Verbo GO — ir e além",cat:"verb",meta:"O verbo mais versátil do inglês no dia a dia",
+   motivation:"Você já usa 'go' em português sem pensar. Em inglês é a mesma coisa — deixa fluir.",
+   tip:"'Go' tem mais de 30 combinações comuns. Hoje você aprende as mais usadas.",
+   ex:[
+    {q:"Traduza: 'Vou ao mercado amanhã.'",a:"I'm going to the supermarket tomorrow."},
+    {q:"Como dizer 'Vai embora!'?",a:"Go away!"},
+    {q:"Traduza: 'Vamos!'",a:"Let's go!"},
+    {q:"'Go for a walk' significa?",a:"Dar uma caminhada"},
+    {q:"Traduza: 'Fui para casa cedo.'",a:"I went home early."},
+    {q:"Como perguntar 'Para onde você vai?'",a:"Where are you going?"},
+    {q:"'Go to bed' significa?",a:"Ir dormir / ir pra cama"},
+    {q:"Traduza: 'Preciso ir agora.'",a:"I need to go now."},
+    {q:"'Go shopping' significa?",a:"Ir fazer compras"},
+    {q:"Traduza: 'Ela foi ao trabalho de ônibus.'",a:"She went to work by bus."},
+    {q:"'Let it go' significa?",a:"Deixa pra lá / deixar ir"},
+    {q:"Traduza: 'Como você vai pro trabalho?'",a:"How do you get to work? / How do you go to work?"},
+    {q:"'Go out' significa?",a:"Sair (de casa, de um lugar)"},
+    {q:"Traduza: 'Eles foram embora cedo.'",a:"They left early. / They went away early."},
+    {q:"Como dizer 'Posso ir?'",a:"Can I go? / May I leave?"},
+    {q:"Traduza: 'Vai em frente!'",a:"Go ahead!"},
+    {q:"'Go wrong' significa?",a:"Dar errado"},
+    {q:"Traduza: 'A reunião foi bem.'",a:"The meeting went well."},
+    {q:"Como dizer 'Vou de carro'?",a:"I'm going by car. / I'll drive."},
+    {q:"'Go for it' significa?",a:"Vai fundo! / Manda ver!"},
+    {q:"Traduza: 'Quero ir à praia no fim de semana.'",a:"I want to go to the beach this weekend."},
+    {q:"'Go back' significa?",a:"Voltar"},
+    {q:"Traduza: 'Preciso voltar pra casa.'",a:"I need to go back home."},
+    {q:"Como perguntar 'Posso entrar?'",a:"Can I come in? / May I come in?"},
+    {q:"'Go on' no contexto de 'Go on, tell me!'?",a:"Continue! / Vai falando!"},
+    {q:"Traduza: 'Vamos jantar fora hoje.'",a:"Let's go out for dinner tonight."},
+    {q:"'Gone' é o passado de go?",a:"Não, é o particípio. O passado simples é 'went'."},
+    {q:"Traduza: 'Estou indo trabalhar.'",a:"I'm going to work."},
+    {q:"'Go through hard times' significa?",a:"Passar por tempos difíceis"},
+    {q:"Crie uma frase com 'go' sobre seu dia",a:"Ex: I go to the gym every Monday. / I went to the market today."}
+  ]},
+  {d:3,w:1,title:"Verbo HAVE — ter e muito mais",cat:"verb",meta:"Have vai além de 'ter' — expressa obrigação, posse e experiência",
+   motivation:"Cada dia de estudo é um tijolo. Não dá pra ver a parede toda agora — mas ela está sendo construída.",
+   tip:"'Have to' = obrigação. 'Have' sozinho = posse ou experiência. Anota essa diferença.",
+   ex:[
+    {q:"Traduza: 'Eu tenho uma reunião às 3.'",a:"I have a meeting at 3."},
+    {q:"'Have a good time' significa?",a:"Se divertir / passar um bom tempo"},
+    {q:"Traduza: 'Você tem o número dela?'",a:"Do you have her number?"},
+    {q:"'Have lunch' significa?",a:"Almoçar"},
+    {q:"Traduza: 'Tenho que sair cedo hoje.'",a:"I have to leave early today."},
+    {q:"'Have a look' significa?",a:"Dar uma olhada"},
+    {q:"Traduza: 'Ela tem dois filhos.'",a:"She has two children."},
+    {q:"Como dizer 'Vou tomar um café'?",a:"I'm going to have a coffee."},
+    {q:"'Have a rest' significa?",a:"Descansar"},
+    {q:"Traduza: 'Posso te fazer uma pergunta?'",a:"Can I ask you a question?"},
+    {q:"'Have a shower' = 'take a shower'?",a:"Sim, ambos significam 'tomar banho'"},
+    {q:"Traduza: 'Não tenho tempo agora.'",a:"I don't have time right now."},
+    {q:"Como dizer 'Tive um dia longo'?",a:"I had a long day."},
+    {q:"'Have fun!' significa?",a:"Se diverte! / Vai se divertir!"},
+    {q:"Traduza: 'Eles têm que estudar mais.'",a:"They have to study more."},
+    {q:"'Have in mind' significa?",a:"Ter em mente / considerar"},
+    {q:"Como perguntar 'Você já foi à Europa?'",a:"Have you ever been to Europe?"},
+    {q:"Traduza: 'Já trabalhei em três países.'",a:"I have worked in three countries."},
+    {q:"'Have it your way' significa?",a:"Do seu jeito / Como você quiser"},
+    {q:"Traduza: 'Não tenho certeza.'",a:"I'm not sure."},
+    {q:"'Have a say' significa?",a:"Ter voz / poder opinar"},
+    {q:"Traduza: 'Vamos jantar?'",a:"Shall we have dinner? / Let's have dinner."},
+    {q:"Como dizer 'Temos que conversar'?",a:"We need to talk. / We have to talk."},
+    {q:"'Have second thoughts' significa?",a:"Ter dúvidas / repensar algo"},
+    {q:"Traduza: 'Quanto tempo você tem?'",a:"How much time do you have?"},
+    {q:"Traduza: 'Ela não tem dinheiro.'",a:"She doesn't have any money. / She has no money."},
+    {q:"Como dizer 'Tivemos problemas com isso'?",a:"We had problems with that."},
+    {q:"'Have a word with someone' significa?",a:"Conversar com alguém a sós"},
+    {q:"Traduza: 'Tenho fome.'",a:"I'm hungry. (mais natural que 'I have hunger')"},
+    {q:"Crie uma frase com 'have' sobre sua rotina",a:"Ex: I have breakfast at 7am. / I have a meeting every Monday."}
+  ]},
+  {d:4,w:1,title:"Verbos MAKE e GET",cat:"verb",meta:"Dois verbos que mudam tudo quando você domina",
+   motivation:"Você já passou por 3 dias. Isso é mais do que a maioria faz. Continue — o ritmo está ficando natural.",
+   tip:"Make = criar/fazer algo. Get = conseguir/pegar/ficar. São diferentes mas complementares.",
+   ex:[
+    {q:"Traduza: 'Faz um café pra mim?'",a:"Can you make me a coffee?"},
+    {q:"'Make a decision' significa?",a:"Tomar uma decisão"},
+    {q:"Traduza: 'Preciso pegar meu celular.'",a:"I need to get my phone."},
+    {q:"'Get better' significa?",a:"Melhorar / ficar melhor"},
+    {q:"Traduza: 'Vou fazer uma lista.'",a:"I'm going to make a list."},
+    {q:"'Get ready' significa?",a:"Se preparar / ficar pronto"},
+    {q:"Traduza: 'Consegui o emprego!'",a:"I got the job!"},
+    {q:"'Make sense' significa?",a:"Fazer sentido"},
+    {q:"Traduza: 'Isso não faz sentido.'",a:"This doesn't make sense."},
+    {q:"'Get home' significa?",a:"Chegar em casa"},
+    {q:"Traduza: 'Quando você chegou em casa?'",a:"When did you get home?"},
+    {q:"'Make up your mind' significa?",a:"Tomar uma decisão / se decidir"},
+    {q:"Traduza: 'Ela está fazendo progresso.'",a:"She's making progress."},
+    {q:"'Get along with' significa?",a:"Se dar bem com alguém"},
+    {q:"Traduza: 'Me dou bem com meus colegas.'",a:"I get along well with my coworkers."},
+    {q:"'Make a mistake' significa?",a:"Cometer um erro"},
+    {q:"Traduza: 'Cometi um erro ontem.'",a:"I made a mistake yesterday."},
+    {q:"'Get used to' significa?",a:"Se acostumar com"},
+    {q:"Traduza: 'Estou me acostumando com o novo trabalho.'",a:"I'm getting used to the new job."},
+    {q:"'Make friends' significa?",a:"Fazer amigos"},
+    {q:"Traduza: 'Vou buscar você às 8.'",a:"I'll get you at 8. / I'll pick you up at 8."},
+    {q:"'Get in touch' significa?",a:"Entrar em contato"},
+    {q:"Traduza: 'Entre em contato quando puder.'",a:"Get in touch when you can."},
+    {q:"'Make it' no contexto de 'I can make it'?",a:"Conseguir / chegar a tempo"},
+    {q:"Traduza: 'Consigo chegar às 6.'",a:"I can make it by 6."},
+    {q:"'Get lost' pode significar?",a:"Se perder / 'Vai se perder!' (informal)"},
+    {q:"'Make the most of' significa?",a:"Aproveitar ao máximo"},
+    {q:"Traduza: 'Aproveite o dia!'",a:"Make the most of the day!"},
+    {q:"'Get over it' significa?",a:"Superar / deixar pra lá"},
+    {q:"Crie uma frase com make E uma com get",a:"Ex: I make coffee every morning. / I get to work at 9."}
+  ]},
+  {d:5,w:1,title:"Verbos TAKE, WANT e NEED",cat:"verb",meta:"Os verbos que completam seu vocabulário de ação",
+   motivation:"Semana 1 quase no fim. Você está construindo algo real — uma base que vai te sustentar por anos.",
+   tip:"Take tem sentidos físicos e metafóricos. Want e need são seus aliados em qualquer pedido.",
+   ex:[
+    {q:"Traduza: 'Pega o ônibus até o centro.'",a:"Take the bus to downtown."},
+    {q:"'Take care' significa?",a:"Tomar conta / se cuidar / cuide-se"},
+    {q:"Traduza: 'Quero aprender inglês.'",a:"I want to learn English."},
+    {q:"'Need help?' significa?",a:"Precisa de ajuda?"},
+    {q:"Traduza: 'Preciso de mais tempo.'",a:"I need more time."},
+    {q:"'Take a break' significa?",a:"Dar uma pausa / descansar"},
+    {q:"Traduza: 'Leva quanto tempo?'",a:"How long does it take?"},
+    {q:"'Want to' vs 'need to': qual é mais urgente?",a:"Need to — é obrigação. Want to é desejo."},
+    {q:"Traduza: 'Preciso dormir mais.'",a:"I need to sleep more."},
+    {q:"'Take it easy' significa?",a:"Relaxa / vai com calma"},
+    {q:"Traduza: 'Quero uma xícara de chá.'",a:"I want a cup of tea."},
+    {q:"'Take notes' significa?",a:"Anotar / fazer anotações"},
+    {q:"Traduza: 'Posso anotar o seu número?'",a:"Can I take your number?"},
+    {q:"'Take off' pode significar?",a:"Decolar (avião) / tirar (roupa) / ir embora rápido"},
+    {q:"Traduza: 'O avião decolou com atraso.'",a:"The plane took off late."},
+    {q:"'Take advantage of' significa?",a:"Aproveitar / tirar vantagem de"},
+    {q:"Traduza: 'Não quero atrapalhar.'",a:"I don't want to bother you."},
+    {q:"'Need not' significa?",a:"Não precisa / não é necessário"},
+    {q:"Traduza: 'Não precisa se preocupar.'",a:"You don't need to worry."},
+    {q:"'Take place' significa?",a:"Acontecer / ter lugar / ocorrer"},
+    {q:"Traduza: 'A reunião acontece às 10.'",a:"The meeting takes place at 10."},
+    {q:"Traduza: 'Ela quer morar no exterior.'",a:"She wants to live abroad."},
+    {q:"'Take risks' significa?",a:"Correr riscos"},
+    {q:"Traduza: 'Preciso correr esse risco.'",a:"I need to take that risk."},
+    {q:"Como dizer 'O que você precisa?'",a:"What do you need?"},
+    {q:"Traduza: 'Tira uma foto aqui!'",a:"Take a photo here!"},
+    {q:"'Take for granted' significa?",a:"Dar como garantido / não valorizar"},
+    {q:"Traduza: 'Preciso de um tempo pra pensar.'",a:"I need some time to think."},
+    {q:"'Want out' significa?",a:"Querer sair (de uma situação)"},
+    {q:"Crie uma frase usando 'want' e 'need' juntos",a:"Ex: I want to travel, but I need to save money first."}
+  ]},
+  {d:6,w:1,title:"Revisão + desafio de cumprimentos",cat:"mix",meta:"Consolide a semana com situações reais",
+   motivation:"Revisão não é sinal de fraqueza — é onde a memória se forma de verdade. Vai lá.",
+   tip:"Tente responder sem olhar o gabarito desta vez. Confie no que você já aprendeu.",
+   ex:[
+    {q:"Como você se apresenta a um estrangeiro?",a:"Hi! My name is [nome]. Nice to meet you!"},
+    {q:"Diga que vai ao banheiro e volta já",a:"I'll be right back, I need to use the restroom."},
+    {q:"Como perguntar se a pessoa precisa de ajuda?",a:"Do you need help? / Can I help you?"},
+    {q:"Traduza: 'Você tem o horário do metrô?'",a:"Do you have the subway schedule?"},
+    {q:"Como dizer que você está indo trabalhar?",a:"I'm going to work. / I'm heading to work."},
+    {q:"Diga que vai tomar café da manhã agora",a:"I'm going to have breakfast now."},
+    {q:"Como dizer 'Fiz minha cama hoje'?",a:"I made my bed today."},
+    {q:"Diga que precisa sair em 10 minutos",a:"I need to leave in 10 minutes."},
+    {q:"Como dizer que quer ir à academia?",a:"I want to go to the gym."},
+    {q:"Traduza: 'Pegou o ônibus errado?'",a:"Did you take the wrong bus?"},
+    {q:"Como dizer 'Vou dar uma olhada'?",a:"I'll have a look. / Let me take a look."},
+    {q:"Como cumprimentar alguém que não via há tempo?",a:"Long time no see! / It's been a while!"},
+    {q:"Diga que precisa de um tempo pra descansar",a:"I need some time to rest. / I need a break."},
+    {q:"Como dizer 'Não quero me atrasar'?",a:"I don't want to be late."},
+    {q:"Diga que vai ligar mais tarde",a:"I'll call you later."},
+    {q:"Como dizer 'Até amanhã!'?",a:"See you tomorrow!"},
+    {q:"Diga que foi ótimo falar com alguém",a:"It was great talking to you!"},
+    {q:"Como dizer 'Tenha um bom fim de semana!'?",a:"Have a great weekend!"},
+    {q:"Traduza: 'O que você vai fazer hoje?'",a:"What are you going to do today?"},
+    {q:"Diga que vai fazer uma lista de compras",a:"I'm going to make a shopping list."},
+    {q:"Como dizer 'Consegui o que precisava'?",a:"I got what I needed."},
+    {q:"Diga que quer fazer amigos que falem inglês",a:"I want to make friends who speak English."},
+    {q:"Como perguntar onde fica a estação?",a:"Where is the station?"},
+    {q:"Diga que seu dia foi corrido",a:"It was a busy day. / I had a busy day."},
+    {q:"Como responder se alguém diz 'Thank you'?",a:"You're welcome! / No problem! / Of course!"},
+    {q:"Diga que você entendeu o que alguém falou",a:"I got it! / I understand. / That makes sense."},
+    {q:"Como pedir pra alguém esperar um segundo?",a:"Wait a second. / Give me a moment, please."},
+    {q:"Diga que precisa de ajuda com inglês",a:"I need help with my English."},
+    {q:"Como encerrar um e-mail de forma amigável?",a:"Take care! / Have a great day! / Best regards!"},
+    {q:"Crie uma mini-conversa de 3 frases em inglês",a:"Ex: Hi! How are you? / I'm good, thanks. And you? / I'm great! Nice to see you!"}
+  ]},
+  {d:7,w:1,title:"Dia livre — revisão e reflexão",cat:"mix",meta:"Consolide tudo da semana 1",
+   motivation:"Uma semana inteira. Isso é real. Você está no grupo que não desiste. Descanse, mas não suma.",
+   tip:"Hoje é mais leve — releia suas respostas favoritas da semana e tente falar em voz alta.",
+   ex:[
+    {q:"Qual dos verbos da semana você mais usa?",a:"Reflexão pessoal"},
+    {q:"Crie uma frase com 'go', 'have' e 'make'",a:"Ex: I go to work, have lunch, and make meetings every day."},
+    {q:"Traduza: 'Tive uma semana produtiva.'",a:"I had a productive week."},
+    {q:"Como dizer 'Aprendi muito esta semana'?",a:"I learned a lot this week."},
+    {q:"Crie uma apresentação pessoal de 4 frases",a:"Ex: Hi! My name is [nome]. I'm from São Paulo. I work in tech. Nice to meet you!"},
+    {q:"Traduza: 'Vou continuar estudando.'",a:"I'm going to keep studying."},
+    {q:"Como dizer 'Estou me saindo bem'?",a:"I'm doing well. / I'm making progress."},
+    {q:"Diga algo que você quer conquistar este mês",a:"Ex: I want to have a basic conversation in English."},
+    {q:"'Keep going' significa?",a:"Continue / vai em frente / não para"},
+    {q:"Crie 2 frases sobre sua rotina matinal",a:"Ex: I wake up at 7. I have breakfast and go to work."},
+    {q:"Traduza: 'Cada dia um pouquinho.'",a:"A little bit every day. / Little by little."},
+    {q:"Como dizer 'Tenho que me esforçar mais'?",a:"I need to try harder."},
+    {q:"Diga que está orgulhoso de si mesmo",a:"I'm proud of myself."},
+    {q:"Traduza: 'Valeu a pena.'",a:"It was worth it."},
+    {q:"Como dizer 'Vou continuar na próxima semana'?",a:"I'll continue next week."},
+    {q:"Crie uma frase positiva sobre seu aprendizado",a:"Ex: I'm getting better every day!"},
+    {q:"Traduza: 'Não vou desistir.'",a:"I won't give up."},
+    {q:"Como dizer 'Isso está ficando mais fácil'?",a:"This is getting easier."},
+    {q:"Diga que vai estudar inglês todo dia",a:"I'm going to study English every day."},
+    {q:"Traduza: 'O esforço vale a pena.'",a:"The effort is worth it."},
+    {q:"Como dizer 'Estou animado com meu progresso'?",a:"I'm excited about my progress!"},
+    {q:"Diga que aprendeu algo novo hoje",a:"I learned something new today!"},
+    {q:"Traduza: 'Semana 1 completa!'",a:"Week 1 complete!"},
+    {q:"Como dizer 'Já posso me apresentar em inglês'?",a:"I can already introduce myself in English!"},
+    {q:"'You've got this' significa?",a:"Você consegue! / Você é capaz!"},
+    {q:"Traduza: 'Amanhã começa a semana 2.'",a:"Tomorrow week 2 begins."},
+    {q:"Como dizer 'Estou pronto para o próximo nível'?",a:"I'm ready for the next level!"},
+    {q:"Diga uma coisa que quer aprender na semana 2",a:"Ex: I want to learn how to connect sentences."},
+    {q:"'Every step counts' significa?",a:"Cada passo conta"},
+    {q:"Escreva uma mensagem de incentivo pra você mesmo em inglês",a:"Ex: Keep going! You're doing great! One week down, three to go!"}
+  ]},
+  {d:8,w:2,title:"Conexão: BUT e BECAUSE",cat:"connect",meta:"Contraste e causa — o coração das frases complexas",
+   motivation:"Semana 2. Você já tem vocabulário. Agora você aprende a transformar palavras soltas em pensamentos reais.",
+   tip:"But = contraste (algo muda). Because = causa (explica o porquê). Dominar os dois é falar em camadas.",
+   ex:[
+    {q:"Junte: 'I'm tired.' + 'I can't sleep.'",a:"I'm tired, but I can't sleep."},
+    {q:"Junte: 'She's smart.' + 'She failed the test.'",a:"She's smart, but she failed the test."},
+    {q:"Explique com 'because': Por que você estuda inglês?",a:"I study English because I want a better job."},
+    {q:"Junte: 'I didn't go out.' + 'It was raining.'",a:"I didn't go out because it was raining."},
+    {q:"Traduza: 'Quero ir, mas não tenho tempo.'",a:"I want to go, but I don't have time."},
+    {q:"Junte: 'He's kind.' + 'He can be strict.'",a:"He's kind, but he can be strict."},
+    {q:"Explique com 'because': Por que você precisa dormir cedo?",a:"I need to sleep early because I have work tomorrow."},
+    {q:"Traduza: 'Gosto de café, mas não de chá.'",a:"I like coffee, but not tea."},
+    {q:"Junte: 'I was nervous.' + 'I had a presentation.'",a:"I was nervous because I had a presentation."},
+    {q:"Traduza: 'Ele não veio porque estava doente.'",a:"He didn't come because he was sick."},
+    {q:"Junte: 'She wants to travel.' + 'She doesn't have money.'",a:"She wants to travel, but she doesn't have money."},
+    {q:"Junte: 'I called her.' + 'She didn't answer.'",a:"I called her, but she didn't answer."},
+    {q:"Traduza: 'Está frio lá fora, mas vou sair mesmo assim.'",a:"It's cold outside, but I'm going out anyway."},
+    {q:"Junte: 'I'm happy.' + 'I got a raise.'",a:"I'm happy because I got a raise."},
+    {q:"Traduza: 'Não posso ir porque tenho que trabalhar.'",a:"I can't go because I have to work."},
+    {q:"Junte: 'The food was expensive.' + 'It was delicious.'",a:"The food was expensive, but it was delicious."},
+    {q:"Explique com 'because': Por que inglês é importante?",a:"English is important because it opens so many doors."},
+    {q:"Traduza: 'Gosto de acordar cedo, mas é difícil.'",a:"I like waking up early, but it's hard."},
+    {q:"Traduza: 'Ela não veio porque estava com sono.'",a:"She didn't come because she was sleepy."},
+    {q:"Crie uma frase sobre seu trabalho com 'but'",a:"Ex: I like my job, but it can be stressful."},
+    {q:"Crie uma frase com 'because' sobre por que gosta de inglês",a:"Ex: I like English because it sounds cool and is very useful."},
+    {q:"Junte: 'I like chocolate.' + 'I'm trying to eat less sugar.'",a:"I like chocolate, but I'm trying to eat less sugar."},
+    {q:"Junte: 'I was late.' + 'There was traffic.'",a:"I was late because there was traffic."},
+    {q:"Traduza: 'Tentei, mas não consegui.'",a:"I tried, but I couldn't make it."},
+    {q:"Junte: 'She's a good teacher.' + 'Her classes are hard.'",a:"She's a good teacher, but her classes are hard."},
+    {q:"Traduza: 'Precisa ser feito porque é urgente.'",a:"It needs to be done because it's urgent."},
+    {q:"Junte: 'I need to exercise.' + 'I'm always busy.'",a:"I need to exercise, but I'm always busy."},
+    {q:"Traduza: 'Não saí porque estava chovendo.'",a:"I didn't go out because it was raining."},
+    {q:"Como começar uma frase com 'Because'?",a:"Because it was raining, I stayed home. (inverter a ordem também funciona)"},
+    {q:"Crie uma frase com 'but' e uma com 'because' sobre o seu dia",a:"Ex: I was tired, but I studied. / I didn't go out because it was raining."}
+  ]},
+  {d:9,w:2,title:"Conexão: SO e THEN",cat:"connect",meta:"Consequência e sequência — suas frases ganham lógica",
+   motivation:"A língua tem ritmo. 'So' e 'then' são a batida que faz o ouvinte te seguir sem esforço.",
+   tip:"So = resultado do que veio antes. Then = o que acontece depois. Conte histórias com eles.",
+   ex:[
+    {q:"Junte com 'so': 'It was late.' + 'I went to bed.'",a:"It was late, so I went to bed."},
+    {q:"Conte uma sequência com 'then': café da manhã → trabalho",a:"I had breakfast, then I went to work."},
+    {q:"Traduza: 'Estava com fome, então comi alguma coisa.'",a:"I was hungry, so I ate something."},
+    {q:"Junte com 'then': 'I finish work.' + 'I go to the gym.'",a:"I finish work, then I go to the gym."},
+    {q:"Traduza: 'Estava chovendo, então fiquei em casa.'",a:"It was raining, so I stayed home."},
+    {q:"Crie uma rotina matinal com 3 'then'",a:"Ex: I wake up, then have coffee, then take a shower, then go to work."},
+    {q:"Junte com 'so': 'She was tired.' + 'She went to sleep early.'",a:"She was tired, so she went to sleep early."},
+    {q:"Traduza: 'Não tinha nada pra comer, então pedi delivery.'",a:"There was nothing to eat, so I ordered delivery."},
+    {q:"Junte com 'so': 'I missed the bus.' + 'I took a taxi.'",a:"I missed the bus, so I took a taxi."},
+    {q:"Traduza: 'Ele estudou muito, então passou na prova.'",a:"He studied a lot, so he passed the exam."},
+    {q:"Crie uma história de 3 frases com 'so' e 'then'",a:"Ex: I woke up late, so I skipped breakfast. Then I rushed to work."},
+    {q:"Junte com 'then': 'First I cook.' + 'I eat.' + 'I wash the dishes.'",a:"First I cook, then I eat, then I wash the dishes."},
+    {q:"Traduza: 'Estava com pressa, então não tomei café.'",a:"I was in a hurry, so I skipped coffee."},
+    {q:"Traduza: 'Ele não disse nada, então fui embora.'",a:"He didn't say anything, so I left."},
+    {q:"Junte com 'then': 'I'll finish this.' + 'I'll call you.'",a:"I'll finish this, then I'll call you."},
+    {q:"Traduza: 'Estava com sono, então tomei um café.'",a:"I was sleepy, so I had a coffee."},
+    {q:"Como usar 'and then' em vez de só 'then'?",a:"Ex: I went home and then watched a movie. (mais natural na fala)"},
+    {q:"Traduza: 'Primeiro termino o trabalho, depois descanso.'",a:"First I'll finish work, then I'll rest."},
+    {q:"Junte com 'so': 'She didn't call.' + 'I was worried.'",a:"She didn't call, so I was worried."},
+    {q:"Traduza: 'Está tarde, então vou dormir.'",a:"It's late, so I'm going to sleep."},
+    {q:"Crie uma desculpa com 'so': por que você chegou atrasado?",a:"Ex: There was a lot of traffic, so I was late."},
+    {q:"Traduza: 'Depois do jantar, assistimos um filme.'",a:"We had dinner, then watched a movie."},
+    {q:"Como dizer 'Então o que aconteceu?'",a:"So what happened? / And then what?"},
+    {q:"Crie 2 frases sobre ontem usando 'so' e 'then'",a:"Ex: I finished early, so I left. Then I went to the gym."},
+    {q:"Traduza: 'Decidi estudar inglês, então comprei um livro.'",a:"I decided to study English, so I bought a book."},
+    {q:"Junte: 'I was sick.' → 'stayed home'",a:"I was sick, so I stayed home."},
+    {q:"Traduza: 'Estava nervoso, mas me saí bem.'",a:"I was nervous, but I did well."},
+    {q:"Como 'so' pode ser usado sozinho em resposta?",a:"'So?' = E daí? / 'So!' = Então! (fechando um assunto)"},
+    {q:"Traduza: 'Fui dormir cedo e então acordei descansado.'",a:"I went to bed early, and then I woke up refreshed."},
+    {q:"Crie uma mini-história com 'because', 'so' e 'then'",a:"Ex: I was tired because I worked late, so I went to bed early. Then I woke up refreshed!"}
+  ]},
+  {d:10,w:2,title:"Conexão: ALSO, AND e mais",cat:"connect",meta:"Adicionar ideias sem repetir — o segredo da fluidez",
+   motivation:"Dez dias. Você está no terço do plano e ainda aqui. Isso é tudo. Vai até o fim.",
+   tip:"'Also' e 'and' parecem simples, mas usados certo fazem você soar muito mais fluente.",
+   ex:[
+    {q:"Junte com 'and': 'I like coffee.' + 'I like tea.'",a:"I like coffee and tea."},
+    {q:"Junte com 'also': 'She speaks English.' + 'She speaks French.'",a:"She speaks English and also French."},
+    {q:"Traduza: 'Eu trabalho e também estudo.'",a:"I work and I also study."},
+    {q:"Onde vai 'also' na frase?",a:"Depois do verbo 'to be', antes dos outros verbos. 'She is also kind.' / 'I also go to the gym.'"},
+    {q:"Junte 3 atividades com 'and': cozinhar, limpar, trabalhar",a:"I cook, clean, and work every day."},
+    {q:"Traduza: 'Ele é inteligente e também criativo.'",a:"He's intelligent and also creative."},
+    {q:"Traduza: 'Quero aprender inglês e também espanhol.'",a:"I want to learn English and also Spanish."},
+    {q:"Traduza: 'A comida estava boa, e o serviço também.'",a:"The food was good, and the service was also good."},
+    {q:"'As well' funciona como 'also'?",a:"Sim! 'She's kind as well.' = She's also kind."},
+    {q:"Traduza: 'Você pode trazer água e também suco?'",a:"Can you bring water and juice as well?"},
+    {q:"Junte com 'and also': trabalha, estuda, cuida da família",a:"She works, studies, and also takes care of her family."},
+    {q:"Traduza: 'Preciso dormir mais e também me exercitar.'",a:"I need to sleep more and also exercise."},
+    {q:"Como dizer 'Além disso'?",a:"Also / In addition / Besides / On top of that"},
+    {q:"Traduza: 'Além de trabalhar, ele ainda estuda à noite.'",a:"Besides working, he also studies at night."},
+    {q:"Junte: 'I need a pen.' + 'I need paper.'",a:"I need a pen and some paper."},
+    {q:"Traduza: 'Ele corre todo dia e também vai à academia.'",a:"He runs every day and also goes to the gym."},
+    {q:"'Too' pode substituir 'also'?",a:"Sim, no final da frase. 'She works hard too.' = She also works hard."},
+    {q:"Traduza: 'Eu vim, minha irmã veio também.'",a:"I came, and my sister came too."},
+    {q:"Como adicionar uma ideia extra no meio de uma frase?",a:"Use 'also' após o sujeito: 'I also enjoy cooking.'"},
+    {q:"Traduza: 'Gosto de música e também de filmes.'",a:"I like music and also movies."},
+    {q:"Crie uma frase sobre seus hobbies com 'and' e 'also'",a:"Ex: I like reading and also listening to music."},
+    {q:"Traduza: 'O preço estava bom e a qualidade também.'",a:"The price was good and the quality was also good."},
+    {q:"'Furthermore' e 'moreover' são formais ou informais?",a:"Formais — use em textos escritos. Na fala, prefira 'also' ou 'and'."},
+    {q:"Traduza: 'Falo português, inglês e um pouco de espanhol.'",a:"I speak Portuguese, English, and a little Spanish."},
+    {q:"Crie 2 frases apresentando uma pessoa usando 'and' e 'also'",a:"Ex: She's a teacher and a writer. She's also very funny."},
+    {q:"Traduza: 'Preciso de mais café e também de mais sono!'",a:"I need more coffee and also more sleep!"},
+    {q:"Como dizer 'E mais uma coisa...'?",a:"And one more thing... / Also... / Oh, and..."},
+    {q:"Traduza: 'Ela trabalha e também cuida dos filhos.'",a:"She works and also takes care of her children."},
+    {q:"Como usar 'not only... but also'?",a:"Not only is she smart, but she's also kind."},
+    {q:"Crie uma frase com 'not only... but also'",a:"Ex: Not only do I study English, but I also practice every day."}
+  ]},
+  {d:11,w:2,title:"Misturando conectores",cat:"connect",meta:"Combine but, because, so, then, also em frases reais",
+   motivation:"Hoje você vira o jogo: não é mais exercício, é conversa real acontecendo na sua cabeça.",
+   tip:"A fluência vem de encadear pensamentos. Hoje você pratica exatamente isso.",
+   ex:[
+    {q:"Una: 'I was hungry' + 'I hadn't eaten' + 'I made a sandwich'",a:"I was hungry because I hadn't eaten, so I made a sandwich."},
+    {q:"Conte o que você fez ontem com 3 conectores",a:"Ex: I woke up late, so I skipped breakfast. Then I took a shower because I had a meeting."},
+    {q:"Traduza: 'Estava chovendo, então peguei táxi, mas cheguei atrasado.'",a:"It was raining, so I took a taxi, but I was late anyway."},
+    {q:"Una: 'She studied hard' + 'she passed' + 'she was happy'",a:"She studied hard, so she passed, and then she was really happy."},
+    {q:"Crie uma desculpa completa com 3 conectores",a:"Ex: I didn't call because I was busy, so I texted instead, but you didn't answer."},
+    {q:"Traduza: 'Quero viajar, mas não tenho dinheiro porque gasto muito.'",a:"I want to travel, but I don't have money because I spend too much."},
+    {q:"Una: 'I love music' + 'I also play guitar' + 'I want to be in a band'",a:"I love music. I also play guitar, and I want to be in a band."},
+    {q:"Traduza: 'Fui ao médico porque estava mal, então me receitou um remédio.'",a:"I went to the doctor because I was sick, so he prescribed some medicine."},
+    {q:"Crie 3 frases sobre seu fim de semana ideal",a:"Ex: I'd wake up late, then have a big breakfast. I'd also go to the beach."},
+    {q:"Traduza: 'Ele queria sair, mas estava cansado, então ficou em casa.'",a:"He wanted to go out, but he was tired, so he stayed home."},
+    {q:"Una: 'I forgot my umbrella' + 'it rained' + 'I got wet'",a:"I forgot my umbrella, and then it rained, so I got completely wet."},
+    {q:"Traduza: 'Fiz um bolo porque era aniversário e também comprei flores.'",a:"I made a cake because it was her birthday, and I also bought flowers."},
+    {q:"Crie uma frase com 4 conectores diferentes",a:"Ex: I was tired, but I went to the gym because I wanted to stay healthy, so I also ate well after."},
+    {q:"Traduza: 'Não consegui dormir porque estava animado, então assisti um filme.'",a:"I couldn't sleep because I was too excited, so I watched a movie."},
+    {q:"Una: 'She called me' + 'I was busy' + 'I called back later'",a:"She called me, but I was busy, so I called back later."},
+    {q:"Traduza: 'Foi difícil, mas valeu a pena porque aprendi muito.'",a:"It was hard, but it was worth it because I learned a lot."},
+    {q:"Una: passado + presente + futuro em 1 frase",a:"Ex: Yesterday I learned verbs, today I'm practicing connectors, and tomorrow I'll use it all."},
+    {q:"Conte um plano para o próximo mês com conectores",a:"Ex: I'll study English every day. Then I'll try to have a conversation."},
+    {q:"Traduza: 'Estava nervoso, mas me preparei bem, então correu tudo bem.'",a:"I was nervous, but I prepared well, so everything went fine."},
+    {q:"Una: 'I have a dream' + 'I work for it' + 'I also sacrifice things'",a:"I have a dream, so I work for it, and I also sacrifice things to get there."},
+    {q:"Traduza: 'Estou aprendendo inglês porque quero morar fora.'",a:"I'm learning English because I want to live abroad."},
+    {q:"Crie uma história de 4 frases com pelo menos 3 conectores",a:"Ex: I woke up early because I had a big day. Then I had coffee and also went for a walk. But my meeting was cancelled, so I worked from home."},
+    {q:"Traduza: 'Quero melhorar meu inglês então estou estudando todo dia.'",a:"I want to improve my English, so I'm studying every day."},
+    {q:"Crie uma frase de motivação com 'because' e 'so'",a:"Ex: I work hard because I have goals, so nothing can stop me."},
+    {q:"Traduza: 'Ele é dedicado, então aprende rápido e também ajuda os outros.'",a:"He's very dedicated, so he learns fast and also helps others."},
+    {q:"Escreva uma mini história de 5 frases com conectores variados",a:"Ex: I wanted to learn English, so I started a plan. But it was hard at first because I didn't know the basics. Then I learned the key verbs and also the connectors. So now my sentences are longer and more natural!"},
+    {q:"Crie sua frase motivacional do dia",a:"Reflexão pessoal — qualquer frase positiva em inglês com 1 conector"},
+    {q:"Traduza: 'Cada erro me ensina algo, então não tenho medo de errar.'",a:"Every mistake teaches me something, so I'm not afraid of making mistakes."},
+    {q:"Una: 'I have a goal' + 'I'm working every day' + 'nothing can stop me'",a:"I have a goal, so I'm working every day. And nothing can stop me."},
+    {q:"Escreva: 'Ontem aprendi conectores e hoje estou praticando.'",a:"Yesterday I learned connectors and today I'm practicing them."}
+  ]},
+  {d:12,w:2,title:"Revisão de conexão + mini textos",cat:"connect",meta:"Escreva parágrafos com o que você aprendeu",
+   motivation:"Você já sabe conectar frases. Hoje você vira parágrafos. A distância entre isso e fluência está diminuindo.",
+   tip:"Escreva sem medo. O inglês imperfeito que você usa hoje é melhor que o inglês perfeito que você não usa.",
+   ex:[
+    {q:"Escreva 3 frases sobre por que você quer aprender inglês",a:"Ex: I want to learn English because it opens new opportunities. Also, I want to travel. So I'm studying every day."},
+    {q:"Junte: 'I like cooking' + 'I'm not very good at it' + 'I try new recipes'",a:"I like cooking, but I'm not very good at it. However, I try new recipes because I want to improve."},
+    {q:"Traduza: 'Não é fácil, mas é possível.'",a:"It's not easy, but it's possible."},
+    {q:"Crie um parágrafo de 4 frases sobre seu dia com conectores",a:"Ex: I woke up early today because I had a big day. Then I had breakfast and went to work. I also had a meeting, so I was busy all morning. But in the afternoon I had some free time."},
+    {q:"Traduza: 'Então, o que você acha?'",a:"So, what do you think?"},
+    {q:"Crie 3 frases sobre algo que você aprendeu recentemente",a:"Ex: I learned a new skill at work. It was hard at first, but I kept practicing. So now I feel more confident."},
+    {q:"Traduza: 'Não posso ir porque tenho compromisso, mas posso amanhã.'",a:"I can't go because I have plans, but I can tomorrow."},
+    {q:"Escreva sobre um hábito que você quer criar",a:"Ex: I want to exercise more because I feel better when I do. So I'm going to go to the gym 3 times a week."},
+    {q:"Traduza: 'Gosto de ler porque me ajuda a relaxar.'",a:"I like reading because it helps me relax."},
+    {q:"Crie 2 frases sobre seu trabalho/estudo com 'but' e 'so'",a:"Ex: My work is challenging, but I enjoy it. So I stay motivated."},
+    {q:"Junte: 'I was nervous' + 'the presentation went well' + 'felt proud'",a:"I was nervous, but the presentation went well, so I felt really proud."},
+    {q:"Traduza: 'Cada erro me ensina algo, então não tenho medo de errar.'",a:"Every mistake teaches me something, so I'm not afraid of making mistakes."},
+    {q:"Escreva sua rotina de estudos em inglês (4 frases)",a:"Ex: I study English every day because I want to improve. First, I do 30 exercises. Then I review what I learned. I also try to think in English."},
+    {q:"Junte: 'It's expensive' + 'good quality' + 'worth the price'",a:"It's expensive, but the quality is good, so it's worth the price."},
+    {q:"Traduza: 'Eu me importo com meu progresso, então sigo em frente.'",a:"I care about my progress, so I keep going."},
+    {q:"Crie um mini texto sobre um lugar que você quer conhecer",a:"Ex: I want to visit Japan because it has a unique culture. I also want to try the food. So it's my top travel destination."},
+    {q:"Junte: 'I couldn't sleep' + 'worried about the meeting' + 'made a list'",a:"I couldn't sleep because I was worried about the meeting, so I made a list to calm down."},
+    {q:"Traduza: 'Aprendo rápido porque pratico todo dia.'",a:"I learn fast because I practice every day."},
+    {q:"Escreva sobre um desafio que você superou (4 frases)",a:"Ex: I had a hard time with English at first. But I kept studying because I wanted to improve. So I started making progress. And then it got easier."},
+    {q:"Junte: 'I love my family' + 'they support me' + 'I feel lucky'",a:"I love my family and they support me, so I feel really lucky."},
+    {q:"Traduza: 'Comecei pequeno, mas cheguei longe.'",a:"I started small, but I've come a long way."},
+    {q:"Crie 3 frases de conselho pra alguém aprendendo inglês",a:"Ex: Start with the basics because they matter the most. Then practice every day. Also, don't be afraid to make mistakes."},
+    {q:"Junte: 'I'm learning English' + 'it's challenging' + 'giving up is not an option'",a:"I'm learning English and it's challenging, but giving up is not an option."},
+    {q:"Traduza: 'O que quer que aconteça, continuo.'",a:"Whatever happens, I keep going."},
+    {q:"Escreva um pequeno e-mail informal (4 frases)",a:"Ex: Hi! How are you? I've been studying English. It's going well, so I'm feeling more confident. Talk soon!"},
+    {q:"Junte: 'I have a goal' + 'I'm working every day' + 'nothing can stop me'",a:"I have a goal, so I'm working every day. And nothing can stop me."},
+    {q:"Traduza: 'Acredito que posso porque me dedico.'",a:"I believe I can because I'm dedicated."},
+    {q:"Crie uma frase que resume a semana 2 do seu plano",a:"Ex: This week I learned how to connect ideas, so now my English sounds more natural!"},
+    {q:"Escreva sobre o que você vai fazer com o inglês que aprender",a:"Reflexão pessoal com futuro e conectores"},
+    {q:"'Progress, not perfection.' Você concorda? Diga em inglês.",a:"Ex: Yes! Progress matters more than perfection. I'm not perfect, but I'm moving forward every day."}
+  ]},
+  {d:13,w:2,title:"Revisão semana 2 — desafio escrito",cat:"mix",meta:"Teste seu domínio dos conectores",
+   motivation:"Dois semanas completas. Você está na metade — e a segunda metade é onde tudo se conecta de verdade.",
+   tip:"Hoje é mais focado em produção. Tente criar as frases do zero antes de ver o gabarito.",
+   ex:[
+    {q:"Escreva uma apresentação de 5 frases com conectores variados",a:"Ex: Hi, I'm [nome] and I'm from São Paulo. I work in tech, but I also love music. I'm learning English because I want to grow professionally. So I study every day. I also try to think in English."},
+    {q:"Descreva seu fim de semana passado em 4 frases",a:"Ex: Last weekend I went to the park. Then I met some friends. We had lunch and also watched a game. It was a great day."},
+    {q:"Explique por que inglês é importante pra você (3 frases)",a:"Reflexão pessoal com conectores"},
+    {q:"Escreva sobre um objetivo de vida (4 frases)",a:"Ex: My goal is to speak English fluently. I want this because it will open new doors. So I study every day. I believe it's possible if I stay consistent."},
+    {q:"Escreva um convite com 'and', 'so', 'also'",a:"Ex: Hey! I'm going to the beach this weekend and I'd love your company. It's going to be sunny, so it'll be perfect. I also thought we could have lunch!"},
+    {q:"Crie uma mini história com conectores (4 frases)",a:"Ex: She lost her job because the company closed. She was sad, but she didn't give up. So she started studying. Then she got an even better job."},
+    {q:"Escreva sobre sua rotina da manhã (5 frases com conectores)",a:"Ex: I wake up at 7 because I have work at 9. Then I have coffee and also check my messages. After that I take a shower. I try to leave early so I don't get stuck in traffic."},
+    {q:"Descreva alguém importante pra você (4 frases)",a:"Ex: My mom is the most important person in my life. She works hard, but she always has time for me. She also taught me to never give up. So I try to make her proud."},
+    {q:"Escreva sobre um hábito ruim que quer mudar (3 frases)",a:"Ex: I use my phone too much because I get distracted. It's bad, but I know it. So I'm trying to put my phone away when I study."},
+    {q:"Escreva sobre algo que você está animado agora (3 frases)",a:"Reflexão pessoal com conectores"},
+    {q:"Crie um argumento usando 'not only... but also'",a:"Ex: Not only does studying English help at work, but it also opens doors to new friendships."},
+    {q:"Escreva sobre uma decisão recente (3 frases)",a:"Ex: I decided to study English every day. So I made a 30-day plan. I also turned off distractions to stay focused."},
+    {q:"Escreva como você se sente sobre seu aprendizado hoje (3 frases livres)",a:"Reflexão pessoal"},
+    {q:"Crie uma frase de motivação que você repetiria pra si mesmo",a:"Ex: I'm not perfect, but I'm consistent — and that's what matters."},
+    {q:"Escreva um mini diálogo de 4 falas com conectores",a:"Ex: — Hey, how are you? — I'm great, but tired. — I also had a long day. — Then let's grab coffee!"},
+    {q:"Traduza: 'Seja qual for o obstáculo, tenho o que preciso pra superá-lo.'",a:"Whatever the obstacle, I have what it takes to overcome it."},
+    {q:"Escreva sobre o que você vai fazer esta semana (4 frases)",a:"Ex: This week I'll study English every day. I also want to review connectors. Then I'll try to write a full paragraph. So by the end of the week I should feel more confident."},
+    {q:"Descreva uma situação em que você ficou orgulhoso de si mesmo",a:"Reflexão pessoal em inglês com conectores"},
+    {q:"Escreva sobre um sonho que você tem (4 frases com conectores)",a:"Reflexão pessoal"},
+    {q:"Crie uma frase complexa com 4 conectores diferentes",a:"Ex: I started learning English because I wanted growth, but it was hard at first, so I took it step by step, and then it became natural."},
+    {q:"Escreva 2 frases sobre o que você aprendeu esta semana",a:"Ex: This week I learned how to connect sentences. I also practiced writing full paragraphs, and it feels great!"},
+    {q:"Traduza: 'O progresso não acontece num dia, mas acontece todo dia.'",a:"Progress doesn't happen in a day, but it happens every day."},
+    {q:"Escreva sua opinião sobre estudar inglês (3 frases)",a:"Ex: I think learning English is challenging, but it's one of the best investments I can make. It opens so many doors. And also, it makes me feel proud of myself."},
+    {q:"Escreva um mini post de rede social sobre sua jornada",a:"Ex: Day 13 of my English challenge! Learning connectors changed everything — now I can actually build sentences that make sense!"},
+    {q:"Crie uma frase de despedida afetiva em inglês",a:"Ex: Take care and keep pushing. You've got this!"},
+    {q:"Escreva uma promessa pra si mesmo (2 frases)",a:"Ex: I promise to study English every day because I believe in my potential. I won't give up."},
+    {q:"'Halfway there' significa?",a:"Na metade do caminho — você já chegou lá!"},
+    {q:"Escreva: 'Estou na metade do meu plano e estou orgulhoso de mim.'",a:"I'm halfway through my plan and I'm proud of myself."},
+    {q:"Crie uma frase que une os 4 pilares do plano",a:"Ex: Hi — yesterday I made a commitment, so now I'm here because I went all in, and I know it was worth every moment."},
+    {q:"Escreva sua frase do dia — algo que você sente agora",a:"Reflexão pessoal total"}
+  ]},
+  {d:14,w:2,title:"Descanso ativo — fala e escuta",cat:"mix",meta:"Hoje você pratica com conteúdo real",
+   motivation:"Duas semanas! Você está entre os 10% que chegam até aqui. Hoje descanse, mas não abandone.",
+   tip:"Hoje assista 10 minutos de algo em inglês com legenda. Só observe os conectores.",
+   ex:[
+    {q:"'What's up?' é formal ou informal?",a:"Informal — equivale a 'tudo bem?' / 'como vai?'"},
+    {q:"Como responder 'What's up?' de forma descontraída?",a:"Not much! / Just chilling. / Busy, but good!"},
+    {q:"'That's what I'm talking about!' significa?",a:"É isso aí! / Exatamente!"},
+    {q:"Como dizer 'Entendi, faz sentido'?",a:"Got it, that makes sense!"},
+    {q:"'Hang on a second' significa?",a:"Espera um segundo"},
+    {q:"Como dizer 'Que saudade de você!'?",a:"I've missed you! / I miss you so much!"},
+    {q:"Como dizer 'Manda ver!'?",a:"Go for it! / Just do it!"},
+    {q:"'Fair enough' significa?",a:"Tudo bem / faz sentido / ok"},
+    {q:"Como dizer 'Você está brincando!'?",a:"You're kidding! / No way! / Are you serious?"},
+    {q:"'I'm in!' significa?",a:"Eu topo! / Pode contar comigo!"},
+    {q:"Como dizer 'Que pena!' quando alguém conta algo ruim?",a:"That's too bad! / I'm sorry to hear that."},
+    {q:"'Breaking news' significa?",a:"Notícia de última hora"},
+    {q:"Como dizer 'Acabei de chegar.'?",a:"I just arrived. / I just got here."},
+    {q:"'I could use a break' significa?",a:"Eu precisava de uma pausa"},
+    {q:"Como dizer 'Que coincidência!'?",a:"What a coincidence! / Small world!"},
+    {q:"'Catch you later' significa?",a:"Até mais! / A gente se fala! (informal)"},
+    {q:"Como dizer 'Você foi incrível!'?",a:"You were amazing! / You crushed it! / You nailed it!"},
+    {q:"'I'm on my way' significa?",a:"Já estou a caminho"},
+    {q:"Como dizer 'Deu tudo certo!'?",a:"Everything worked out! / It all went well!"},
+    {q:"'Take it one step at a time' significa?",a:"Um passo de cada vez"},
+    {q:"Como dizer 'Que semana difícil!'?",a:"What a tough week! / It's been a hard week!"},
+    {q:"'You've got this' significa?",a:"Você consegue! / Você dá conta!"},
+    {q:"Como dizer 'Mal posso esperar!'?",a:"I can't wait! / I'm so excited!"},
+    {q:"'Been there, done that' significa?",a:"Já passei por isso"},
+    {q:"Como dizer 'Com certeza!'?",a:"Absolutely! / Definitely! / For sure!"},
+    {q:"'Keep it up!' significa?",a:"Continue assim! / Vai firme!"},
+    {q:"Como dizer 'Estou quase lá!'?",a:"I'm almost there! / I'm getting close!"},
+    {q:"'No worries' significa?",a:"Não tem problema / tranquilo"},
+    {q:"'Two weeks down!' significa?",a:"Duas semanas concluídas!"},
+    {q:"Escreva uma mensagem de incentivo pra você mesmo",a:"Ex: Two weeks down! I'm getting better every day. Keep going!"}
+  ]},
+  {d:15,w:3,title:"Tempo: YESTERDAY e passado simples",cat:"time",meta:"Conte histórias do passado com naturalidade",
+   motivation:"Semana 3! Você já sabe se apresentar, conectar frases — agora você aprende a contar histórias.",
+   tip:"Past simple: verbos regulares ganham -ed. Irregulares você precisa memorizar. Hoje os mais usados.",
+   ex:[
+    {q:"Traduza: 'Ontem eu fui ao mercado.'",a:"Yesterday I went to the supermarket."},
+    {q:"Past simple de 'go'",a:"went"},
+    {q:"Traduza: 'Ela comeu pizza ontem à noite.'",a:"She ate pizza last night."},
+    {q:"Past simple de 'eat'",a:"ate"},
+    {q:"Traduza: 'Trabalhei muito ontem.'",a:"I worked a lot yesterday."},
+    {q:"Past simple de 'work' (regular)",a:"worked — só adiciona -ed"},
+    {q:"Traduza: 'Eles viram um filme na sexta.'",a:"They watched a movie on Friday."},
+    {q:"Past simple de 'see'",a:"saw"},
+    {q:"Traduza: 'Ontem cheguei em casa tarde.'",a:"Yesterday I got home late."},
+    {q:"Past simple de 'get'",a:"got"},
+    {q:"Traduza: 'Tive uma reunião difícil ontem.'",a:"I had a tough meeting yesterday."},
+    {q:"Past simple de 'have'",a:"had"},
+    {q:"Traduza: 'Ontem fiz exercícios pela manhã.'",a:"Yesterday I exercised in the morning."},
+    {q:"Como negar no passado simples?",a:"Usar 'didn't' + verbo base. 'I didn't go.' / 'She didn't eat.'"},
+    {q:"Traduza: 'Não fui à academia ontem.'",a:"I didn't go to the gym yesterday."},
+    {q:"Traduza: 'Ele não dormiu bem.'",a:"He didn't sleep well."},
+    {q:"Como fazer perguntas no passado simples?",a:"Usar 'Did' + sujeito + verbo base. 'Did you go?' / 'Did she eat?'"},
+    {q:"Pergunta: 'Você foi ao trabalho ontem?'",a:"Did you go to work yesterday?"},
+    {q:"Traduza: 'Você comeu alguma coisa?'",a:"Did you eat anything?"},
+    {q:"Past simple de 'make'",a:"made"},
+    {q:"Traduza: 'Fiz um bolo ontem.'",a:"I made a cake yesterday."},
+    {q:"Past simple de 'take'",a:"took"},
+    {q:"Traduza: 'Ela pegou um táxi esta manhã.'",a:"She took a taxi this morning."},
+    {q:"Past simple de 'come'",a:"came"},
+    {q:"Traduza: 'Ele veio à reunião tarde.'",a:"He came to the meeting late."},
+    {q:"Past simple de 'say'",a:"said"},
+    {q:"Traduza: 'O que ela disse?'",a:"What did she say?"},
+    {q:"Escreva 3 frases sobre o que você fez ontem",a:"Ex: Yesterday I woke up at 7. Then I had coffee and went to work. I also made dinner at night."},
+    {q:"Crie uma frase no passado com 'but'",a:"Ex: I wanted to go out, but I was too tired."},
+    {q:"Escreva sobre algo que não aconteceu como planejado",a:"Ex: I planned to study, but I got distracted. So I studied this morning instead."}
+  ]},
+  {d:16,w:3,title:"Tempo: TODAY e presente contínuo",cat:"time",meta:"O que está acontecendo agora e hoje",
+   motivation:"Você está no dia 16 — isso não é sorte, é disciplina. Cada dia aqui é uma vitória.",
+   tip:"Presente contínuo: am/is/are + verbo-ing. Mostra o que está acontecendo neste momento ou hoje.",
+   ex:[
+    {q:"Traduza: 'Estou estudando inglês agora.'",a:"I'm studying English right now."},
+    {q:"Regra do presente contínuo",a:"Sujeito + am/is/are + verbo-ing. I am working. She is eating."},
+    {q:"Traduza: 'O que você está fazendo?'",a:"What are you doing?"},
+    {q:"Traduza: 'Ela está trabalhando de casa hoje.'",a:"She's working from home today."},
+    {q:"Traduza: 'Não estou me sentindo bem hoje.'",a:"I'm not feeling well today."},
+    {q:"Como fazer pergunta no presente contínuo?",a:"Inverta sujeito e auxiliar: 'Are you working?' / 'Is she studying?'"},
+    {q:"Traduza: 'Você está me ouvindo?'",a:"Are you listening to me?"},
+    {q:"Traduza: 'Estamos aprendendo coisas novas hoje.'",a:"We're learning new things today."},
+    {q:"Diferença: 'I work' vs 'I'm working'",a:"I work = hábito/rotina. I'm working = está acontecendo agora."},
+    {q:"Traduza: 'Ele está comendo agora.'",a:"He's eating right now."},
+    {q:"Traduza: 'Hoje não estou com vontade de sair.'",a:"Today I don't feel like going out."},
+    {q:"Traduza: 'Hoje está muito quente.'",a:"It's very hot today."},
+    {q:"Traduza: 'Estou melhorando meu inglês.'",a:"I'm improving my English."},
+    {q:"Traduza: 'O que está acontecendo?'",a:"What's happening? / What's going on?"},
+    {q:"Traduza: 'Ela está chorando, mas não sei por quê.'",a:"She's crying, but I don't know why."},
+    {q:"Traduza: 'Hoje eu não estou indo ao escritório.'",a:"I'm not going to the office today."},
+    {q:"Diferença: 'She is nice' vs 'She is being nice'",a:"'She is nice' = característica. 'She is being nice' = comportamento momentâneo."},
+    {q:"Traduza: 'Estou tentando fazer o meu melhor.'",a:"I'm trying to do my best."},
+    {q:"Traduza: 'O que você está pensando?'",a:"What are you thinking about?"},
+    {q:"Crie uma frase sobre o que você está fazendo agora",a:"Ex: I'm doing my English exercises right now."},
+    {q:"Crie uma frase sobre o que está acontecendo hoje",a:"Ex: Today I'm working from home and also studying English."},
+    {q:"Traduza: 'Estou ficando melhor a cada dia.'",a:"I'm getting better every day."},
+    {q:"Traduza: 'Já estou entendendo mais inglês!'",a:"I'm already understanding more English!"},
+    {q:"Crie uma frase com 'today' e uma com 'right now'",a:"Ex: Today I'm focused on studying. / Right now I'm completing exercise 24!"},
+    {q:"Traduza: 'Ele ainda está no trabalho.'",a:"He's still at work."},
+    {q:"Traduza: 'Ainda estou aprendendo, mas já evoluí muito.'",a:"I'm still learning, but I've already improved a lot."},
+    {q:"Como dizer 'O que está acontecendo com você?'",a:"What's going on with you? / What's happening?"},
+    {q:"Traduza: 'Estou tentando melhorar todos os dias.'",a:"I'm trying to improve every day."},
+    {q:"Crie uma frase combinando passado e presente",a:"Ex: Yesterday I studied connectors, and today I'm practicing time expressions."},
+    {q:"Escreva uma frase descrevendo o que você sente agora",a:"Reflexão pessoal em inglês com presente contínuo"}
+  ]},
+  {d:17,w:3,title:"Tempo: TOMORROW e futuro",cat:"time",meta:"Planeje, sonhe e fale sobre o que está por vir",
+   motivation:"O futuro em inglês é simples. E o seu futuro falando inglês? Está mais perto do que você imagina.",
+   tip:"Futuro: 'will' para decisões espontâneas. 'going to' para planos já feitos.",
+   ex:[
+    {q:"Traduza: 'Amanhã vou ao dentista.'",a:"Tomorrow I'm going to the dentist."},
+    {q:"Diferença: 'will' vs 'going to'",a:"Will: decisão no momento / predição. Going to: plano já decidido."},
+    {q:"Traduza: 'Vou ligar pra você mais tarde.'",a:"I'll call you later."},
+    {q:"Traduza: 'Ela vai viajar semana que vem.'",a:"She's going to travel next week."},
+    {q:"Traduza: 'Amanhã vai chover.'",a:"It's going to rain tomorrow."},
+    {q:"Traduza: 'Vou tentar de novo amanhã.'",a:"I'll try again tomorrow."},
+    {q:"Como dizer 'Quais são seus planos pra amanhã?'",a:"What are your plans for tomorrow?"},
+    {q:"Traduza: 'Não vou conseguir ir amanhã.'",a:"I won't be able to go tomorrow."},
+    {q:"Traduza: 'Ela vai se sair bem na entrevista.'",a:"She's going to do well in the interview."},
+    {q:"Traduza: 'Vou estudar mais amanhã.'",a:"I'm going to study more tomorrow."},
+    {q:"'I'll see what I can do' significa?",a:"Vou ver o que posso fazer"},
+    {q:"Traduza: 'Amanhã vai ser um dia importante.'",a:"Tomorrow is going to be an important day."},
+    {q:"Traduza: 'O que você vai fazer no fim de semana?'",a:"What are you going to do this weekend?"},
+    {q:"Traduza: 'Vou dormir cedo hoje porque amanhã tenho reunião.'",a:"I'm going to sleep early today because I have a meeting tomorrow."},
+    {q:"'I'll be there' significa?",a:"Vou estar lá / Estarei lá"},
+    {q:"Traduza: 'Ela vai morar no exterior ano que vem.'",a:"She's going to live abroad next year."},
+    {q:"Traduza: 'Vou te contar mais depois.'",a:"I'll tell you more later."},
+    {q:"'Soon' significa?",a:"Em breve / logo"},
+    {q:"Traduza: 'Em breve vou estar falando inglês fluentemente.'",a:"Soon I'll be speaking English fluently."},
+    {q:"Como dizer 'Não se preocupe, vai dar certo'?",a:"Don't worry, it'll work out. / It's going to be fine."},
+    {q:"Traduza: 'Amanhã é uma nova chance.'",a:"Tomorrow is a new chance. / Tomorrow is a fresh start."},
+    {q:"Escreva 3 planos para amanhã",a:"Ex: Tomorrow I'm going to wake up early, have a good breakfast, and study for an hour."},
+    {q:"Crie uma frase de futuro com 'because'",a:"Ex: I'm going to sleep early because I want to feel good tomorrow."},
+    {q:"Escreva sobre um sonho de longo prazo com 'will'",a:"Ex: One day I will travel the world. I'll also speak English fluently."},
+    {q:"Crie uma promessa usando 'will' e 'going to'",a:"Ex: I will study every day and I'm going to finish this 30-day plan!"},
+    {q:"Traduza: 'O futuro pertence a quem se prepara hoje.'",a:"The future belongs to those who prepare today."},
+    {q:"Como dizer 'Mal posso esperar pelo amanhã'?",a:"I can't wait for tomorrow!"},
+    {q:"Escreva seu objetivo de inglês usando 'will' e 'going to'",a:"Ex: I'm going to finish this plan, and then I will have real conversations in English."},
+    {q:"'Later' pode se referir a qual tipo de futuro?",a:"Futuro próximo — 'See you later' = até mais tarde"},
+    {q:"Escreva uma frase de motivação sobre o seu futuro",a:"Ex: The person I'm becoming thanks to this plan is worth every minute of effort."}
+  ]},
+  {d:18,w:3,title:"NOW, LATER, BEFORE",cat:"time",meta:"Marcadores de tempo que aparecem em toda conversa",
+   motivation:"Você está no dia 18. A maioria dos planos de 30 dias morre no dia 10. Você passou disso faz tempo.",
+   tip:"'Now', 'later', 'before' são os cronistas das suas frases. Use-os pra dar clareza ao quando.",
+   ex:[
+    {q:"Traduza: 'Agora não é um bom momento.'",a:"Now is not a good time."},
+    {q:"Diferença: 'right now' vs 'now'",a:"Right now = neste exato momento (mais urgente). Now = agora (geral)."},
+    {q:"Traduza: 'Posso fazer isso depois?'",a:"Can I do this later?"},
+    {q:"'Later that day' significa?",a:"Mais tarde naquele dia"},
+    {q:"Traduza: 'Precisa ser feito agora.'",a:"It needs to be done now."},
+    {q:"'Before long' significa?",a:"Em breve / antes que você perceba"},
+    {q:"Traduza: 'Antes de sair, me avisa.'",a:"Before you leave, let me know."},
+    {q:"Traduza: 'Ela ligou antes do almoço.'",a:"She called before lunch."},
+    {q:"Diferença: 'before' vs 'ago'",a:"Before = antes de algo. Ago = faz X tempo. 'Before the meeting' / '2 days ago'"},
+    {q:"Traduza: 'Eu já fiz isso antes.'",a:"I've done this before."},
+    {q:"'Not now' significa?",a:"Agora não"},
+    {q:"Traduza: 'Te ligo mais tarde, tá?'",a:"I'll call you later, okay?"},
+    {q:"'Sooner or later' significa?",a:"Mais cedo ou mais tarde"},
+    {q:"Traduza: 'Mais cedo ou mais tarde você vai conseguir.'",a:"Sooner or later you'll make it."},
+    {q:"'Now and then' significa?",a:"De vez em quando / às vezes"},
+    {q:"Traduza: 'De vez em quando assisto séries em inglês.'",a:"Now and then I watch series in English."},
+    {q:"'Already' vs 'yet' no presente perfeito?",a:"Already = já (afirmativo). Yet = ainda (negativo/pergunta)."},
+    {q:"Traduza: 'Já terminei meus exercícios.'",a:"I've already finished my exercises."},
+    {q:"Traduza: 'Ainda não decidi.'",a:"I haven't decided yet."},
+    {q:"'Just' no contexto de 'I just arrived' significa?",a:"Acabei de — indica algo que acabou de acontecer"},
+    {q:"Traduza: 'Acabei de terminar.'",a:"I just finished."},
+    {q:"'Not yet' significa?",a:"Ainda não"},
+    {q:"Traduza: 'Ainda não aprendi tudo, mas estou chegando lá.'",a:"I haven't learned everything yet, but I'm getting there."},
+    {q:"Crie uma frase com 'now', 'before' e 'later' sobre seu dia",a:"Ex: Now I'm studying. Before, I had a meeting. Later I'll make dinner."},
+    {q:"Traduza: 'Antes de dormir, reviso meus exercícios.'",a:"Before going to sleep, I review my exercises."},
+    {q:"'Until' vs 'by': qual a diferença?",a:"Until = até (duração). By = até (prazo). 'I'll wait until 5.' / 'I'll finish by 5.'"},
+    {q:"Traduza: 'Termino até sexta.'",a:"I'll finish by Friday."},
+    {q:"Crie uma sequência com now, then, later",a:"Ex: Now I'm studying. Then I'll have dinner. Later I'll relax."},
+    {q:"Traduza: 'Ainda tenho muito a aprender, e isso é ótimo.'",a:"I still have a lot to learn, and that's great."},
+    {q:"Escreva uma frase conectando passado, presente e futuro",a:"Ex: Yesterday I learned connectors. Now I'm learning time. Tomorrow I'll put it all together."}
+  ]},
+  {d:19,w:3,title:"Tempo em frases complexas",cat:"time",meta:"Combine tempo com conectores pra contar histórias reais",
+   motivation:"Dia 19. Você está criando um hábito. A ciência diz que 21 dias formam hábitos — você quase chegou lá.",
+   tip:"Combinar tempo + conectores é o que transforma frases simples em comunicação real.",
+   ex:[
+    {q:"Una: 'Yesterday I was tired.' + 'I went to bed early.'",a:"Yesterday I was tired, so I went to bed early."},
+    {q:"Traduza: 'Antes de começar, não sabia nada. Agora já sei bastante.'",a:"Before I started, I didn't know anything. Now I already know quite a bit."},
+    {q:"Crie uma frase sobre ontem com 'because'",a:"Ex: Yesterday I was happy because I finished a project."},
+    {q:"Una: 'Tomorrow I have a test.' + 'I'm studying tonight.'",a:"I have a test tomorrow, so I'm studying tonight."},
+    {q:"Traduza: 'Agora estou melhor do que antes.'",a:"Now I'm better than before."},
+    {q:"Crie uma frase com 'before', 'now' e 'later'",a:"Ex: Before I couldn't speak English, but now I'm making progress. Later I'll be fluent!"},
+    {q:"Traduza: 'Antes eu tinha medo de falar inglês, mas agora estou mais confiante.'",a:"Before, I was afraid to speak English, but now I'm more confident."},
+    {q:"Una: 'She worked hard yesterday.' + 'She deserves a break today.'",a:"She worked hard yesterday, so she deserves a break today."},
+    {q:"Traduza: 'Estudei muito ontem e hoje estou vendo o resultado.'",a:"I studied a lot yesterday and today I'm seeing the results."},
+    {q:"Crie uma frase sobre amanhã com 'but' e 'because'",a:"Ex: Tomorrow I want to rest, but I have to work because there's a deadline."},
+    {q:"Traduza: 'O que você fez antes não importa tanto quanto o que você faz agora.'",a:"What you did before doesn't matter as much as what you're doing now."},
+    {q:"Una: 'I'm busy now.' + 'I'll help you later.' + 'It's a promise.'",a:"I'm busy now, but I'll help you later — that's a promise."},
+    {q:"Traduza: 'Antes de terminar, quero agradecer.'",a:"Before I finish, I want to say thank you."},
+    {q:"Crie uma linha do tempo de aprendizado pessoal (3 frases)",a:"Ex: Before I started, I knew almost nothing. Now I can make full sentences. Tomorrow I'll be having conversations."},
+    {q:"Traduza: 'Não era assim antes, mas agora mudou tudo.'",a:"It wasn't like this before, but now everything has changed."},
+    {q:"Una: 'I woke up late yesterday.' + 'missed breakfast' + 'was hungry all morning'",a:"I woke up late yesterday, so I missed breakfast and was hungry all morning."},
+    {q:"Traduza: 'Mais tarde vou ver como está meu progresso.'",a:"Later I'll check on my progress."},
+    {q:"Crie uma frase motivacional combinando passado e futuro",a:"Ex: Yesterday I struggled, but tomorrow I'll succeed because I never stop trying."},
+    {q:"Traduza: 'Ainda não sou fluente, mas logo estarei.'",a:"I'm not fluent yet, but I will be soon."},
+    {q:"Una: 'I used to be afraid of English.' + 'Now I love it.'",a:"I used to be afraid of English, but now I love it."},
+    {q:"Escreva sobre sua evolução neste plano (4 frases com tempo)",a:"Ex: When I started, I was nervous. Now I'm more confident. Yesterday I wrote a full paragraph. Tomorrow I'll do even better."},
+    {q:"Traduza: 'Cada dia é uma oportunidade nova.'",a:"Every day is a new opportunity."},
+    {q:"Crie uma frase sobre algo que você nunca fez mas vai fazer",a:"Ex: I've never spoken English to a stranger, but I will soon."},
+    {q:"Traduza: 'Não tenho mais tanto medo quanto antes.'",a:"I'm not as afraid as I was before."},
+    {q:"Una: passado + presente + futuro em 1 frase",a:"Ex: Yesterday I learned verbs, today I'm practicing time, and tomorrow I'll use it all together."},
+    {q:"Escreva sobre um momento difícil que passou (passado + presente)",a:"Ex: Last month I almost gave up. But now I'm glad I didn't, because I'm making real progress."},
+    {q:"Traduza: 'Antes era difícil, agora está ficando natural.'",a:"Before it was difficult, now it's becoming natural."},
+    {q:"Crie uma frase de celebração pela semana 3",a:"Ex: Three weeks in and I'm still going strong. Before, this felt impossible — now it feels amazing!"},
+    {q:"Escreva sobre o que você quer pra sua vida (tempo futuro)",a:"Ex: In the future, I want to travel and use English naturally."},
+    {q:"Sua frase favorita desta semana em inglês",a:"Reflexão pessoal — qualquer frase com marcador de tempo"}
+  ]},
+  {d:20,w:3,title:"Revisão de tempo — situações reais",cat:"time",meta:"Aplique yesterday, today, tomorrow em contextos cotidianos",
+   motivation:"Dia 20. Dois terços do caminho. Você está produzindo inglês real agora.",
+   tip:"Hoje é prática aplicada. Cenários reais que você pode encontrar em qualquer lugar.",
+   ex:[
+    {q:"No trabalho: 'O relatório ainda não ficou pronto.' (use yet)",a:"The report isn't ready yet."},
+    {q:"No café: diga que já pediu seu café",a:"I've already ordered my coffee."},
+    {q:"Numa conversa: diga que vai responder mais tarde",a:"I'll think about it and get back to you later."},
+    {q:"Num WhatsApp: diga que não pode agora mas fala amanhã",a:"I can't talk right now. I'll reach out tomorrow!"},
+    {q:"Numa viagem: diga que já visitou esse lugar antes",a:"I've been here before."},
+    {q:"Numa loja: pergunte se o produto vai chegar em breve",a:"Will this be available soon?"},
+    {q:"Num plano: diga o que você vai fazer antes de dormir",a:"Before going to bed, I'm going to review my notes."},
+    {q:"Num erro: diga que não vai acontecer de novo",a:"This won't happen again."},
+    {q:"Numa conquista: diga que antes parecia impossível",a:"Before, it seemed impossible. But now I made it!"},
+    {q:"Num atraso: explique o que aconteceu",a:"Yesterday I had a lot of traffic, so I was late."},
+    {q:"Num encontro: diga que mal pode esperar pro próximo",a:"I can't wait for the next time!"},
+    {q:"Numa dificuldade: diga que vai ser diferente amanhã",a:"Tomorrow will be different."},
+    {q:"Num projeto: diga que terminou ontem à noite",a:"I finished it last night."},
+    {q:"Numa promessa: diga que vai ser pontual daqui pra frente",a:"From now on, I'll be on time."},
+    {q:"Numa conversa casual: diga que hoje está sendo um dia louco",a:"Today has been crazy! / It's been such a busy day."},
+    {q:"Num pedido: diga que precisa de resposta até amanhã",a:"I need a response by tomorrow, please."},
+    {q:"Num sonho: diga o que vai fazer quando falar inglês bem",a:"When I speak English well, I'll travel and make new friends everywhere."},
+    {q:"Numa despedida: diga que fala mais tarde",a:"I'll talk to you later! / Catch you later!"},
+    {q:"Num motivacional: diga que hoje é melhor que ontem",a:"Today is better than yesterday!"},
+    {q:"Crie um mini diálogo com 3 marcadores de tempo",a:"Ex: — Are you busy now? — Yes, but I'll be free later. — Did you finish yesterday? — Not yet, but I'll finish tomorrow!"},
+    {q:"Escreva um plano para os próximos 3 dias",a:"Ex: Tomorrow I'll review time expressions. The day after I'll do mixed exercises. Then by Friday I'll write a full summary."},
+    {q:"Descreva sua semana passada em 4 frases",a:"Ex: Last week was intense. I worked a lot and also studied every day. Yesterday was the hardest, but now I feel proud."},
+    {q:"Crie uma frase unindo before, now e soon",a:"Ex: Before I struggled. Now I'm making progress. Soon I'll be having full conversations!"},
+    {q:"Escreva um parágrafo sobre sua evolução no plano",a:"Reflexão pessoal com pelo menos 4 marcadores de tempo"},
+    {q:"Crie uma frase de incentivo pra alguém que quer desistir",a:"Ex: Don't give up now — you've already come so far. Keep going!"},
+    {q:"Traduza: 'O presente é construído pelo que você faz hoje.'",a:"The present is built by what you do today."},
+    {q:"Escreva sobre o que espera ter conquistado no dia 30",a:"Ex: By day 30, I will have built a real foundation. I'll be able to make full sentences naturally."},
+    {q:"Crie uma mensagem de 5 frases para si mesmo no futuro",a:"Ex: Dear future me — you made it! You studied every day. Now you speak English with confidence. It was worth every minute. Don't stop here!"},
+    {q:"'Progress, not perfection.' Concorda?",a:"Ex: Yes! Progress matters more than perfection. I'm not perfect, but I'm moving forward every day."}
+  ]},
+  {d:21,w:3,title:"Dia 21 — Marco do hábito",cat:"mix",meta:"Você chegou ao ponto de não retorno",
+   motivation:"21 dias. A ciência diz que um hábito se forma aqui. Você não está mais 'tentando' — você é alguém que estuda inglês.",
+   tip:"Hoje é mais reflexivo. Escreva bastante. Use tudo que você aprendeu.",
+   ex:[
+    {q:"'Habit' significa?",a:"Hábito"},
+    {q:"Como dizer 'Criar um hábito'?",a:"Build a habit / Develop a habit / Form a habit"},
+    {q:"Escreva: 'Cheguei ao dia 21. Isso é real.'",a:"I made it to day 21. This is real."},
+    {q:"Traduza: 'Não é mais esforço — é parte de mim.'",a:"It's not an effort anymore — it's part of who I am."},
+    {q:"Como dizer 'Estou orgulhoso de mim mesmo'?",a:"I'm proud of myself."},
+    {q:"Escreva 3 coisas que você aprendeu nas últimas 3 semanas",a:"Ex: I learned how to use connectors, time expressions, and everyday verbs."},
+    {q:"Traduza: 'Antes eu não conseguia montar uma frase. Agora consigo.'",a:"Before I couldn't form a sentence. Now I can."},
+    {q:"'Consistency is key' significa?",a:"Consistência é a chave"},
+    {q:"Como dizer 'Não falta muito'?",a:"We're almost there. / Not much left."},
+    {q:"Escreva sobre o que mudou em você desde o dia 1",a:"Reflexão pessoal — pelo menos 3 frases"},
+    {q:"Traduza: 'Cada exercício importa.'",a:"Every exercise matters."},
+    {q:"Como dizer 'Deu trabalho, mas valeu'?",a:"It was hard, but it was worth it."},
+    {q:"Escreva sua rotina de estudos atual em inglês",a:"Ex: Every day I do 30 exercises. I also try to think in English. It's becoming more natural."},
+    {q:"Traduza: 'Inglês não é mais um bicho de sete cabeças.'",a:"English isn't scary for me anymore."},
+    {q:"'Level up' significa?",a:"Subir de nível / evoluir"},
+    {q:"Como dizer 'Sinto que evoluí'?",a:"I feel like I've leveled up. / I feel like I've grown."},
+    {q:"Escreva uma carta curta pra versão de você do dia 1 (4 frases)",a:"Ex: Hey, day 1 me. You're going to make it. It gets easier, I promise. Keep going."},
+    {q:"Traduza: '9 dias restantes. Cada um conta.'",a:"9 days left. Every one counts."},
+    {q:"Como dizer 'Estou comprometido'?",a:"I'm committed. / I'm all in."},
+    {q:"Escreva sobre seu plano para a semana 4",a:"Ex: Next week I'll put everything together. I'll practice real conversations."},
+    {q:"Traduza: 'O melhor está por vir.'",a:"The best is yet to come."},
+    {q:"Como dizer 'Não posso mais imaginar não estudando'?",a:"I can't imagine not studying anymore."},
+    {q:"Escreva uma frase que resume sua jornada até agora",a:"Ex: In 21 days I went from knowing the basics to being able to express myself — and I'm not stopping here."},
+    {q:"Traduza: 'Quem disse que não dava?'",a:"Who said I couldn't do it? / Who said it wasn't possible?"},
+    {q:"Como dizer 'Provei algo pra mim mesmo'?",a:"I proved something to myself."},
+    {q:"Escreva sobre o que o inglês vai mudar na sua vida",a:"Ex: English will open new doors. I'll be able to work with international teams."},
+    {q:"'The hard part is over' significa?",a:"A parte difícil acabou"},
+    {q:"Traduza: 'Agora é só continuar.'",a:"Now I just have to keep going."},
+    {q:"Escreva uma mensagem pra alguém que ainda não começou a estudar inglês",a:"Ex: Just start! Don't wait for the perfect moment. Start small, be consistent, and you'll be amazed."},
+    {q:"Sua frase de hoje — algo que você sente e quer registrar em inglês",a:"Reflexão pessoal total — este é o seu marco."}
+  ]},
+  {d:22,w:4,title:"Integração: situações do dia a dia",cat:"mix",meta:"Tudo junto — verbo, tempo, conector, cumprimento",
+   motivation:"Semana final. Você não está mais no começo. Agora é sobre usar de verdade.",
+   tip:"Não pense em regras. Pense em significado. Que mensagem você quer passar?",
+   ex:[
+    {q:"Numa reunião: como você se apresenta formalmente?",a:"Good morning. My name is [nome] and I'm from [empresa]. It's great to be here."},
+    {q:"Num e-mail: como começa de forma profissional?",a:"Hi [nome], I hope you're doing well. / Dear [nome], I'm writing to..."},
+    {q:"Numa entrevista: fale sobre você em 4 frases",a:"Ex: My name is [nome]. I have experience in [área]. I'm currently working on [projeto]. I'm also learning English to grow professionally."},
+    {q:"Numa viagem: como pede indicação de restaurante?",a:"Can you recommend a good restaurant nearby?"},
+    {q:"No mercado: como pergunta onde fica um produto?",a:"Excuse me, where can I find [produto]?"},
+    {q:"No trabalho: como diz que vai terminar uma tarefa amanhã?",a:"I'll have this done by tomorrow."},
+    {q:"Num problema: como diz que está resolvendo?",a:"I'm working on it. / I'm taking care of it right now."},
+    {q:"Num pedido: como pede ajuda sem parecer inconveniente?",a:"I'm sorry to bother you, but could you help me with something?"},
+    {q:"Numa opinião: como diz que concorda?",a:"I agree. / That makes sense. / Absolutely!"},
+    {q:"Numa opinião: como diz que discorda com respeito?",a:"I see your point, but I think... / I understand, however..."},
+    {q:"Alguém diz 'How was your weekend?' — responda",a:"Ex: It was great, thanks! I went out with friends. How about yours?"},
+    {q:"Num restaurante: como faz o pedido?",a:"I'd like the [prato], please. / Can I have [prato]?"},
+    {q:"No telefone: como diz que não ouviu?",a:"Sorry, I didn't catch that. / Could you repeat that?"},
+    {q:"Numa compra: como pergunta o preço?",a:"How much is this? / What's the price?"},
+    {q:"Num hotel: como faz o check-in?",a:"Hi, I have a reservation under [nome]."},
+    {q:"Num e-mail: como diz que aguarda resposta?",a:"I look forward to hearing from you."},
+    {q:"Numa festa: como inicia conversa com desconhecido?",a:"Hi! I don't think we've met. I'm [nome]."},
+    {q:"Numa saída: como se despede de forma calorosa?",a:"It was really nice meeting you! Take care!"},
+    {q:"Num pedido de feedback: como pede uma opinião?",a:"What do you think? / I'd love to hear your thoughts."},
+    {q:"Crie um mini cenário: você chegou atrasado a uma reunião",a:"Ex: I'm so sorry I'm late because there was a lot of traffic. I'll make sure it doesn't happen again."},
+    {q:"Crie um mini cenário: você está explicando seu projeto",a:"Ex: Our project is about [tema]. Yesterday we made progress and today we're finishing. Tomorrow we'll present."},
+    {q:"Crie um mini cenário: você recusa um convite gentilmente",a:"Ex: I'd love to come, but I already have plans. Can we do it another time?"},
+    {q:"Traduza: 'Obrigado pela oportunidade. Vou dar o meu melhor.'",a:"Thank you for the opportunity. I'll give my best."},
+    {q:"Crie uma frase de impacto sobre o que você vai fazer com o inglês",a:"Reflexão pessoal"},
+    {q:"Traduza: 'Inglês não é meu destino — é meu veículo.'",a:"English isn't my destination — it's my vehicle."},
+    {q:"Escreva sobre algo que vai fazer HOJE usando o inglês",a:"Ex: Today I'm going to write a message in English to a coworker."},
+    {q:"Como dizer 'Agora estou pronto'?",a:"Now I'm ready."},
+    {q:"Numa negociação: como diz que precisa pensar?",a:"I need some time to think this over. Can I get back to you?"},
+    {q:"Escreva uma frase que prova que você evoluiu",a:"Ex: Before I couldn't write a full sentence. Now I can write paragraphs. And I'm just getting started."}
+  ]},
+  {d:23,w:4,title:"Conversa: perguntas e respostas",cat:"mix",meta:"A habilidade de perguntar e responder fluidamente",
+   motivation:"Conversar é dar e receber. Hoje você treina os dois lados.",
+   tip:"Quem pergunta controla a conversa. Aprenda as perguntas e você nunca vai ficar sem assunto.",
+   ex:[
+    {q:"Como perguntar a opinião de alguém sobre qualquer coisa?",a:"What do you think about...? / What's your opinion on...?"},
+    {q:"Como pedir mais detalhes?",a:"Could you tell me more about that? / Can you explain that?"},
+    {q:"Como dizer que você entendeu?",a:"I see. / Got it. / I understand. / Makes sense."},
+    {q:"Como expressar curiosidade sobre a cultura de alguém?",a:"I'd love to learn more about your culture."},
+    {q:"Como perguntar se alguém gosta de algo?",a:"Do you enjoy...? / Are you into...? / Do you like...?"},
+    {q:"Como perguntar quanto tempo leva pra fazer algo?",a:"How long does it take to...?"},
+    {q:"Como responder quando não sabe a resposta?",a:"I'm not sure. / I don't know exactly. / Good question!"},
+    {q:"Como dizer 'Me fala mais sobre você'?",a:"Tell me more about yourself."},
+    {q:"Como perguntar sobre os planos do fim de semana?",a:"What are you up to this weekend?"},
+    {q:"Como pedir pra repetir algo?",a:"Sorry, could you repeat that? / Can you say that again?"},
+    {q:"Como mudar de assunto suavemente?",a:"By the way... / Speaking of which... / Oh, that reminds me..."},
+    {q:"Como concordar com entusiasmo?",a:"Absolutely! / Totally! / Couldn't agree more!"},
+    {q:"Como perguntar se a pessoa está bem de verdade?",a:"Are you okay? / Is everything alright?"},
+    {q:"Como dizer que você está impressionado?",a:"That's impressive! / Wow, really? / I'm amazed!"},
+    {q:"Como perguntar o que alguém faz da vida?",a:"What do you do for a living?"},
+    {q:"Como dizer que alguém fez um ótimo trabalho?",a:"You did a great job! / Well done! / That was excellent!"},
+    {q:"Como encerrar uma conversa naturalmente?",a:"Anyway, it was great chatting. / It was nice talking to you!"},
+    {q:"Como perguntar se pode fazer uma pergunta pessoal?",a:"Do you mind if I ask you something personal?"},
+    {q:"Como expressar que algo foi surpreendente?",a:"That's surprising! / I didn't expect that!"},
+    {q:"Como dizer que você está pensando sobre isso?",a:"Let me think... / I'm thinking... / Give me a moment."},
+    {q:"Como perguntar o que alguém recomenda?",a:"What would you recommend?"},
+    {q:"Como dizer 'Boa pergunta!'?",a:"Good question! / That's a great question!"},
+    {q:"Como perguntar se alguém tem tempo pra conversar?",a:"Do you have a minute? / Is now a good time to talk?"},
+    {q:"Como dizer 'Deixa eu explicar melhor'?",a:"Let me explain. / What I mean is..."},
+    {q:"Como expressar que você está feliz com o progresso?",a:"I'm really happy with my progress!"},
+    {q:"Como dizer que você quer manter contato?",a:"Let's stay in touch!"},
+    {q:"Crie um mini diálogo de apresentação de 6 linhas",a:"Ex: Hi! I'm [nome]. / Nice to meet you! I'm [outro]. / What do you do? / I work in tech. And you? / I'm a teacher. / Oh, that's great!"},
+    {q:"Como perguntar sobre sonhos e objetivos?",a:"What are your goals? / What do you dream of doing?"},
+    {q:"Como dizer 'Aprendi muito nessa conversa'?",a:"I learned so much from this conversation!"},
+    {q:"Escreva uma pergunta que você faria a um falante nativo",a:"Reflexão pessoal"}
+  ]},
+  {d:24,w:4,title:"Escrita livre — expressão total",cat:"mix",meta:"Escreva sem regras, com tudo que você aprendeu",
+   motivation:"Dia 24. Você está escrevendo em inglês de verdade. Não tem mais nada segurando.",
+   tip:"Hoje é livre. Escreva, erre, corrija e siga em frente. Essa é a fluência.",
+   ex:[
+    {q:"Escreva sobre um dia perfeito em inglês (5 frases)",a:"Ex: My perfect day would start late. Then I'd have a big breakfast. I'd go to the beach. After that, dinner with people I love. And I'd go to sleep happy."},
+    {q:"Escreva sobre algo que você ama fazer (4 frases)",a:"Reflexão pessoal"},
+    {q:"Descreva a pessoa mais importante da sua vida (4 frases)",a:"Reflexão pessoal com conectores"},
+    {q:"Escreva sobre um erro que te ensinou algo (4 frases)",a:"Ex: Once I failed a big project because I didn't prepare. I was embarrassed, but I learned a lot. So now I always plan ahead."},
+    {q:"Escreva sobre o que te motiva a acordar todo dia (3 frases)",a:"Reflexão pessoal"},
+    {q:"Escreva uma crítica positiva de algo que você gosta",a:"Ex: This restaurant is amazing because the food is fresh. I've been there 3 times already."},
+    {q:"Escreva sobre um objetivo profissional (4 frases)",a:"Reflexão pessoal com futuro e conectores"},
+    {q:"Escreva sobre um hábito que você quer criar (3 frases)",a:"Reflexão pessoal"},
+    {q:"Escreva sobre alguém que te inspira (4 frases)",a:"Reflexão pessoal"},
+    {q:"Escreva sobre o que aprender inglês significa pra você (4 frases)",a:"Reflexão pessoal"},
+    {q:"Escreva uma mensagem de encorajamento pra alguém que está desistindo",a:"Ex: Don't give up now — the hardest part is already behind you. Keep going."},
+    {q:"Escreva sobre um lugar que te faz feliz (4 frases)",a:"Reflexão pessoal"},
+    {q:"Escreva sobre uma comida que você ama (3 frases)",a:"Ex: I love Brazilian barbecue because the flavors are incredible."},
+    {q:"Escreva sobre uma situação em que você foi corajoso (4 frases)",a:"Reflexão pessoal"},
+    {q:"Escreva uma postagem sobre sua jornada de inglês",a:"Ex: 24 days into my English challenge and I can't believe how far I've come!"},
+    {q:"Escreva sobre o que você faria se não tivesse medo (4 frases)",a:"Reflexão pessoal"},
+    {q:"Escreva um mini discurso de agradecimento em inglês",a:"Ex: I want to thank everyone who believed in me. Your support helped me push through."},
+    {q:"Descreva sua cidade em inglês (4 frases)",a:"Ex: I'm from São Paulo — the biggest city in Brazil. It's chaotic, but also full of energy."},
+    {q:"Escreva sobre o que você quer que as pessoas lembrem de você (3 frases)",a:"Reflexão pessoal"},
+    {q:"Escreva como você se sente agora, no dia 24",a:"Reflexão pessoal — honesta, em inglês"},
+    {q:"Escreva uma frase com os 4 pilares: cumprimento + verbo + conector + tempo",a:"Ex: Hi! Yesterday I made a big effort, so today I feel confident — tomorrow I'll do even better."},
+    {q:"Escreva uma carta pra alguém que você perdeu contato (5 frases)",a:"Reflexão pessoal"},
+    {q:"Escreva sua definição de sucesso em inglês (3 frases)",a:"Ex: Success means waking up happy. It also means having time for the people I love."},
+    {q:"Escreva sobre o que vai fazer diferente agora que fala inglês melhor",a:"Reflexão pessoal"},
+    {q:"Escreva uma frase que você quer guardar na memória",a:"Reflexão pessoal"},
+    {q:"Escreva sobre alguém que se orgulharia de você hoje",a:"Reflexão pessoal"},
+    {q:"Escreva sobre o que o aprendizado constante faz por você",a:"Ex: Constant learning keeps me sharp. It also reminds me that I can always grow."},
+    {q:"Escreva sua intenção pra amanhã em inglês",a:"Reflexão pessoal"},
+    {q:"Escreva sobre alguém importante pra você em inglês",a:"Reflexão pessoal"},
+    {q:"Escreva a frase mais importante do dia 24",a:"Reflexão livre"}
+  ]},
+  {d:25,w:4,title:"Vocabulário de situações reais",cat:"mix",meta:"As frases que ninguém te ensina mas você vai precisar",
+   motivation:"Dia 25. Cinco dias pro fim de uma jornada que vai continuar por toda a vida.",
+   tip:"Hoje você aprende o inglês 'de rua' — frases que aparecem em conversas reais.",
+   ex:[
+    {q:"'I'm on it' significa?",a:"Estou nisso / já estou resolvendo"},
+    {q:"'That's on me' significa?",a:"A culpa é minha / isso foi erro meu"},
+    {q:"'Give me a heads up' significa?",a:"Me avisa antes / me dá um sinal"},
+    {q:"'Let's touch base' significa?",a:"Vamos nos atualizar (contexto profissional)"},
+    {q:"'I'm swamped' significa?",a:"Estou sobrecarregado / atolado de trabalho"},
+    {q:"'Can you cover for me?' significa?",a:"Você pode me cobrir / me substituir?"},
+    {q:"'I'll look into it' significa?",a:"Vou verificar / vou investigar isso"},
+    {q:"'That's a stretch' significa?",a:"Isso é forçar a barra / é exagerado"},
+    {q:"'To cut to the chase' significa?",a:"Ir direto ao ponto / sem rodeios"},
+    {q:"'It slipped my mind' significa?",a:"Esqueci / saiu da minha cabeça"},
+    {q:"'I'll take your word for it' significa?",a:"Vou acreditar na sua palavra"},
+    {q:"'Let's wrap this up' significa?",a:"Vamos encerrar isso"},
+    {q:"'That's out of the question' significa?",a:"Isso está fora de cogitação / nem pensar"},
+    {q:"'Under the weather' significa?",a:"Indisposto / sentindo-se mal"},
+    {q:"'I'm a bit under the weather today' — traduz",a:"Hoje não estou me sentindo muito bem."},
+    {q:"'In the loop' significa?",a:"Por dentro / informado / atualizado"},
+    {q:"'Keep me in the loop' significa?",a:"Me mantém informado"},
+    {q:"'My hands are tied' significa?",a:"Estou de mãos atadas / não posso fazer nada"},
+    {q:"'Going forward' significa?",a:"Daqui pra frente / a partir de agora"},
+    {q:"'At the end of the day' significa?",a:"No final das contas"},
+    {q:"'Think outside the box' significa?",a:"Pensar fora da caixa / ser criativo"},
+    {q:"'On the same page' significa?",a:"Na mesma página / alinhados"},
+    {q:"'Are we on the same page?' — traduz",a:"Estamos alinhados?"},
+    {q:"'Back to square one' significa?",a:"Voltar à estaca zero"},
+    {q:"'A no-brainer' significa?",a:"Algo óbvio / que não precisa pensar"},
+    {q:"'Hit the ground running' significa?",a:"Começar forte / sem perder tempo"},
+    {q:"'The ball is in your court' significa?",a:"A bola está com você / a decisão é sua"},
+    {q:"Crie uma frase usando 'at the end of the day'",a:"Ex: At the end of the day, what matters is that you tried your best."},
+    {q:"Crie uma frase usando 'going forward'",a:"Ex: Going forward, I'll study at least 25 minutes a day."},
+    {q:"Qual dessas expressões você mais vai usar? Crie uma frase.",a:"Reflexão pessoal"}
+  ]},
+  {d:26,w:4,title:"Expressões de emoção e atitude",cat:"mix",meta:"Como expressar sentimentos de forma natural em inglês",
+   motivation:"Expressão emocional é o nível mais humano de uma língua. Você está chegando lá.",
+   tip:"Inglês tem centenas de formas de expressar emoção. Hoje você aprende as mais naturais.",
+   ex:[
+    {q:"Como dizer 'Estou animado com isso'?",a:"I'm excited about this! / I'm pumped!"},
+    {q:"Como expressar decepção?",a:"I'm disappointed. / That's a bummer."},
+    {q:"'I'm overwhelmed' significa?",a:"Estou sobrecarregado / não estou dando conta"},
+    {q:"Como dizer 'Estou orgulhoso'?",a:"I'm proud. / I feel proud of this."},
+    {q:"Como expressar alívio?",a:"What a relief! / I'm so relieved!"},
+    {q:"'I'm torn' significa?",a:"Estou dividido / não sei o que escolher"},
+    {q:"Como dizer 'Fiquei sem palavras'?",a:"I was speechless. / I didn't know what to say."},
+    {q:"Como expressar gratidão genuína?",a:"I'm truly grateful. / I really appreciate it."},
+    {q:"'I can't believe it' significa?",a:"Não posso acreditar"},
+    {q:"Como dizer 'Isso me deixou muito feliz'?",a:"That made me so happy."},
+    {q:"'I'm nervous about it' significa?",a:"Estou nervoso com isso"},
+    {q:"Como dizer 'Estou confiante'?",a:"I'm confident. / I feel confident about this."},
+    {q:"'Mixed feelings' significa?",a:"Sentimentos misturados"},
+    {q:"Como expressar frustração com calma?",a:"I'm a bit frustrated. / This is frustrating."},
+    {q:"'It means a lot to me' significa?",a:"Significa muito pra mim"},
+    {q:"Como dizer 'Isso me motiva'?",a:"This motivates me. / This drives me."},
+    {q:"'I feel stuck' significa?",a:"Estou travado / não estou avançando"},
+    {q:"'I'm at peace with it' significa?",a:"Estou em paz com isso / aceitei"},
+    {q:"Como expressar saudade?",a:"I miss you. / I've been missing this."},
+    {q:"'This hits different' significa?",a:"Isso toca de forma diferente (gíria atual)"},
+    {q:"Como dizer 'Hoje não tô com cabeça pra isso'?",a:"I'm not in the right headspace today."},
+    {q:"Como expressar entusiasmo com o aprendizado?",a:"I'm loving this! / This is so engaging!"},
+    {q:"'I feel seen' significa?",a:"Me sinto compreendido / reconhecido"},
+    {q:"Como dizer 'Isso faz total sentido agora'?",a:"This totally makes sense now. / Now I get it!"},
+    {q:"Como expressar determinação?",a:"I'm determined. / Nothing can stop me. / I'm going for it."},
+    {q:"'You got this' vs 'I got this'?",a:"You got this = você consegue (encorajando). I got this = eu dou conta."},
+    {q:"Escreva como você se sente hoje (3 frases emocionais)",a:"Reflexão pessoal — use pelo menos 2 expressões de emoção"},
+    {q:"Escreva sobre uma emoção que sentiu esta semana",a:"Reflexão pessoal"},
+    {q:"Como dizer 'Estou em paz com meu progresso'?",a:"I'm at peace with my progress. / I'm happy with where I am."},
+    {q:"'Feelings are data, not weakness' — concorda? Diga em inglês.",a:"Ex: I agree. Feelings help me understand what matters to me."}
+  ]},
+  {d:27,w:4,title:"Pré-final: simulação total",cat:"mix",meta:"Situações completas usando tudo do plano",
+   motivation:"Três dias pro fim. Você não está terminando — está começando a parte em que usa inglês de verdade.",
+   tip:"Hoje são simulações. Tente escrever suas respostas completas antes de ver o gabarito.",
+   ex:[
+    {q:"Situação: você está numa reunião online com cliente estrangeiro. Como começa?",a:"Good morning! Thank you for joining. My name is [nome]. It's great to connect with you today."},
+    {q:"Situação: seu colega estrangeiro pergunta o que você faz. Responda em 3 frases.",a:"I work in [área]. I've been here for [tempo] and I really enjoy it. I'm also learning English to collaborate internationally."},
+    {q:"Situação: você precisa adiar uma reunião. Escreva a mensagem.",a:"Hi [nome], I need to reschedule our meeting. Would tomorrow at [horário] work for you?"},
+    {q:"Situação: alguém te pergunta o que você está aprendendo.",a:"I'm learning English! I've been doing it for 27 days and it's going really well."},
+    {q:"Situação: você chega atrasado a uma aula.",a:"I'm so sorry I'm late. There was a lot of traffic. It won't happen again."},
+    {q:"Situação: você quer saber mais sobre a cultura de um colega americano.",a:"I'd love to learn more about American culture. What are some things that are really important to you?"},
+    {q:"Situação: você recebe um elogio no trabalho.",a:"Thank you so much! I really appreciate that. It means a lot to hear that."},
+    {q:"Situação: você precisa dar uma má notícia a um cliente.",a:"Hi [nome], I'm reaching out because I have some news I need to share with you."},
+    {q:"Situação: você está num evento e quer entrar numa conversa.",a:"Sorry to interrupt — I couldn't help overhearing. This is a great topic! I'm [nome]."},
+    {q:"Situação: explique o que você faz em inglês simples.",a:"Reflexão pessoal"},
+    {q:"Situação: você está defendendo uma ideia. Escreva 3 frases convincentes.",a:"Reflexão pessoal"},
+    {q:"Situação: alguém questiona sua capacidade. Você responde com confiança.",a:"Ex: I understand the concern, but I'm confident in my skills. I'm ready to prove it."},
+    {q:"Situação: você quer agradecer a um mentor. Escreva uma mensagem de 4 frases.",a:"Ex: Thank you for everything. Your guidance made a real difference. Because of you, I believe in myself more."},
+    {q:"Situação: você está descrevendo sua cidade pra um turista.",a:"Reflexão pessoal sobre sua cidade"},
+    {q:"Situação: você convida alguém pra um evento de forma animada.",a:"Ex: Hey! Are you free this Saturday? I'm going to this amazing event. You should come!"},
+    {q:"Situação: você explica por que aprendeu inglês a um estrangeiro.",a:"Reflexão pessoal"},
+    {q:"Situação: alguém te pergunta qual foi o maior aprendizado recente.",a:"Reflexão pessoal em inglês"},
+    {q:"Situação: você encerra uma ligação de trabalho profissionalmente.",a:"Thank you for your time. I'll follow up with an email. Have a great day!"},
+    {q:"Situação: você está motivando uma equipe antes de um projeto difícil.",a:"Ex: I know this is challenging, but I believe in us. We've been through hard things before."},
+    {q:"Situação: alguém pede que você recomende algo.",a:"Ex: I'd recommend [nome]. It's great because it's both entertaining and educational."},
+    {q:"Situação: você quer dizer a alguém que ela fez um ótimo trabalho genuinamente.",a:"Ex: What you did was exceptional. The effort really showed, and the result speaks for itself."},
+    {q:"Situação: você apresenta um plano em 4 frases.",a:"Ex: Our plan for this month is simple. First, we'll focus on [tarefa 1]. Then we'll move to [tarefa 2]. Let's get started!"},
+    {q:"Situação: alguém não entendeu o que você disse.",a:"Let me put it another way... / What I mean is..."},
+    {q:"Situação: você precisa de mais tempo pra tomar uma decisão.",a:"I'd like a bit more time. Can I get back to you by [horário]?"},
+    {q:"Situação: você está contando uma história engraçada.",a:"You won't believe what happened to me..."},
+    {q:"Situação: você recebe uma crítica. Como responde de forma madura?",a:"Thank you for the feedback. I'll take that into consideration."},
+    {q:"Situação: você está animando alguém que está desanimado.",a:"Don't be too hard on yourself. You've already come so far."},
+    {q:"Situação: você está celebrando uma conquista.",a:"We did it! I'm so proud of what we built together."},
+    {q:"Crie a situação mais desafiadora que você imagina e escreva sua resposta.",a:"Reflexão pessoal"},
+    {q:"Escreva: 'Estou pronto para o dia 28.'",a:"I'm ready for day 28. Bring it on!"}
+  ]},
+  {d:28,w:4,title:"Revisão total — os melhores do plano",cat:"mix",meta:"Os exercícios mais importantes das 4 semanas",
+   motivation:"Dois dias pro fim. Você chegou aqui — isso já é a vitória. Os próximos dois dias são a cerimônia.",
+   tip:"Hoje você relembra. Deixa a memória trabalhar. Você sabe mais do que imagina.",
+   ex:[
+    {q:"Como se apresentar completamente em inglês?",a:"Hi! My name is [nome], I'm from [cidade], and I [trabalho/estudo]. Nice to meet you!"},
+    {q:"Past simple de: go, have, make, get, take, say, come, see",a:"went, had, made, got, took, said, came, saw"},
+    {q:"Junte com conectores: cansado + não foi trabalhar + ficou em casa + assistiu série",a:"I was tired, so I didn't go to work. I stayed home and watched a series."},
+    {q:"Crie uma frase com 'yesterday', 'today' e 'tomorrow'",a:"Ex: Yesterday I struggled. Today I'm making progress. Tomorrow I'll be even better."},
+    {q:"Como dizer que você precisa de algo com urgência?",a:"I need this urgently. / This is urgent."},
+    {q:"Diferença entre 'will' e 'going to' em 1 frase de cada",a:"I'll call you later. (decisão agora) / I'm going to study tonight. (plano feito)"},
+    {q:"Como encerrar uma conversa profissional?",a:"It was a pleasure speaking with you. I'll follow up soon!"},
+    {q:"Escreva 4 frases sobre sua semana atual com conectores",a:"Reflexão pessoal"},
+    {q:"'Not only... but also' em uma frase sua",a:"Ex: Not only have I learned vocabulary, but I've also become more confident."},
+    {q:"Como dizer que alguém fez algo incrível?",a:"That was incredible! / You crushed it!"},
+    {q:"Use 'because', 'so', 'but' e 'then' numa mesma frase",a:"Ex: I was tired because I worked late, but I studied anyway, so I felt good. Then I went to bed happy."},
+    {q:"Crie um mini e-mail com cumprimento, corpo e encerramento",a:"Ex: Hi! Hope you're well. I wanted to follow up on our conversation. Let me know when you're available. Best, [nome]."},
+    {q:"Como expressar um pedido polido?",a:"Could you please...? / Would you mind...?"},
+    {q:"Crie uma frase que usa TODOS os 4 pilares do plano",a:"Ex: Hi! Yesterday I made a decision, so now I'm going because I want to get better."},
+    {q:"Como dizer que você vai se comprometer com algo?",a:"I'm committed to this. / You have my word."},
+    {q:"'Keep going, you're almost there' — traduz",a:"Continua, você está quase lá"},
+    {q:"Escreva sobre quem você era no dia 1 e quem você é agora",a:"Reflexão pessoal profunda — pelo menos 4 frases em inglês"},
+    {q:"Como dizer que algo valeu cada segundo?",a:"It was worth every second."},
+    {q:"Escreva uma frase que só você poderia escrever — sua voz em inglês",a:"Reflexão pessoal total"},
+    {q:"Como dizer 'Dois dias pro fim'?",a:"Two days to go! / Two days left!"},
+    {q:"Escreva sobre o que você vai fazer com o inglês que aprendeu",a:"Reflexão pessoal com futuro e conectores"},
+    {q:"Qual foi o exercício mais difícil do plano?",a:"Reflexão pessoal em inglês"},
+    {q:"Qual foi o mais fácil? O que isso te diz sobre você?",a:"Reflexão pessoal em inglês"},
+    {q:"Crie seu mantra pessoal de inglês",a:"Ex: Every day I speak a little more, and little by little, I become who I want to be."},
+    {q:"Escreva um parágrafo sobre o que acontece depois do dia 30",a:"Reflexão pessoal com planos futuros"},
+    {q:"Como dizer 'Não vou parar no dia 30'?",a:"I'm not stopping on day 30. Day 30 is just the beginning."},
+    {q:"Escreva sobre o que te orgulha nessa jornada",a:"Reflexão pessoal"},
+    {q:"'I'm proud of who I'm becoming.' — Você sente isso?",a:"Reflexão pessoal em inglês"},
+    {q:"Escreva: 'Amanhã é o dia 29. Estou pronto.'",a:"Tomorrow is day 29. I'm ready."}
+  ]},
+  {d:29,w:4,title:"Penúltimo dia — você já chegou",cat:"mix",meta:"A vitória aconteceu bem aqui, não amanhã",
+   motivation:"Dia 29. Amanhã é o fim do plano, mas hoje você já venceu. Quem chega no 29 chega no 30.",
+   tip:"Escreva bastante hoje. Deixa sair. Esse é seu momento.",
+   ex:[
+    {q:"Escreva uma carta pra si mesmo em inglês — do dia 1 até agora",a:"Reflexão pessoal — mínimo 5 frases"},
+    {q:"Diga as 5 palavras em inglês que mais usou neste mês",a:"Reflexão pessoal"},
+    {q:"Escreva um diálogo de 6 linhas com um falante nativo imaginário",a:"Reflexão pessoal"},
+    {q:"Como dizer 'Hoje me sinto diferente de quando comecei'?",a:"Today I feel different from when I started."},
+    {q:"Escreva sobre o que o inglês representa pra você",a:"Reflexão profunda em inglês"},
+    {q:"Crie 3 metas de inglês para o próximo mês",a:"Ex: 1. Have a real conversation. 2. Watch a full movie. 3. Write a professional email every week."},
+    {q:"Descreva uma situação em que vai usar inglês na próxima semana",a:"Reflexão pessoal"},
+    {q:"Como dizer 'Hoje sou capaz de coisas antes impossíveis'?",a:"Today I'm capable of things that seemed impossible before."},
+    {q:"Escreva sua história de aprendizado em 5 frases para contar a alguém",a:"Ex: I decided to learn English 29 days ago. I committed to 30 exercises a day. It wasn't easy, but I never stopped. Now I can write and think in English. And this is just the beginning."},
+    {q:"'The best investment you can make is in yourself.' — Você concorda?",a:"Reflexão pessoal em inglês"},
+    {q:"Escreva um post sobre sua jornada",a:"Ex: 29 days ago I started this journey with zero confidence. Today I write and think in English."},
+    {q:"Como dizer 'Mudei minha perspectiva sobre aprender idiomas'?",a:"I've changed my perspective on learning languages."},
+    {q:"Escreva como vai manter o hábito depois do dia 30",a:"Ex: I'm going to keep studying every day. I'll also start watching shows in English."},
+    {q:"Como dizer 'Sou grato por não ter desistido'?",a:"I'm grateful I didn't give up."},
+    {q:"Qual será seu próximo passo?",a:"Reflexão pessoal com futuro + conectores"},
+    {q:"Escreva para alguém que você quer agradecer por te apoiar",a:"Reflexão pessoal"},
+    {q:"Como dizer 'Aprendi que sou capaz de mais do que imagina'?",a:"I learned that I'm capable of more than I thought."},
+    {q:"Escreva sobre o sentimento de quase chegar ao fim (3 frases)",a:"Ex: I can't believe I'm almost at day 30. It feels surreal but amazing."},
+    {q:"'One day at a time' foi a estratégia certa?",a:"Reflexão pessoal em inglês"},
+    {q:"Escreva sua definição de progresso em inglês",a:"Ex: Progress is about showing up every day. It's about being a little better than yesterday."},
+    {q:"Como dizer 'Amanhã é o dia mais importante do plano'?",a:"Tomorrow is the most important day of the plan."},
+    {q:"Escreva sobre quem você é hoje que não era 29 dias atrás",a:"Reflexão pessoal profunda"},
+    {q:"Como dizer 'Não tem volta — e isso é bom'?",a:"There's no going back — and that's a good thing."},
+    {q:"Escreva algo em inglês que não teria conseguido no dia 1",a:"Reflexão pessoal"},
+    {q:"Como dizer 'Uma última vez — e vai ser incrível'?",a:"One last day — let's make it count."},
+    {q:"Escreva: 'Amanhã é o Dia 30. Eu mereço isso.'",a:"Tomorrow is Day 30. I deserve this."},
+    {q:"Como dizer 'Estou orgulhoso do meu esforço'?",a:"I'm proud of my effort."},
+    {q:"Escreva uma frase que resume tudo que você aprendeu",a:"Ex: In 29 days I learned to speak, connect ideas, express feelings, and talk about time — all in English."},
+    {q:"Escreva sua frase de boas-vindas ao dia 30",a:"Ex: Day 30, here I come. I've been waiting for you."},
+    {q:"'See you tomorrow, Day 30.' Escreva em inglês com emoção.",a:"See you tomorrow, Day 30. I've worked for this. I've earned this. And I'm ready."}
+  ]},
+  {d:30,w:4,title:"Dia 30 — você chegou",cat:"mix",meta:"O fim do plano e o começo de tudo",
+   motivation:"TRINTA DIAS. Você fez isso. Este é o começo da sua vida em inglês.",
+   tip:"Hoje não há dica. Você já sabe o que precisa. Agora é só ir em frente.",
+   ex:[
+    {q:"'I made it.' — Escreva o que isso significa pra você.",a:"I made it. (Eu consegui.)"},
+    {q:"Escreva sua apresentação completa do jeito mais bonito que você sabe",a:"Reflexão pessoal"},
+    {q:"Escreva uma frase que une os 4 pilares do plano num único pensamento",a:"Ex: Hi — yesterday I made a commitment, so now I'm here because I went all in."},
+    {q:"Escreva uma carta ao Dia 1 — agora que você chegou ao Dia 30",a:"Reflexão pessoal profunda — mínimo 5 frases"},
+    {q:"Como dizer '30 dias, 900 exercícios, zero desistência'?",a:"30 days, 900 exercises, zero quitting. That's me."},
+    {q:"Escreva sobre o que este plano te provou sobre você mesmo",a:"Reflexão pessoal"},
+    {q:"Escreva 3 coisas que você quer dizer a quem ainda não começou",a:"Ex: 1. Start today. 2. It gets easier. 3. You'll be proud of yourself."},
+    {q:"Como dizer 'Não termino aqui — começo aqui'?",a:"I don't end here — I begin here."},
+    {q:"Escreva uma mensagem de despedida para este plano",a:"Reflexão pessoal"},
+    {q:"Qual foi o momento mais difícil? Como você superou?",a:"Reflexão pessoal em inglês"},
+    {q:"Escreva sobre o que o inglês abrirá pra você",a:"Ex: English will open doors I haven't even imagined yet."},
+    {q:"Como dizer 'Sou a prova de que é possível'?",a:"I'm proof that it's possible. / I'm living proof."},
+    {q:"Escreva a frase mais poderosa que você aprendeu",a:"Reflexão pessoal"},
+    {q:"'This is just the beginning.' — Por que isso é verdade pra você?",a:"Reflexão pessoal em inglês"},
+    {q:"Escreva um discurso de 5 frases sobre sua conquista",a:"Reflexão pessoal"},
+    {q:"Como dizer 'Não parei quando foi difícil'?",a:"I didn't stop when it was hard."},
+    {q:"Escreva sobre o que 'consistência' significa pra você agora",a:"Reflexão pessoal em inglês"},
+    {q:"Escreva uma frase pra cada semana do plano",a:"Ex: Week 1: greetings and verbs. Week 2: connectors. Week 3: time. Week 4: everything together."},
+    {q:"Como dizer 'Aprendi que disciplina é liberdade'?",a:"I learned that discipline is freedom."},
+    {q:"Escreva seu próximo objetivo de inglês",a:"Ex: My next goal is to have a real conversation with a native speaker."},
+    {q:"Escreva para alguém que você ama — algo que você nunca disse",a:"Reflexão pessoal total — sem gabarito"},
+    {q:"Como dizer '30 dias atrás eu era diferente. Hoje sou quem sempre quis ser.'?",a:"30 days ago I was different. Today I am who I always wanted to be."},
+    {q:"Escreva sobre o que vai fazer nas próximas 24h pra continuar evoluindo",a:"Reflexão pessoal com futuro"},
+    {q:"'You showed up every day.' — O que isso diz sobre você?",a:"Reflexão pessoal em inglês"},
+    {q:"Escreva a frase que vai gravar na memória pra sempre",a:"Reflexão pessoal — sua frase, para sempre"},
+    {q:"Como dizer 'Obrigado, plano — você mudou minha vida'?",a:"Thank you, plan — you changed my life."},
+    {q:"Escreva algo em inglês que prova que você cresceu",a:"Reflexão pessoal — compare com o dia 1"},
+    {q:"Como dizer 'Vejo você na próxima fase'?",a:"See you in the next chapter. / On to the next level."},
+    {q:"Escreva sua última frase do plano de 30 dias",a:"Reflexão pessoal — faça contar."},
+    {q:"'Day 30. Done. But never finished.' — O que isso significa?",a:"Dia 30. Terminado. Mas nunca finalizado — o aprendizado não tem fim."}
+  ]}
+];
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+const state = {
+  v: { week: 1, done: new Set() },
+  j: { week: 1, done: new Set() }
+};
+
+function loadState() {
+  try {
+    const sv = localStorage.getItem('eng_v');
+    if (sv) { const d = JSON.parse(sv); state.v.done = new Set(d); }
+    const sj = localStorage.getItem('eng_j');
+    if (sj) { const d = JSON.parse(sj); state.j.done = new Set(d); }
+    const sw = localStorage.getItem('eng_weeks');
+    if (sw) { const w = JSON.parse(sw); state.v.week = w.v||1; state.j.week = w.j||1; }
+  } catch(e) {}
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('eng_v', JSON.stringify([...state.v.done]));
+    localStorage.setItem('eng_j', JSON.stringify([...state.j.done]));
+    localStorage.setItem('eng_weeks', JSON.stringify({v: state.v.week, j: state.j.week}));
+  } catch(e) {}
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+loadState();
+
+const catLabel = {greet:'Cumprimento', verb:'Verbos', connect:'Conexão', time:'Tempo', mix:'Integração'};
+const catBadge = {greet:'b-greet', verb:'b-verb', connect:'b-connect', time:'b-time', mix:'b-mix'};
+
+function buildUI(uid) {
+  const u = state[uid];
+  const color = uid === 'v' ? 'v' : 'j';
+  // Week nav
+  const nav = document.getElementById('wnav-' + uid);
+  nav.innerHTML = '';
+  [1,2,3,4].forEach(w => {
+    const btn = document.createElement('button');
+    btn.className = 'wbtn' + (u.week === w ? ' ' + color + '-active' : '');
+    btn.textContent = 'Semana ' + w;
+    btn.onclick = () => { u.week = w; saveState(); buildUI(uid); };
+    nav.appendChild(btn);
+  });
+
+  // Weeks
+  const container = document.getElementById('wcontainer-' + uid);
+  container.innerHTML = '';
+  [1,2,3,4].forEach(w => {
+    const wDays = DAYS.filter(d => d.w === w);
+    const wDiv = document.createElement('div');
+    wDiv.className = 'wpanel' + (u.week === w ? ' show' : '');
+    wDiv.id = 'wp-' + uid + '-' + w;
+    const themes = ['Fundação: cumprimentos e verbos essenciais','Conexão: ligar ideias e dar contexto','Tempo: passado, presente e futuro em frases reais','Integração: tudo junto em situações reais'];
+    const wDone = wDays.filter(d => u.done.has(uid + '-' + d.d)).length;
+    const pct = Math.round(wDone / wDays.length * 100);
+    wDiv.innerHTML = `
+      <div class="week-hd">
+        <div class="week-title">Semana ${w}</div>
+        <div class="week-theme">— ${themes[w-1]}</div>
+      </div>
+      <div class="prog-wrap">
+        <div class="prog-top"><span>Progresso</span><span>${pct}%</span></div>
+        <div class="prog-bar"><div class="prog-fill ${color}" style="width:${pct}%"></div></div>
+      </div>
+      <div class="days" id="days-${uid}-${w}"></div>
+    `;
+    container.appendChild(wDiv);
+
+    // Days
+    const daysEl = wDiv.querySelector('#days-' + uid + '-' + w);
+    wDays.forEach(day => {
+      const isDone = u.done.has(uid + '-' + day.d);
+      const numClass = isDone ? 'done-' + color : 'locked';
+      const dc = document.createElement('div');
+      dc.className = 'day-card';
+      dc.innerHTML = `
+        <div class="day-head" onclick="toggleDay('${uid}',${day.d},this)">
+          <div class="day-num ${numClass}">${day.d}</div>
+          <div class="day-info">
+            <div class="day-title">Dia ${day.d} — ${day.title}</div>
+            <div class="day-meta">${day.meta}</div>
+          </div>
+          <span class="cat-badge ${catBadge[day.cat]}">${catLabel[day.cat]}</span>
+          <i class="fa-solid fa-chevron-down chev" id="chev-${uid}-${day.d}"></i>
+        </div>
+        <div class="day-body" id="body-${uid}-${day.d}">
+          <div class="motivation ${color}">${day.motivation}</div>
+          <div class="ex-wrap">
+            <div class="ex-sec-title"><i class="fa-solid fa-pen-to-square" style="font-size:12px"></i> 30 exercícios — clique para ver o gabarito</div>
+            <div class="ex-list">
+              ${day.ex.map((e,i) => `
+                <div class="ex-item" id="ex-${uid}-${day.d}-${i}" onclick="toggleEx('${uid}',${day.d},${i})">
+                  <span class="ex-num">${String(i+1).padStart(2,'0')}</span>
+                  <div class="ex-text">${e.q}<div class="ex-answer">${e.a}</div></div>
+                  <i class="fa-solid fa-eye ex-toggle" style="font-size:11px"></i>
+                </div>`).join('')}
+            </div>
+          </div>
+          <div class="tip-box">
+            <div class="tip-title"><i class="fa-solid fa-lightbulb" style="font-size:12px"></i> Dica do dia</div>
+            <div class="tip-text">${day.tip}</div>
+          </div>
+          <div class="day-actions">
+            <button class="btn-done ${color}${isDone ? ' done' : ''}" id="dbtn-${uid}-${day.d}" onclick="markDone('${uid}',${day.d})">
+              <i class="fa-solid fa-${isDone ? 'check-circle' : 'circle-check'}"></i> ${isDone ? 'Concluído' : 'Marcar como feito'}
+            </button>
+            <button class="btn-reveal" onclick="revealAll('${uid}',${day.d},${day.ex.length})">
+              <i class="fa-solid fa-eye" style="font-size:12px"></i> Revelar todos
+            </button>
+          </div>
+        </div>
+      `;
+      daysEl.appendChild(dc);
+    });
+  });
+
+  // Update counter
+  const count = document.getElementById('done-count-' + uid);
+  if (count) count.textContent = [...u.done].filter(k => k.startsWith(uid + '-')).length;
+}
+
+function toggleDay(uid, dayNum, head) {
+  const body = document.getElementById('body-' + uid + '-' + dayNum);
+  const chev = document.getElementById('chev-' + uid + '-' + dayNum);
+  const open = body.classList.contains('open');
+  body.classList.toggle('open', !open);
+  chev.classList.toggle('open', !open);
+}
+
+function toggleEx(uid, dayNum, idx) {
+  const el = document.getElementById('ex-' + uid + '-' + dayNum + '-' + idx);
+  el.classList.toggle('revealed');
+}
+
+function revealAll(uid, dayNum, count) {
+  for (let i = 0; i < count; i++) {
+    const el = document.getElementById('ex-' + uid + '-' + dayNum + '-' + i);
+    if (el) el.classList.add('revealed');
+  }
+}
+
+function markDone(uid, dayNum) {
+  const key = uid + '-' + dayNum;
+  const u = state[uid];
+  u.done.add(key);
+  saveState();
+  const btn = document.getElementById('dbtn-' + uid + '-' + dayNum);
+  const numEl = btn && btn.closest('.day-body').previousElementSibling.querySelector('.day-num');
+  if (btn) {
+    btn.classList.add('done');
+    btn.innerHTML = '<i class="fa-solid fa-check-circle"></i> Concluído';
+  }
+  if (numEl) {
+    numEl.className = 'day-num done-' + (uid === 'v' ? 'v' : 'j');
+  }
+  const count = document.getElementById('done-count-' + uid);
+  if (count) count.textContent = [...u.done].filter(k => k.startsWith(uid + '-')).length;
+  // Refresh progress bar
+  rebuildProgress(uid, DAYS.find(d => d.d === dayNum)?.w);
+}
+
+function rebuildProgress(uid, w) {
+  if (!w) return;
+  const color = uid === 'v' ? 'v' : 'j';
+  const wDays = DAYS.filter(d => d.w === w);
+  const wDone = wDays.filter(d => state[uid].done.has(uid + '-' + d.d)).length;
+  const pct = Math.round(wDone / wDays.length * 100);
+  const wp = document.getElementById('wp-' + uid + '-' + w);
+  if (wp) {
+    const fill = wp.querySelector('.prog-fill');
+    const label = wp.querySelector('.prog-top span:last-child');
+    if (fill) fill.style.width = pct + '%';
+    if (label) label.textContent = pct + '%';
+  }
+}
+
+function switchUser(uid) {
+  document.querySelectorAll('.user-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.user-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + uid).classList.add('active');
+  document.getElementById('tab-' + uid).classList.add('active');
+  localStorage.setItem('eng_current', uid);
+}
+
+function enterUser(uid) {
+  document.getElementById('splash').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  buildUI('v');
+  buildUI('j');
+  switchUser(uid);
+}
+
+// Auto-resume
+window.addEventListener('DOMContentLoaded', () => {
+  const last = localStorage.getItem('eng_current');
+  if (last) {
+    enterUser(last);
+  }
+});
+</script>
+</body>
+</html>
