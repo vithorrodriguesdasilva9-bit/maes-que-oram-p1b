@@ -222,7 +222,7 @@ button{cursor:pointer}
 </section>
 
 <section class="page" id="registry">
-  <div class="sectiontitle"><div><h2>Cadastros</h2><p>Inclua novos grupos, paróquias, redes e pessoas. Os dados passam a aparecer no app imediatamente.</p></div><button class="primary" onclick="openNewModal()">＋ Novo Cadastro</button></div>
+  <div class="sectiontitle"><div><h2>Cadastros</h2><p>Inclua novos grupos, paróquias, redes e pessoas. Os dados são gravados no Firestore e passam a aparecer no app automaticamente.</p></div><button class="primary" onclick="openNewModal()">＋ Novo Cadastro</button></div>
   <div class="form-layout">
     <div class="formcard">
       <div class="cardhead"><h3>Novo grupo / núcleo</h3><span class="tag">Cadastro operacional</span></div>
@@ -236,7 +236,7 @@ button{cursor:pointer}
       <label class="secondary" style="margin-left:5px;cursor:pointer">Importar backup<input type="file" accept=".json" onchange="importBackup(event)" style="display:none"></label>
     </div>
   </div>
-  <div class="card" style="margin-top:12px"><div class="cardhead"><h3>Cadastros adicionados neste navegador</h3><span class="tag" id="manualCount"></span></div><div class="tablewrap"><table class="datatable"><thead><tr><th>Diocese</th><th>Paróquia</th><th>Grupo / Rede</th><th>Cidade</th><th>Coordenadora</th><th>Telefone</th><th>Ações</th></tr></thead><tbody id="manualTable"></tbody></table></div></div>
+  <div class="card" style="margin-top:12px"><div class="cardhead"><h3>Cadastros adicionais no Firestore</h3><span class="tag" id="manualCount"></span></div><div class="tablewrap"><table class="datatable"><thead><tr><th>Diocese</th><th>Paróquia</th><th>Grupo / Rede</th><th>Cidade</th><th>Coordenadora</th><th>Telefone</th><th>Ações</th></tr></thead><tbody id="manualTable"></tbody></table></div></div>
 </section>
 
 <section class="page" id="reports">
@@ -250,10 +250,10 @@ button{cursor:pointer}
 <section class="page" id="settings">
   <div class="sectiontitle"><div><h2>Configurações</h2><p>Parâmetros locais da versão atual e preparação para hospedagem.</p></div></div>
   <div class="settings">
-    <div class="setting"><h3>Armazenamento atual</h3><p>Os novos cadastros são gravados em <b>localStorage</b>. Isso permite uso imediato sem servidor. Na hospedagem definitiva, essa camada pode ser substituída por Supabase, Firebase ou Google Sheets/API sem alterar a experiência visual.</p></div>
+    <div class="setting"><h3>Armazenamento atual</h3><p>Os novos cadastros são gravados no <b>Cloud Firestore</b>. Alterações feitas em qualquer computador conectado ao dashboard passam a alimentar a mesma base central.</p></div>
     <div class="setting"><h3>Deduplicação</h3><p>Filtros, KPIs de paróquias e diretórios usam chaves normalizadas. O sistema preserva os registros originais, mas evita contar diferenças de maiúsculas, espaços e acentos como entidades diferentes.</p></div>
-    <div class="setting"><h3>Backup</h3><p>Exporte os registros locais antes de trocar de navegador ou computador. O arquivo JSON pode ser importado novamente pela aba Cadastros.</p><button class="secondary" onclick="exportBackup()">Exportar agora</button></div>
-    <div class="setting"><h3>Pronto para host</h3><p>O app é um único arquivo HTML autocontido, sem dependências externas. Isso facilita publicação em Netlify, Vercel, GitHub Pages ou integração posterior com um backend.</p></div>
+    <div class="setting"><h3>Backup</h3><p>Exporte os registros adicionados no Firestore para manter um backup adicional em JSON. A base principal permanece centralizada na nuvem.</p><button class="secondary" onclick="exportBackup()">Exportar agora</button></div>
+    <div class="setting"><h3>Pronto para host</h3><p>O front-end permanece hospedado na Vercel e conectado ao Firebase Firestore. Atualizações do código no GitHub continuam gerando novos deploys automaticamente.</p></div>
   </div>
 </section>
 </div>
@@ -283,10 +283,28 @@ button{cursor:pointer}
 <div class="form-status"></div>
 </template>
 
+
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyAaUkOQ8f5AhuK1tssCR6jTzJq21B0guDQ",
+  authDomain: "maes-que-oram-p1b.firebaseapp.com",
+  projectId: "maes-que-oram-p1b",
+  storageBucket: "maes-que-oram-p1b.firebasestorage.app",
+  messagingSenderId: "495434052933",
+  appId: "1:495434052933:web:88cbfdc6e961ab6c4b7a2c"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
+
 <script>
 const BASE_DATA=[{"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE CAMPO LIMPO/SP", "numero": 1, "inicio": "2019-09-19", "paroquia": "Nossa Senhora das Vitórias e São Lucas", "comunidade": "São Sebastião", "endereco": "Rua Nilo, 187 - Jardim Casa Branca", "cidade": "Embu das Artes", "coordenadora": "Marlene Figueira dos Santos Oliveira", "telefone": "(11) 9 7534-3128", "ano": 2019, "inicio_exibicao": "19/09/2019", "diocese_curta": "Campo Limpo", "grupo_nome": "São Sebastião", "busca": "diocese de campo limpo/sp nossa senhora das vitórias e são lucas são sebastião embu das artes marlene figueira dos santos oliveira rua nilo, 187 - jardim casa branca"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE CAMPO LIMPO/SP", "numero": 2, "inicio": "2019-03-30", "paroquia": "Santa Luzia", "comunidade": "Santa Cruz", "endereco": "Rua Plínio Dias, 24 - Vila Calú", "cidade": "São Paulo", "coordenadora": "Fabiana Ferreira Porto Araújo", "telefone": "(11) 9 6962-1081", "ano": 2019, "inicio_exibicao": "30/03/2019", "diocese_curta": "Campo Limpo", "grupo_nome": "Santa Cruz", "busca": "diocese de campo limpo/sp santa luzia santa cruz são paulo fabiana ferreira porto araújo rua plínio dias, 24 - vila calú"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE CAMPO LIMPO/SP", "numero": 3, "inicio": "2016-03-08", "paroquia": "São Lucas Evangelista", "comunidade": "Santíssima Trindade", "endereco": "Estrada da Cumbica, 68 - Vila Gilda", "cidade": "São Paulo", "coordenadora": "Luciana Rigueira de Freitas", "telefone": "(11) 9 9803-3692; 5899-9326", "ano": 2016, "inicio_exibicao": "08/03/2016", "diocese_curta": "Campo Limpo", "grupo_nome": "Santíssima Trindade", "busca": "diocese de campo limpo/sp são lucas evangelista santíssima trindade são paulo luciana rigueira de freitas estrada da cumbica, 68 - vila gilda"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE CAMPO LIMPO/SP", "numero": 4, "inicio": "2020-03-08", "paroquia": "São Judas Tadeu", "comunidade": "São Judas Tadeu", "endereco": "Estrada de Campo Limpo, 4994 - Jardim Campo Limpo", "cidade": "São Paulo", "coordenadora": "Maria das Dores Fernandes", "telefone": "(11) 9 6428-8309", "ano": 2020, "inicio_exibicao": "08/03/2020", "diocese_curta": "Campo Limpo", "grupo_nome": "São Judas Tadeu", "busca": "diocese de campo limpo/sp são judas tadeu são judas tadeu são paulo maria das dores fernandes estrada de campo limpo, 4994 - jardim campo limpo"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE CAMPO LIMPO/SP", "numero": 5, "inicio": "2021-04-08", "paroquia": "Santa Cruz", "comunidade": "Santa Rita de Cássia", "endereco": "Avenida Cinquentenário, 46 - Parque Rebouças", "cidade": "São Paulo", "coordenadora": "Cleide Maria Lima da Silva", "telefone": "(11) 9 9330-7987", "ano": 2021, "inicio_exibicao": "08/04/2021", "diocese_curta": "Campo Limpo", "grupo_nome": "Santa Rita de Cássia", "busca": "diocese de campo limpo/sp santa cruz santa rita de cássia são paulo cleide maria lima da silva avenida cinquentenário, 46 - parque rebouças"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE CAMPO LIMPO/SP", "numero": 6, "inicio": "2023-03-07", "paroquia": "São José Operário", "comunidade": "São José Operário", "endereco": "Rua Miguel Gonçalves Correira, 305 - Vila Pirajussara", "cidade": "São Paulo", "coordenadora": "Cristina Antônio Rubacow de Oliveira", "telefone": "(11) 9 6954-1168", "ano": 2023, "inicio_exibicao": "07/03/2023", "diocese_curta": "Campo Limpo", "grupo_nome": "São José Operário", "busca": "diocese de campo limpo/sp são josé operário são josé operário são paulo cristina antônio rubacow de oliveira rua miguel gonçalves correira, 305 - vila pirajussara"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE CAMPO LIMPO/SP", "numero": 7, "inicio": "2024-10-14", "paroquia": "São Pedro Fourier", "comunidade": "São Pedro Fourier", "endereco": "Avenida Marechal Juarez Távora, 570 - Super Quadra", "cidade": "São Paulo", "coordenadora": "Amanda de Sousa Costa Vilar", "telefone": "(11) 9 8644-2159", "ano": 2024, "inicio_exibicao": "14/10/2024", "diocese_curta": "Campo Limpo", "grupo_nome": "São Pedro Fourier", "busca": "diocese de campo limpo/sp são pedro fourier são pedro fourier são paulo amanda de sousa costa vilar avenida marechal juarez távora, 570 - super quadra"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE CAMPO LIMPO/SP", "numero": 8, "inicio": "2024-03-06", "paroquia": "Nossa Senhora de Fátima", "comunidade": "Nossa Senhora de Fátima", "endereco": "Rua Alberto Flores, 465 - Jardim São João", "cidade": "São Paulo", "coordenadora": "Sônia Edinéia da Cunha Lima", "telefone": "(11) 9 9615-1727", "ano": 2024, "inicio_exibicao": "06/03/2024", "diocese_curta": "Campo Limpo", "grupo_nome": "Nossa Senhora de Fátima", "busca": "diocese de campo limpo/sp nossa senhora de fátima nossa senhora de fátima são paulo sônia edinéia da cunha lima rua alberto flores, 465 - jardim são joão"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE CAMPO LIMPO/SP", "numero": 9, "inicio": "2021-09-09", "paroquia": "Jesus de Nazaré", "comunidade": "Jesus de Nazaré", "endereco": "Rua Marajó, 08 - Jardim Santa Júlia", "cidade": "Itapecerica da Serra", "coordenadora": "Maria da Paz Anjos", "telefone": "(11) 9 4390-1254", "ano": 2021, "inicio_exibicao": "09/09/2021", "diocese_curta": "Campo Limpo", "grupo_nome": "Jesus de Nazaré", "busca": "diocese de campo limpo/sp jesus de nazaré jesus de nazaré itapecerica da serra maria da paz anjos rua marajó, 08 - jardim santa júlia"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE CAMPO LIMPO/SP", "numero": 10, "inicio": "2024-02-01", "paroquia": "Santuário Santa Terezinha", "comunidade": "São Luiz e Santa Zélia Martin", "endereco": "Avenida Dr José Maciel, 986 - Jardim Maria Rosa", "cidade": "Taboão da Serra", "coordenadora": "Eliane Bueno Pereira dos Santos", "telefone": "(11) 9 6740-4973", "ano": 2024, "inicio_exibicao": "01/02/2024", "diocese_curta": "Campo Limpo", "grupo_nome": "São Luiz e Santa Zélia Martin", "busca": "diocese de campo limpo/sp santuário santa terezinha são luiz e santa zélia martin taboão da serra eliane bueno pereira dos santos avenida dr josé maciel, 986 - jardim maria rosa"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 1, "inicio": "2019-06-02", "paroquia": "Santa Mena", "comunidade": "Área Pastoral São Judas Tadeu", "endereco": "Av. Salgado Filho, 2910 - Vila Rio de Janeiro", "cidade": "Guarulhos", "coordenadora": "Priscila Barbosa da Silva Mendonça", "telefone": "(11) 9 4039-3828", "ano": 2019, "inicio_exibicao": "02/06/2019", "diocese_curta": "Guarulhos", "grupo_nome": "Área Pastoral São Judas Tadeu", "busca": "diocese de guarulhos/sp santa mena área pastoral são judas tadeu guarulhos priscila barbosa da silva mendonça av. salgado filho, 2910 - vila rio de janeiro"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 2, "inicio": "2019-05-22", "paroquia": "Nossa Senhora de Fátima", "comunidade": "Nossa Senhora de Fátima", "endereco": "Rua Inácio Bitencourt, 205 - Jardim Tranquilidade", "cidade": "Guarulhos", "coordenadora": "Nalva Aparecida Simões Morais", "telefone": "(11) 9 9897-2612", "ano": 2019, "inicio_exibicao": "22/05/2019", "diocese_curta": "Guarulhos", "grupo_nome": "Nossa Senhora de Fátima", "busca": "diocese de guarulhos/sp nossa senhora de fátima nossa senhora de fátima guarulhos nalva aparecida simões morais rua inácio bitencourt, 205 - jardim tranquilidade"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 3, "inicio": "2017-11-09", "paroquia": "Santa Luzia", "comunidade": "Santa Luzia", "endereco": "Rua Pindoba, 338 - Parque Alvorada", "cidade": "Guarulhos", "coordenadora": "Vanessa Alves Soderi Soares", "telefone": "(11) 9 8466-7424", "ano": 2017, "inicio_exibicao": "09/11/2017", "diocese_curta": "Guarulhos", "grupo_nome": "Santa Luzia", "busca": "diocese de guarulhos/sp santa luzia santa luzia guarulhos vanessa alves soderi soares rua pindoba, 338 - parque alvorada"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 4, "inicio": "2021-08-17", "paroquia": "São Judas Tadeu", "comunidade": "Nossa Senhora Aparecida", "endereco": "Rua Arealva, 36 - Jardim Izildinha", "cidade": "Guarulhos", "coordenadora": "Eva de Fátima Pereira da Silva", "telefone": "(11) 98146-8319", "ano": 2021, "inicio_exibicao": "17/08/2021", "diocese_curta": "Guarulhos", "grupo_nome": "Nossa Senhora Aparecida", "busca": "diocese de guarulhos/sp são judas tadeu nossa senhora aparecida guarulhos eva de fátima pereira da silva rua arealva, 36 - jardim izildinha"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 5, "inicio": "2022-08-17", "paroquia": "Santo Antônio - Pimentas", "comunidade": "São Miguel Arcanjo", "endereco": "Rua Marcondes Munhoz, 210 -Parque São Miguel", "cidade": "Guarulhos", "coordenadora": "Luzia do Vale Alves", "telefone": "(11) 9 1439-3519", "ano": 2022, "inicio_exibicao": "17/08/2022", "diocese_curta": "Guarulhos", "grupo_nome": "São Miguel Arcanjo", "busca": "diocese de guarulhos/sp santo antônio - pimentas são miguel arcanjo guarulhos luzia do vale alves rua marcondes munhoz, 210 -parque são miguel"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 6, "inicio": "2022-06-07", "paroquia": "Santa Cruz e Nossa Senhora Aparecida", "comunidade": "Santa Cruz e Nossa Senhora Aparecida ( Salão Paroquial)", "endereco": "Rua Muritiba, 506 - Jardim Presidente Dutra", "cidade": "Guarulhos", "coordenadora": "Maria José Barros Alencar", "telefone": "(11) 9 7236-4303", "ano": 2022, "inicio_exibicao": "07/06/2022", "diocese_curta": "Guarulhos", "grupo_nome": "Santa Cruz e Nossa Senhora Aparecida ( Salão Paroquial)", "busca": "diocese de guarulhos/sp santa cruz e nossa senhora aparecida santa cruz e nossa senhora aparecida ( salão paroquial) guarulhos maria josé barros alencar rua muritiba, 506 - jardim presidente dutra"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 7, "inicio": "2022-07-14", "paroquia": "Sagrada Família", "comunidade": "Sagrada Família", "endereco": "Avenida Carmela Thomeu, 480 - Vila Carmela", "cidade": "Guarulhos", "coordenadora": "Simone dos Santos Alves", "telefone": "(11) 9 8617-3383", "ano": 2022, "inicio_exibicao": "14/07/2022", "diocese_curta": "Guarulhos", "grupo_nome": "Sagrada Família", "busca": "diocese de guarulhos/sp sagrada família sagrada família guarulhos simone dos santos alves avenida carmela thomeu, 480 - vila carmela"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 8, "inicio": "2023-05-19", "paroquia": "Santo Alberto Magno e Nossa Sra das Graças", "comunidade": "Santa Teresa D'Avila", "endereco": "Rua Jeffe, 429 - Jardim Cristina", "cidade": "Guarulhos", "coordenadora": "Maria Verônica da Paz Bonete", "telefone": "(11) 9 3013-5975", "ano": 2023, "inicio_exibicao": "19/05/2023", "diocese_curta": "Guarulhos", "grupo_nome": "Santa Teresa D'Avila", "busca": "diocese de guarulhos/sp santo alberto magno e nossa sra das graças santa teresa d'avila guarulhos maria verônica da paz bonete rua jeffe, 429 - jardim cristina"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 9, "inicio": "2023-06-01", "paroquia": "Santuário São Judas Tadeu", "comunidade": "Santuário São Judas Tadeu", "endereco": "Rua da Verdade, 269 - Vila Harmonia", "cidade": "Guarulhos", "coordenadora": "Aparecida de Assis Morais", "telefone": "(11) 9 7110-9998", "ano": 2023, "inicio_exibicao": "01/06/2023", "diocese_curta": "Guarulhos", "grupo_nome": "Santuário São Judas Tadeu", "busca": "diocese de guarulhos/sp santuário são judas tadeu santuário são judas tadeu guarulhos aparecida de assis morais rua da verdade, 269 - vila harmonia"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 10, "inicio": "2023-06-14", "paroquia": "São Pedro Apóstolo", "comunidade": "São Pedro Apóstolo", "endereco": "Rua São José, 137 - Vila Galvão", "cidade": "Guarulhos", "coordenadora": "Elaine Cristina Boragini Cea", "telefone": "(11) 9 9 9387-2177", "ano": 2023, "inicio_exibicao": "14/06/2023", "diocese_curta": "Guarulhos", "grupo_nome": "São Pedro Apóstolo", "busca": "diocese de guarulhos/sp são pedro apóstolo são pedro apóstolo guarulhos elaine cristina boragini cea rua são josé, 137 - vila galvão"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 11, "inicio": "2022-09-20", "paroquia": "Santo Antônio", "comunidade": "Santo Antônio", "endereco": "Avenida José Miguel Ackel, 2577 - Pimentas", "cidade": "Guarulhos", "coordenadora": "Maria Aparecida Ferreira Gomes", "telefone": "(11) 9 4467-3264", "ano": 2022, "inicio_exibicao": "20/09/2022", "diocese_curta": "Guarulhos", "grupo_nome": "Santo Antônio", "busca": "diocese de guarulhos/sp santo antônio santo antônio guarulhos maria aparecida ferreira gomes avenida josé miguel ackel, 2577 - pimentas"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 12, "inicio": "2024-03-08", "paroquia": "Santa Luzia", "comunidade": "Santa Luzia", "endereco": "Rua Dolomita, 142 - Parque Mikail", "cidade": "Guarulhos", "coordenadora": "Marineuza Santos", "telefone": "(11) 9 6762-0648", "ano": 2024, "inicio_exibicao": "08/03/2024", "diocese_curta": "Guarulhos", "grupo_nome": "Santa Luzia", "busca": "diocese de guarulhos/sp santa luzia santa luzia guarulhos marineuza santos rua dolomita, 142 - parque mikail"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 13, "inicio": "2017-09-11", "paroquia": "Santa Luzia", "comunidade": "Santa Luzia", "endereco": "Avenida Santana do Mundaú, 624 - Parque Alvorada", "cidade": "Guarulhos", "coordenadora": "Mileni de Jesus Sales", "telefone": "(11) 9 4109-9897", "ano": 2017, "inicio_exibicao": "11/09/2017", "diocese_curta": "Guarulhos", "grupo_nome": "Santa Luzia", "busca": "diocese de guarulhos/sp santa luzia santa luzia guarulhos mileni de jesus sales avenida santana do mundaú, 624 - parque alvorada"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 14, "inicio": "2024-07-15", "paroquia": "Nossa Senhora da Conceição", "comunidade": "Catedral Nossa Senhora da Conceição", "endereco": "Praça Teresa Cristina, 01 - Centro", "cidade": "Guarulhos", "coordenadora": "Maria de Fátima Santos Alves", "telefone": "(11) 9 9866-3616", "ano": 2024, "inicio_exibicao": "15/07/2024", "diocese_curta": "Guarulhos", "grupo_nome": "Catedral Nossa Senhora da Conceição", "busca": "diocese de guarulhos/sp nossa senhora da conceição catedral nossa senhora da conceição guarulhos maria de fátima santos alves praça teresa cristina, 01 - centro"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 15, "inicio": "2023-01-10", "paroquia": "Sagrada Família", "comunidade": "Nossa Senhora de Guadalupe", "endereco": "Rua Jovita de Quadros Goes, 405 - Parque Residencial Bambi", "cidade": "Guarulhos", "coordenadora": "Expedita Gomes Ferreira dos Reis", "telefone": "(11) 9 8160-9209", "ano": 2023, "inicio_exibicao": "10/01/2023", "diocese_curta": "Guarulhos", "grupo_nome": "Nossa Senhora de Guadalupe", "busca": "diocese de guarulhos/sp sagrada família nossa senhora de guadalupe guarulhos expedita gomes ferreira dos reis rua jovita de quadros goes, 405 - parque residencial bambi"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 16, "inicio": "2024-05-31", "paroquia": "Nossa Senhora do Bonsucesso", "comunidade": "Nossa Senhora Rainha da Paz", "endereco": "Rua Carlos Lamarca, 78 - Anita Garibaldi", "cidade": "Guarulhos", "coordenadora": "Helen Tiele de Brito Souza Lopes", "telefone": "(11) 9 8731-7694", "ano": 2024, "inicio_exibicao": "31/05/2024", "diocese_curta": "Guarulhos", "grupo_nome": "Nossa Senhora Rainha da Paz", "busca": "diocese de guarulhos/sp nossa senhora do bonsucesso nossa senhora rainha da paz guarulhos helen tiele de brito souza lopes rua carlos lamarca, 78 - anita garibaldi"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 17, "inicio": "2024-10-30", "paroquia": "Santa Mena", "comunidade": "Santa Mena", "endereco": "Avenida Suplicy, 197 - Jardim Santa Mena", "cidade": "Guarulhos", "coordenadora": "Marcela Vieira Gomes de Oliveira", "telefone": "(11) 9 8794-6628", "ano": 2024, "inicio_exibicao": "30/10/2024", "diocese_curta": "Guarulhos", "grupo_nome": "Santa Mena", "busca": "diocese de guarulhos/sp santa mena santa mena guarulhos marcela vieira gomes de oliveira avenida suplicy, 197 - jardim santa mena"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 18, "inicio": "2024-11-28", "paroquia": "Santo Antônio de Pádua", "comunidade": "Santo Antônio de Pádua", "endereco": "Avenida Guarulhos, 535 - Vila Augusta", "cidade": "Guarulhos", "coordenadora": "Nadya Oliveira dos Santos Mira Luz", "telefone": "(11) 9 6343-6373", "ano": 2024, "inicio_exibicao": "28/11/2024", "diocese_curta": "Guarulhos", "grupo_nome": "Santo Antônio de Pádua", "busca": "diocese de guarulhos/sp santo antônio de pádua santo antônio de pádua guarulhos nadya oliveira dos santos mira luz avenida guarulhos, 535 - vila augusta"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 19, "inicio": "XX/06/2024", "paroquia": "Nossa Senhora do Bonsucesso", "comunidade": "Nossa Senhora da Anunciação", "endereco": "Rua Jorge Maria Lombardi, 35 -Jardim Alamo", "cidade": "Guarulhos", "coordenadora": "Isabel Rodrigues de Souza", "telefone": "(11) 9 5137-9076", "ano": 2024, "inicio_exibicao": "XX/06/2024", "diocese_curta": "Guarulhos", "grupo_nome": "Nossa Senhora da Anunciação", "busca": "diocese de guarulhos/sp nossa senhora do bonsucesso nossa senhora da anunciação guarulhos isabel rodrigues de souza rua jorge maria lombardi, 35 -jardim alamo"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 20, "inicio": "2025-03-18", "paroquia": "Santo Antônio", "comunidade": "Santa Edwirges", "endereco": "Estrada Juscelino Kubistchek de Oliveira, 1649 - Pimentas", "cidade": "Guarulhos", "coordenadora": "Lusinete Felix Mari", "telefone": "(11) 9 7274-9384", "ano": 2025, "inicio_exibicao": "18/03/2025", "diocese_curta": "Guarulhos", "grupo_nome": "Santa Edwirges", "busca": "diocese de guarulhos/sp santo antônio santa edwirges guarulhos lusinete felix mari estrada juscelino kubistchek de oliveira, 1649 - pimentas"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 21, "inicio": "2025-06-17", "paroquia": "Santuário Nossa Senhora do Bonsucesso", "comunidade": "Santo Antônio de Pádua", "endereco": "Avenida Armando Bei, 879 - Nova Bonsucesso", "cidade": "Guarulhos", "coordenadora": "Shirley Aparecida Pereira Silva", "telefone": "(11) 9 6645-4421", "ano": 2025, "inicio_exibicao": "17/06/2025", "diocese_curta": "Guarulhos", "grupo_nome": "Santo Antônio de Pádua", "busca": "diocese de guarulhos/sp santuário nossa senhora do bonsucesso santo antônio de pádua guarulhos shirley aparecida pereira silva avenida armando bei, 879 - nova bonsucesso"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 22, "inicio": "2025-02-05", "paroquia": "Santa Teresinha e Nossa Senhora das Angustias", "comunidade": "Santa Teresinha e Nossa Senhora das Angustias", "endereco": "Rua Mazagão, 206 - Jardim Cumbica", "cidade": "Guarulhos", "coordenadora": "Maria Sônia Pereira Alves", "telefone": "(11) 9 8246-9375", "ano": 2025, "inicio_exibicao": "05/02/2025", "diocese_curta": "Guarulhos", "grupo_nome": "Santa Teresinha e Nossa Senhora das Angustias", "busca": "diocese de guarulhos/sp santa teresinha e nossa senhora das angustias santa teresinha e nossa senhora das angustias guarulhos maria sônia pereira alves rua mazagão, 206 - jardim cumbica"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE GUARULHOS/SP", "numero": 23, "inicio": "2024-09-10", "paroquia": "Sagrada Família", "comunidade": "Sagrada Família", "endereco": "Rua Pardinho, 19 - Jardim Paraíso", "cidade": "Guarulhos", "coordenadora": "Joana Rodrigues Alves Vieira", "telefone": "(11) 9 8124-1887", "ano": 2024, "inicio_exibicao": "10/09/2024", "diocese_curta": "Guarulhos", "grupo_nome": "Sagrada Família", "busca": "diocese de guarulhos/sp sagrada família sagrada família guarulhos joana rodrigues alves vieira rua pardinho, 19 - jardim paraíso"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE OSASCO/SP", "numero": 1, "inicio": "2019-09-07", "paroquia": "Rainha Santa Isabel", "comunidade": "Rainha Santa Isabel", "endereco": "Rua Figueira, 73 - Parque Viana", "cidade": "Barueri", "coordenadora": "Maria Marta Chaves Pereira (Cida)", "telefone": "(11) 9 9199-3340", "ano": 2019, "inicio_exibicao": "07/09/2019", "diocese_curta": "Osasco", "grupo_nome": "Rainha Santa Isabel", "busca": "diocese de osasco/sp rainha santa isabel rainha santa isabel barueri maria marta chaves pereira (cida) rua figueira, 73 - parque viana"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE OSASCO/SP", "numero": 2, "inicio": "2019-10-24", "paroquia": "Nossa Senhora de Lourdes", "comunidade": "Nossa Senhora da Gruta", "endereco": "Praça Oiapoque, 300 - Alphavile", "cidade": "Barueri", "coordenadora": "Érica Firmino do Nascimento", "telefone": "(11) 9 8889-3640", "ano": 2019, "inicio_exibicao": "24/10/2019", "diocese_curta": "Osasco", "grupo_nome": "Nossa Senhora da Gruta", "busca": "diocese de osasco/sp nossa senhora de lourdes nossa senhora da gruta barueri érica firmino do nascimento praça oiapoque, 300 - alphavile"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE OSASCO/SP", "numero": 3, "inicio": "2020-12-02", "paroquia": "Rainha Santa Izabel", "comunidade": "Santa Helena", "endereco": "Rua Cananéia, 190 - Jardim Maria Helena", "cidade": "Barueri", "coordenadora": "Maria de Fátima Laines da Silva", "telefone": "(11) 9 7862-4687", "ano": 2020, "inicio_exibicao": "02/12/2020", "diocese_curta": "Osasco", "grupo_nome": "Santa Helena", "busca": "diocese de osasco/sp rainha santa izabel santa helena barueri maria de fátima laines da silva rua cananéia, 190 - jardim maria helena"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE OSASCO/SP", "numero": 4, "inicio": "2016-06-06", "paroquia": "São Pedro e São Paulo", "comunidade": "São Pedro e São Paulo", "endereco": "Estrada Ernestina Vieira, 150 - Jardim Leopoldina", "cidade": "Carapicuíba", "coordenadora": "Maria do Rosario Muniz da Silva", "telefone": "(11) 97745-0344", "ano": 2016, "inicio_exibicao": "06/06/2016", "diocese_curta": "Osasco", "grupo_nome": "São Pedro e São Paulo", "busca": "diocese de osasco/sp são pedro e são paulo são pedro e são paulo carapicuíba maria do rosario muniz da silva estrada ernestina vieira, 150 - jardim leopoldina"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE OSASCO/SP", "numero": 5, "inicio": "2017-03-08", "paroquia": "Santo Antônio", "comunidade": "Santo Antônio", "endereco": "Rua Venceslau Brás, 106 - Vila Caldas", "cidade": "Carapicuíba", "coordenadora": "Iara de Castro", "telefone": "(11) 9 4993-8309", "ano": 2017, "inicio_exibicao": "08/03/2017", "diocese_curta": "Osasco", "grupo_nome": "Santo Antônio", "busca": "diocese de osasco/sp santo antônio santo antônio carapicuíba iara de castro rua venceslau brás, 106 - vila caldas"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE OSASCO/SP", "numero": 6, "inicio": "2017-03-11", "paroquia": "Nossa Senhora do Monte Serrate", "comunidade": "Nossa Senhora do Monte Serrate", "endereco": "Rua Senador Feijó, 12 - Centro", "cidade": "Cotia", "coordenadora": "Solange Ribeiro Veronezi Augusto", "telefone": "(11) 9 9428-1030", "ano": 2017, "inicio_exibicao": "11/03/2017", "diocese_curta": "Osasco", "grupo_nome": "Nossa Senhora do Monte Serrate", "busca": "diocese de osasco/sp nossa senhora do monte serrate nossa senhora do monte serrate cotia solange ribeiro veronezi augusto rua senador feijó, 12 - centro"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE OSASCO/SP", "numero": 7, "inicio": "2020-05-02", "paroquia": "Catedral Santo Antônio", "comunidade": "Catedral Santo Antônio", "endereco": "Avenida Santo Antônio, 1090 - Vila Osasco", "cidade": "Osasco", "coordenadora": "Maria Vieira de Novaes", "telefone": "(11) 9 4261-9622", "ano": 2020, "inicio_exibicao": "02/05/2020", "diocese_curta": "Osasco", "grupo_nome": "Catedral Santo Antônio", "busca": "diocese de osasco/sp catedral santo antônio catedral santo antônio osasco maria vieira de novaes avenida santo antônio, 1090 - vila osasco"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE OSASCO/SP", "numero": 8, "inicio": "2023-07-21", "paroquia": "Bom Jesus Crucificado", "comunidade": "Bom Jesus Crucificado", "endereco": "Rua Ananias de Almeida,427 - Quitaúna", "cidade": "Osasco", "coordenadora": "Sandra Margareth Moreira da Cunha Cavalcanti", "telefone": "(11) 9 4430-6062", "ano": 2023, "inicio_exibicao": "21/07/2023", "diocese_curta": "Osasco", "grupo_nome": "Bom Jesus Crucificado", "busca": "diocese de osasco/sp bom jesus crucificado bom jesus crucificado osasco sandra margareth moreira da cunha cavalcanti rua ananias de almeida,427 - quitaúna"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 1, "inicio": "2019-05-04", "paroquia": "São Bento", "comunidade": "São Bento", "endereco": "Dr. Mário de Campos, 191 - Americanópolis", "cidade": "São Paulo", "coordenadora": "Marivalda Alves da Paixão", "telefone": "(11) 98330-3817", "ano": 2019, "inicio_exibicao": "04/05/2019", "diocese_curta": "Santo Amaro", "grupo_nome": "São Bento", "busca": "diocese de santo amaro/sp são bento são bento são paulo marivalda alves da paixão dr. mário de campos, 191 - americanópolis"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 2, "inicio": "2016-10-05", "paroquia": "São Pedro Apóstolo", "comunidade": "São Pedro Apóstolo", "endereco": "Rua Professor Guilherme Belfort Sabino, 953 - Campo Grande", "cidade": "São Paulo", "coordenadora": "Verônica Souza Lima", "telefone": "(11) 98221-5718", "ano": 2016, "inicio_exibicao": "05/10/2016", "diocese_curta": "Santo Amaro", "grupo_nome": "São Pedro Apóstolo", "busca": "diocese de santo amaro/sp são pedro apóstolo são pedro apóstolo são paulo verônica souza lima rua professor guilherme belfort sabino, 953 - campo grande"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 3, "inicio": "2019-02-13", "paroquia": "São João Maria Vianney", "comunidade": "São Carlos Borromeu", "endereco": "Rua Breno Bersa, 99 - Jardim Almeida Prado", "cidade": "São Paulo", "coordenadora": "Enirse do Amaral Wandele", "telefone": "(11) 9 9481-0240", "ano": 2019, "inicio_exibicao": "13/02/2019", "diocese_curta": "Santo Amaro", "grupo_nome": "São Carlos Borromeu", "busca": "diocese de santo amaro/sp são joão maria vianney são carlos borromeu são paulo enirse do amaral wandele rua breno bersa, 99 - jardim almeida prado"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 4, "inicio": "2020-01-02", "paroquia": "Nossa Senhora Refugio dos Pecadores", "comunidade": "Nossa Senhora Refugio dos Pecadores", "endereco": "Rua Nestor de Castro, 517 - Cidade Domitila", "cidade": "São Paulo", "coordenadora": "Tieko Nakamitsu Hashizume", "telefone": "(11) 9 7754-8747", "ano": 2020, "inicio_exibicao": "02/01/2020", "diocese_curta": "Santo Amaro", "grupo_nome": "Nossa Senhora Refugio dos Pecadores", "busca": "diocese de santo amaro/sp nossa senhora refugio dos pecadores nossa senhora refugio dos pecadores são paulo tieko nakamitsu hashizume rua nestor de castro, 517 - cidade domitila"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 5, "inicio": "2020-05-02", "paroquia": "Nossa Senhora da Imaculada Conceição", "comunidade": "Nossa Senhora da Imaculada Conceição", "endereco": "Inácio Cunha Leme, 104 - Veleiros", "cidade": "São Paulo", "coordenadora": "Camila Profeta Souza Sant'ana", "telefone": "(11) 96938-3420", "ano": 2020, "inicio_exibicao": "02/05/2020", "diocese_curta": "Santo Amaro", "grupo_nome": "Nossa Senhora da Imaculada Conceição", "busca": "diocese de santo amaro/sp nossa senhora da imaculada conceição nossa senhora da imaculada conceição são paulo camila profeta souza sant'ana inácio cunha leme, 104 - veleiros"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 6, "inicio": "2024-02-04", "paroquia": "Nossa Senhora da Esperança", "comunidade": "Nossa Senhora da Esperança", "endereco": "Rua Nossa Senhora de Nazaré, 101 - Cidade Dutra", "cidade": "São Paulo", "coordenadora": "Maria José Silva Tobias", "telefone": "(11) 9 9246-2383", "ano": 2024, "inicio_exibicao": "04/02/2024", "diocese_curta": "Santo Amaro", "grupo_nome": "Nossa Senhora da Esperança", "busca": "diocese de santo amaro/sp nossa senhora da esperança nossa senhora da esperança são paulo maria josé silva tobias rua nossa senhora de nazaré, 101 - cidade dutra"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 7, "inicio": "2024-02-23", "paroquia": "Santa Maria Goretti", "comunidade": "Santa Maria Goretti", "endereco": "Rua Astolfo Vieira de Resende, 70 A - Jardim IV Centenário", "cidade": "São Paulo", "coordenadora": "Mônica Aparecida Camilo Jacomo", "telefone": "(11) 9 7145-9190", "ano": 2024, "inicio_exibicao": "23/02/2024", "diocese_curta": "Santo Amaro", "grupo_nome": "Santa Maria Goretti", "busca": "diocese de santo amaro/sp santa maria goretti santa maria goretti são paulo mônica aparecida camilo jacomo rua astolfo vieira de resende, 70 a - jardim iv centenário"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 8, "inicio": "2024-04-17", "paroquia": "São José", "comunidade": "São José", "endereco": "Rua Hugo Vitor da Silva - Americanópolis", "cidade": "São Paulo", "coordenadora": "Ivete Cerqueira Fernandes", "telefone": "(11) 9 8137-3170", "ano": 2024, "inicio_exibicao": "17/04/2024", "diocese_curta": "Santo Amaro", "grupo_nome": "São José", "busca": "diocese de santo amaro/sp são josé são josé são paulo ivete cerqueira fernandes rua hugo vitor da silva - americanópolis"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 9, "inicio": "Não informado", "paroquia": "Imaculado Coração de Maria", "comunidade": "Imaculado Coração de Maria", "endereco": "Avenida João Carlos da Silva Borges, 1084 - Jardim Heliomar", "cidade": "São Paulo", "coordenadora": "Virgínia Célia Malaquias da Costa", "telefone": "(11) 7548-9991", "ano": null, "inicio_exibicao": "Não informado", "diocese_curta": "Santo Amaro", "grupo_nome": "Imaculado Coração de Maria", "busca": "diocese de santo amaro/sp imaculado coração de maria imaculado coração de maria são paulo virgínia célia malaquias da costa avenida joão carlos da silva borges, 1084 - jardim heliomar"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 10, "inicio": "2023-05-20", "paroquia": "Santo Antônio de Santana Galvão e Santo Antônio", "comunidade": "Santo Antônio de Santana Galvão e Santo Antônio", "endereco": "Avenida José Estevão de Magalhães, 357 - Vila Campestre", "cidade": "São Paulo", "coordenadora": "Helena Moreira Rocha dos Santos", "telefone": "(11) 9 6624-7016", "ano": 2023, "inicio_exibicao": "20/05/2023", "diocese_curta": "Santo Amaro", "grupo_nome": "Santo Antônio de Santana Galvão e Santo Antônio", "busca": "diocese de santo amaro/sp santo antônio de santana galvão e santo antônio santo antônio de santana galvão e santo antônio são paulo helena moreira rocha dos santos avenida josé estevão de magalhães, 357 - vila campestre"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 11, "inicio": "2024-07-11", "paroquia": "Santuário Nossa Senhora de Fátima", "comunidade": "Santuário Nossa Senhora de Fátima", "endereco": "Rua Darwin, 651 - Alto da Boa Vista", "cidade": "São Paulo", "coordenadora": "Maria Zelia Moreira Silva", "telefone": "(11) 9 7354-0638", "ano": 2024, "inicio_exibicao": "11/07/2024", "diocese_curta": "Santo Amaro", "grupo_nome": "Santuário Nossa Senhora de Fátima", "busca": "diocese de santo amaro/sp santuário nossa senhora de fátima santuário nossa senhora de fátima são paulo maria zelia moreira silva rua darwin, 651 - alto da boa vista"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 12, "inicio": "2024-05-22", "paroquia": "Santo Antônio de Pádua", "comunidade": "Santo Antônio de Pádua", "endereco": "Rua Eriberto Barros Cajazeiras. 305 - Vila Castelo", "cidade": "São Paulo", "coordenadora": "Maria de Lourdes Braga", "telefone": "(11) 9 7229-4479", "ano": 2024, "inicio_exibicao": "22/05/2024", "diocese_curta": "Santo Amaro", "grupo_nome": "Santo Antônio de Pádua", "busca": "diocese de santo amaro/sp santo antônio de pádua santo antônio de pádua são paulo maria de lourdes braga rua eriberto barros cajazeiras. 305 - vila castelo"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 13, "inicio": "2024-08-08", "paroquia": "São Cristóvão", "comunidade": "São Cristóvão", "endereco": "Rua Carlos Jorge Schimindt, 402 - Recanto Campo Belo", "cidade": "São Paulo", "coordenadora": "Roberta de Cassia Ferreira Aparecido", "telefone": "(11) 9 6225-6653", "ano": 2024, "inicio_exibicao": "08/08/2024", "diocese_curta": "Santo Amaro", "grupo_nome": "São Cristóvão", "busca": "diocese de santo amaro/sp são cristóvão são cristóvão são paulo roberta de cassia ferreira aparecido rua carlos jorge schimindt, 402 - recanto campo belo"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 14, "inicio": "2025-05-07", "paroquia": "Nossa Sra do Perpétuo Socorro e Santa Rosália", "comunidade": "Nossa Sra do Perpétuo Socorro e Santa Rosália", "endereco": "Avenida Mascote, 1179 - Vila Mascote", "cidade": "São Paulo", "coordenadora": "Telma Tilene Silva de Souza Camilo", "telefone": "(11) 9 8254-3542", "ano": 2025, "inicio_exibicao": "07/05/2025", "diocese_curta": "Santo Amaro", "grupo_nome": "Nossa Sra do Perpétuo Socorro e Santa Rosália", "busca": "diocese de santo amaro/sp nossa sra do perpétuo socorro e santa rosália nossa sra do perpétuo socorro e santa rosália são paulo telma tilene silva de souza camilo avenida mascote, 1179 - vila mascote"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 15, "inicio": "2021-05-27", "paroquia": "Nossa Senhora da Consolação", "comunidade": "Nossa Senhora da Consolação", "endereco": "Rua José Cândido, 382 - Parque Alto", "cidade": "São Paulo", "coordenadora": "Agda Rosa Sáteles Souza", "telefone": "(11) 9 7312-1415", "ano": 2021, "inicio_exibicao": "27/05/2021", "diocese_curta": "Santo Amaro", "grupo_nome": "Nossa Senhora da Consolação", "busca": "diocese de santo amaro/sp nossa senhora da consolação nossa senhora da consolação são paulo agda rosa sáteles souza rua josé cândido, 382 - parque alto"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO AMARO/SP", "numero": 16, "inicio": "2024-02-06", "paroquia": "São Pio de Pietrelcina", "comunidade": "São Pio de Pietrelcina", "endereco": "Rua São Sigismundo, 296 - Jardim Santa Fé", "cidade": "São Paulo", "coordenadora": "Claudeonete da Silva", "telefone": "(11) 9 8080-8594", "ano": 2024, "inicio_exibicao": "06/02/2024", "diocese_curta": "Santo Amaro", "grupo_nome": "São Pio de Pietrelcina", "busca": "diocese de santo amaro/sp são pio de pietrelcina são pio de pietrelcina são paulo claudeonete da silva rua são sigismundo, 296 - jardim santa fé"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO ANDRÉ/SP", "numero": 1, "inicio": "2023-11-10", "paroquia": "São Geraldo Magella", "comunidade": "São João Evangelista e Santa Rita de Cássia", "endereco": "Rua Dr. Mayera, 415 - Vila Tibiriçá", "cidade": "Santo André", "coordenadora": "Miriam Carneiro Castanho Dutra", "telefone": "(11) 9 7220-7176", "ano": 2023, "inicio_exibicao": "10/11/2023", "diocese_curta": "Santo André", "grupo_nome": "São João Evangelista e Santa Rita de Cássia", "busca": "diocese de santo andré/sp são geraldo magella são joão evangelista e santa rita de cássia santo andré miriam carneiro castanho dutra rua dr. mayera, 415 - vila tibiriçá"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO ANDRÉ/SP", "numero": 2, "inicio": "2025-10-30", "paroquia": "São Geraldo Magella", "comunidade": "São Geraldo Magella", "endereco": "Avenida Queirós Filho,2765 - Vila Guaraciaba", "cidade": "Santo André", "coordenadora": "Aline da silva Oliveira Estêvão", "telefone": "(11) 9 8553-7463", "ano": 2025, "inicio_exibicao": "30/10/2025", "diocese_curta": "Santo André", "grupo_nome": "São Geraldo Magella", "busca": "diocese de santo andré/sp são geraldo magella são geraldo magella santo andré aline da silva oliveira estêvão avenida queirós filho,2765 - vila guaraciaba"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO ANDRÉ/SP", "numero": 3, "inicio": "2023-11-19", "paroquia": "Menino Jesus de Praga", "comunidade": "Menino Jesus de Praga", "endereco": "Rua Luiz de Vasconcelos, 100 -Vila Nogueira", "cidade": "Diadema", "coordenadora": "Geralda Ana de Souza Silva", "telefone": "(11) 9 7971-6846", "ano": 2023, "inicio_exibicao": "19/11/2023", "diocese_curta": "Santo André", "grupo_nome": "Menino Jesus de Praga", "busca": "diocese de santo andré/sp menino jesus de praga menino jesus de praga diadema geralda ana de souza silva rua luiz de vasconcelos, 100 -vila nogueira"}, {"provincia": "PROVINCIA 1B", "diocese": "DIOCESE DE SANTO ANDRÉ/SP", "numero": 4, "inicio": "2026-02-20", "paroquia": "Santa Teresinha", "comunidade": "Santa Teresinha", "endereco": "Rua Antônio Simionato, s/n - Santa Teresinha", "cidade": "São Bernardo do Campo", "coordenadora": "Jadi Marques Correia", "telefone": "(11) 9 8321-0490", "ano": 2026, "inicio_exibicao": "20/02/2026", "diocese_curta": "Santo André", "grupo_nome": "Santa Teresinha", "busca": "diocese de santo andré/sp santa teresinha santa teresinha são bernardo do campo jadi marques correia rua antônio simionato, s/n - santa teresinha"}];
-let LOCAL_DATA=JSON.parse(localStorage.getItem('p1b_local_records_v3')||'[]');
+let FIREBASE_DATA=[];
 let DATA=[];
+let FIREBASE_EDIT_ID=null;
+let FIREBASE_CONNECTED=false;
 const state={year:'',diocese:'',city:'',search:''};
 const colors=['#0a4d91','#0784be','#0ca7c8','#d7a126','#a53b35','#6d4b9a','#b384cb','#8b7848','#2f7f6f'];
 
@@ -310,7 +328,7 @@ function prepare(x,origin='base'){
   r.busca=fold([r.diocese,r.paroquia,r.comunidade,r.cidade,r.coordenadora,r.endereco,r.telefone].join(' '));
   return r
 }
-function rebuild(){DATA=[...BASE_DATA.map(x=>prepare(x,'Planilha original')),...LOCAL_DATA.map(x=>prepare(x,'Cadastro no app'))];refreshOptions();renderAll()}
+function rebuild(){DATA=[...BASE_DATA.map(x=>prepare(x,'Planilha original')),...FIREBASE_DATA.map(x=>prepare(x,'Firebase'))];refreshOptions();renderAll()}
 function uniq(arr){const m=new Map();arr.forEach(v=>{const k=fold(v);if(k&&!m.has(k))m.set(k,txt(v))});return [...m.values()].sort((a,b)=>a.localeCompare(b,'pt-BR'))}
 function uniqueCount(arr,keyfn){return new Set(arr.map(keyfn).filter(Boolean)).size}
 function filtered(){
@@ -402,8 +420,23 @@ function renderQuality(a){
   cleaningNotes.innerHTML='<div class="alert blue"><span class="alertico">✓</span><div><strong>Filtros sem duplicidade visual</strong><span>Maiúsculas, acentos e espaços são normalizados.</span></div></div><div class="alert blue"><span class="alertico">✓</span><div><strong>Paróquias contadas por Diocese + nome</strong><span>Grupos diferentes na mesma paróquia não duplicam o KPI.</span></div></div><div class="alert blue"><span class="alertico">✓</span><div><strong>Coordenadoras deduplicadas</strong><span>Telefone é a chave preferencial; nome normalizado é usado como fallback.</span></div></div>';
 }
 function renderRegistry(){
-  const all=DATA,m=metric(all);registryStats.innerHTML='<div class="entity"><div><strong>Paróquias únicas</strong><small>Chave Diocese + Paróquia</small></div><span class="tag">'+m.parishes+'</span></div><div class="entity"><div><strong>Grupos / Redes / Comunidades</strong><small>Registros operacionais</small></div><span class="tag">'+m.groups+'</span></div><div class="entity"><div><strong>Coordenadoras</strong><small>Pessoas distintas</small></div><span class="tag">'+m.people+'</span></div><div class="entity"><div><strong>Adicionados no app</strong><small>Persistidos neste navegador</small></div><span class="tag">'+LOCAL_DATA.length+'</span></div>';
-  manualCount.textContent=LOCAL_DATA.length+' registros';manualTable.innerHTML=LOCAL_DATA.map((x,i)=>'<tr><td>'+esc(shortDiocese(x.diocese))+'</td><td>'+esc(x.paroquia)+'</td><td>'+esc(x.comunidade)+'</td><td>'+esc(x.cidade)+'</td><td>'+esc(x.coordenadora)+'</td><td>'+esc(x.telefone||'—')+'</td><td><button class="secondary" onclick="editLocal('+i+')">Editar</button> <button class="secondary" style="color:#b63838" onclick="removeLocal('+i+')">Excluir</button></td></tr>').join('')||'<tr><td colspan="7">Nenhum cadastro manual ainda.</td></tr>'
+  const all=DATA,m=metric(all);
+  registryStats.innerHTML=
+    '<div class="entity"><div><strong>Paróquias únicas</strong><small>Chave Diocese + Paróquia</small></div><span class="tag">'+m.parishes+'</span></div>'+
+    '<div class="entity"><div><strong>Grupos / Redes / Comunidades</strong><small>Registros operacionais</small></div><span class="tag">'+m.groups+'</span></div>'+
+    '<div class="entity"><div><strong>Coordenadoras</strong><small>Pessoas distintas</small></div><span class="tag">'+m.people+'</span></div>'+
+    '<div class="entity"><div><strong>Cadastros no Firestore</strong><small>'+(FIREBASE_CONNECTED?'Sincronização ativa':'Conectando ao Firebase...')+'</small></div><span class="tag">'+FIREBASE_DATA.length+'</span></div>';
+  manualCount.textContent=FIREBASE_DATA.length+' registros';
+  manualTable.innerHTML=FIREBASE_DATA.map((x,i)=>
+    '<tr><td>'+esc(shortDiocese(x.diocese))+'</td>'+
+    '<td>'+esc(x.paroquia)+'</td>'+
+    '<td>'+esc(x.comunidade)+'</td>'+
+    '<td>'+esc(x.cidade)+'</td>'+
+    '<td>'+esc(x.coordenadora)+'</td>'+
+    '<td>'+esc(x.telefone||'—')+'</td>'+
+    '<td><button class="secondary" onclick="editFirebase('+i+')">Editar</button> '+
+    '<button class="secondary" style="color:#b63838" onclick="removeFirebase('+i+')">Excluir</button></td></tr>'
+  ).join('')||'<tr><td colspan="7">Nenhum cadastro adicional no Firestore ainda.</td></tr>';
 }
 function renderReport(a,m,al){
   const topD=countsBy(a,x=>x.diocese_curta)[0]||['—',0],topC=countsBy(a,x=>x.cidade)[0]||['—',0];
@@ -426,23 +459,179 @@ function wireForm(root){
 function clearForm(root){root.querySelectorAll('input').forEach(x=>x.value='');const s=root.querySelector('.form-status');s.className='form-status';s.textContent=''}
 function collectForm(root){const q=c=>root.querySelector('.'+c).value;return {diocese:txt(q('rDiocese')),inicio:q('rInicio'),paroquia:txt(q('rParoquia')),comunidade:txt(q('rGrupo')),cidade:txt(q('rCidade')),coordenadora:txt(q('rPessoa')),telefone:txt(q('rTelefone')),tipo:q('rTipo'),endereco:txt(q('rEndereco'))}}
 function canonical(existing,val){const f=fold(val),hit=existing.find(x=>fold(x)===f);return hit||txt(val)}
-function saveForm(root){
+async function saveForm(root){
   const v=collectForm(root),status=root.querySelector('.form-status');
-  if(!v.diocese||!v.paroquia||!v.comunidade||!v.cidade||!v.coordenadora){status.className='form-status show bad';status.textContent='Preencha Diocese, Paróquia, Grupo/Comunidade, Cidade e Coordenadora.';return}
-  v.diocese=canonical(DATA.map(x=>x.diocese),v.diocese);v.paroquia=canonical(DATA.filter(x=>fold(x.diocese)===fold(v.diocese)).map(x=>x.paroquia),v.paroquia);v.cidade=canonical(DATA.map(x=>x.cidade),v.cidade);v.coordenadora=canonical(DATA.map(x=>x.coordenadora),v.coordenadora);
-  const proposed=prepare({...v,ano:v.inicio?Number(v.inicio.slice(0,4)):null,inicio_exibicao:v.inicio?v.inicio.split('-').reverse().join('/'):'Não informado'},'Cadastro no app');
-  if(DATA.some(x=>recKey(x)===recKey(proposed))){status.className='form-status show bad';status.textContent='Este cadastro já existe na base (mesma Diocese, Paróquia, Grupo e Cidade). Nenhuma duplicação foi criada.';return}
-  LOCAL_DATA.push(proposed);localStorage.setItem('p1b_local_records_v3',JSON.stringify(LOCAL_DATA));status.className='form-status show ok';status.textContent='Cadastro salvo. Os indicadores, tabelas e filtros já foram atualizados.';rebuild();setTimeout(()=>{if(root===modalForm)closeNewModal()},650)
-}
-function openNewModal(){newModal.classList.add('open')}function closeNewModal(){newModal.classList.remove('open')}
-function removeLocal(i){if(confirm('Excluir este cadastro local?')){LOCAL_DATA.splice(i,1);localStorage.setItem('p1b_local_records_v3',JSON.stringify(LOCAL_DATA));rebuild()}}
-function editLocal(i){go('registry');const x=LOCAL_DATA[i],root=inlineForm;root.querySelector('.rDiocese').value=x.diocese||'';root.querySelector('.rInicio').value=/^\d{4}-/.test(x.inicio||'')?x.inicio:'';root.querySelector('.rParoquia').value=x.paroquia||'';root.querySelector('.rGrupo').value=x.comunidade||'';root.querySelector('.rCidade').value=x.cidade||'';root.querySelector('.rPessoa').value=x.coordenadora||'';root.querySelector('.rTelefone').value=x.telefone||'';root.querySelector('.rEndereco').value=x.endereco||'';root.querySelector('.rTipo').value=x.tipo||'Grupo de oração';LOCAL_DATA.splice(i,1);localStorage.setItem('p1b_local_records_v3',JSON.stringify(LOCAL_DATA));rebuild();window.scrollTo({top:0,behavior:'smooth'})}
-function exportCSV(){const a=filtered(),heads=['Diocese','Inicio','Paroquia','Comunidade_Rede_Grupo','Cidade','Coordenadora','Telefone','Endereco','Origem'];const rows=[heads,...a.map(x=>[x.diocese,x.inicio_exibicao,x.paroquia,x.comunidade,x.cidade,x.coordenadora,x.telefone,x.endereco,x.origem])];download('\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(';')).join('\n'),'provincia_1b_filtrado.csv','text/csv;charset=utf-8')}
-function exportBackup(){download(JSON.stringify(LOCAL_DATA,null,2),'backup_cadastros_p1b.json','application/json')}
-function download(content,name,type){const u=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
-function importBackup(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const arr=JSON.parse(r.result);if(!Array.isArray(arr))throw 0;LOCAL_DATA=arr;localStorage.setItem('p1b_local_records_v3',JSON.stringify(LOCAL_DATA));rebuild();alert('Backup importado com sucesso.')}catch(e){alert('Backup inválido.')}};r.readAsText(f)}
+  if(!v.diocese||!v.paroquia||!v.comunidade||!v.cidade||!v.coordenadora){
+    status.className='form-status show bad';
+    status.textContent='Preencha Diocese, Paróquia, Grupo/Comunidade, Cidade e Coordenadora.';
+    return;
+  }
 
-mountForms();rebuild();
+  v.diocese=canonical(DATA.map(x=>x.diocese),v.diocese);
+  v.paroquia=canonical(DATA.filter(x=>fold(x.diocese)===fold(v.diocese)).map(x=>x.paroquia),v.paroquia);
+  v.cidade=canonical(DATA.map(x=>x.cidade),v.cidade);
+  v.coordenadora=canonical(DATA.map(x=>x.coordenadora),v.coordenadora);
+
+  const proposed=prepare({
+    ...v,
+    ano:v.inicio?Number(v.inicio.slice(0,4)):null,
+    inicio_exibicao:v.inicio?v.inicio.split('-').reverse().join('/'):'Não informado'
+  },'Firebase');
+
+  const duplicate=DATA.some(x=>recKey(x)===recKey(proposed) && (!FIREBASE_EDIT_ID || x._id!==FIREBASE_EDIT_ID));
+  if(duplicate){
+    status.className='form-status show bad';
+    status.textContent='Este cadastro já existe na base (mesma Diocese, Paróquia, Grupo e Cidade). Nenhuma duplicação foi criada.';
+    return;
+  }
+
+  const payload={
+    provincia:'PROVINCIA 1B',
+    diocese:proposed.diocese,
+    inicio:proposed.inicio||'Não informado',
+    ano:proposed.ano||null,
+    inicio_exibicao:proposed.inicio_exibicao||'Não informado',
+    paroquia:proposed.paroquia,
+    comunidade:proposed.comunidade,
+    endereco:proposed.endereco||'',
+    cidade:proposed.cidade,
+    coordenadora:proposed.coordenadora,
+    telefone:proposed.telefone||'',
+    tipo:proposed.tipo||'Grupo de oração',
+    atualizadoEm:firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  try{
+    status.className='form-status show ok';
+    status.textContent=FIREBASE_EDIT_ID?'Atualizando cadastro no Firebase...':'Salvando cadastro no Firebase...';
+
+    if(FIREBASE_EDIT_ID){
+      await db.collection('grupos').doc(FIREBASE_EDIT_ID).update(payload);
+      FIREBASE_EDIT_ID=null;
+    }else{
+      payload.criadoEm=firebase.firestore.FieldValue.serverTimestamp();
+      await db.collection('grupos').add(payload);
+    }
+
+    clearForm(root);
+    status.className='form-status show ok';
+    status.textContent='Cadastro salvo no Firestore. O painel foi atualizado automaticamente.';
+    setTimeout(()=>{if(root===modalForm)closeNewModal()},650);
+  }catch(err){
+    console.error('Erro ao salvar no Firestore:',err);
+    status.className='form-status show bad';
+    status.textContent='Não foi possível salvar no Firebase. Verifique as regras do Firestore e a conexão.';
+  }
+}
+
+function openNewModal(){newModal.classList.add('open')}
+function closeNewModal(){newModal.classList.remove('open')}
+
+async function removeFirebase(i){
+  const x=FIREBASE_DATA[i];
+  if(!x||!x._id)return;
+  if(!confirm('Excluir este cadastro do Firestore? A alteração aparecerá para todos os usuários.'))return;
+  try{
+    await db.collection('grupos').doc(x._id).delete();
+  }catch(err){
+    console.error('Erro ao excluir:',err);
+    alert('Não foi possível excluir o cadastro no Firebase.');
+  }
+}
+
+function editFirebase(i){
+  const x=FIREBASE_DATA[i];
+  if(!x||!x._id)return;
+  FIREBASE_EDIT_ID=x._id;
+  go('registry');
+  const root=inlineForm;
+  root.querySelector('.rDiocese').value=x.diocese||'';
+  root.querySelector('.rInicio').value=/^\d{4}-/.test(x.inicio||'')?x.inicio:'';
+  root.querySelector('.rParoquia').value=x.paroquia||'';
+  root.querySelector('.rGrupo').value=x.comunidade||'';
+  root.querySelector('.rCidade').value=x.cidade||'';
+  root.querySelector('.rPessoa').value=x.coordenadora||'';
+  root.querySelector('.rTelefone').value=x.telefone||'';
+  root.querySelector('.rEndereco').value=x.endereco||'';
+  root.querySelector('.rTipo').value=x.tipo||'Grupo de oração';
+  const status=root.querySelector('.form-status');
+  status.className='form-status show ok';
+  status.textContent='Editando cadastro do Firebase. Salve para publicar as alterações.';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function exportCSV(){
+  const a=filtered(),heads=['Diocese','Inicio','Paroquia','Comunidade_Rede_Grupo','Cidade','Coordenadora','Telefone','Endereco','Origem'];
+  const rows=[heads,...a.map(x=>[x.diocese,x.inicio_exibicao,x.paroquia,x.comunidade,x.cidade,x.coordenadora,x.telefone,x.endereco,x.origem])];
+  download('\ufeff'+rows.map(r=>r.map(v=>'"'+String(v??'').replaceAll('"','""')+'"').join(';')).join('\n'),'provincia_1b_filtrado.csv','text/csv;charset=utf-8');
+}
+
+function exportBackup(){
+  const clean=FIREBASE_DATA.map(({busca,diocese_curta,origem,...x})=>x);
+  download(JSON.stringify(clean,null,2),'backup_firestore_p1b.json','application/json');
+}
+
+function download(content,name,type){
+  const u=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');
+  a.href=u;a.download=name;a.click();URL.revokeObjectURL(u);
+}
+
+async function importBackup(ev){
+  const f=ev.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=async()=>{
+    try{
+      const arr=JSON.parse(r.result);
+      if(!Array.isArray(arr))throw new Error('Formato inválido');
+      let enviados=0,ignorados=0;
+      for(const raw of arr){
+        const item=prepare(raw,'Firebase');
+        if(!item.diocese||!item.paroquia||!item.comunidade||!item.cidade||!item.coordenadora){ignorados++;continue}
+        if(DATA.some(x=>recKey(x)===recKey(item))){ignorados++;continue}
+        const payload={
+          provincia:item.provincia||'PROVINCIA 1B',
+          diocese:item.diocese,
+          inicio:item.inicio||'Não informado',
+          ano:item.ano||null,
+          inicio_exibicao:item.inicio_exibicao||'Não informado',
+          paroquia:item.paroquia,
+          comunidade:item.comunidade,
+          endereco:item.endereco||'',
+          cidade:item.cidade,
+          coordenadora:item.coordenadora,
+          telefone:item.telefone||'',
+          tipo:item.tipo||'Grupo de oração',
+          criadoEm:firebase.firestore.FieldValue.serverTimestamp(),
+          atualizadoEm:firebase.firestore.FieldValue.serverTimestamp()
+        };
+        await db.collection('grupos').add(payload);
+        enviados++;
+      }
+      alert('Backup processado: '+enviados+' registros enviados e '+ignorados+' ignorados.');
+    }catch(e){
+      console.error(e);
+      alert('Backup inválido ou erro ao enviar os registros ao Firebase.');
+    }
+  };
+  r.readAsText(f);
+}
+
+function startFirestoreSync(){
+  db.collection('grupos').onSnapshot(snapshot=>{
+    FIREBASE_CONNECTED=true;
+    FIREBASE_DATA=snapshot.docs.map(doc=>prepare({...doc.data(),_id:doc.id},'Firebase'));
+    rebuild();
+  },err=>{
+    FIREBASE_CONNECTED=false;
+    console.error('Erro na sincronização do Firestore:',err);
+    rebuild();
+  });
+}
+
+mountForms();
+rebuild();
+startFirestoreSync();
+
 </script>
 </body>
 </html>
