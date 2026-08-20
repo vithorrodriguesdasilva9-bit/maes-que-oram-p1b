@@ -442,6 +442,164 @@ body{background:
 }
 </style>
 
+
+
+<style id="mobile-responsive-layer">
+/* ===== RESPONSIVIDADE MOBILE — preserva o desktop ===== */
+@media (max-width:950px){
+  html{scroll-padding-bottom:86px}
+  body{padding-bottom:calc(74px + env(safe-area-inset-bottom));overflow-x:hidden}
+  .app{display:block;min-height:100dvh}
+  .main{margin-left:0!important;width:100%!important;min-width:0}
+
+  /* A sidebar vira uma barra de navegação inferior horizontal. */
+  .sidebar{
+    display:block!important;
+    position:fixed!important;
+    inset:auto 0 0 0!important;
+    width:100%!important;
+    height:calc(70px + env(safe-area-inset-bottom))!important;
+    min-height:0!important;
+    padding:0 4px env(safe-area-inset-bottom)!important;
+    overflow:hidden!important;
+    border-top:1px solid rgba(255,255,255,.13);
+    box-shadow:0 -10px 30px rgba(3,29,62,.18);
+    z-index:120;
+  }
+  .sidebar:after,.brand,.quote,.sidebar-footer{display:none!important}
+  .nav{
+    height:70px;
+    padding:7px 5px!important;
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:stretch;
+    gap:4px!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    scroll-snap-type:x proximity;
+  }
+  .nav::-webkit-scrollbar{display:none}
+  .navbtn{
+    flex:0 0 82px!important;
+    min-width:82px!important;
+    min-height:56px!important;
+    padding:5px 5px!important;
+    border-radius:12px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    justify-content:center!important;
+    align-items:center!important;
+    gap:3px!important;
+    font-size:7.5px!important;
+    line-height:1.05!important;
+    text-align:center!important;
+    white-space:normal!important;
+    scroll-snap-align:center;
+    transform:none!important;
+  }
+  .navbtn.active{background:linear-gradient(180deg,rgba(239,181,46,.98),rgba(212,154,24,.72))!important}
+  .navbtn.active:before{display:none!important}
+  .navico{width:auto!important;height:auto!important;font-size:18px!important;line-height:1!important}
+  .navbadge{position:absolute;top:3px;right:4px;padding:2px 4px!important;font-size:5.5px!important}
+
+  /* Header mais compacto e sem colisões. */
+  .header{
+    position:sticky!important;top:0!important;height:auto!important;min-height:88px!important;
+    padding:13px 16px!important;gap:10px!important;overflow:visible!important;
+    align-items:center!important;
+  }
+  .header:after{display:none!important}
+  .greeting{min-width:0;flex:1;padding-bottom:0!important}
+  .greeting:after{width:130px!important;margin-top:7px!important}
+  .greeting h1{font-size:23px!important;line-height:1.05!important;white-space:normal}
+  .greeting p{font-size:9px!important;line-height:1.35!important;max-width:56vw}
+  .head-actions{flex:0 0 auto;gap:6px!important}
+  .cloud-status,.bell{display:none!important}
+  .avatar{width:38px!important;height:38px!important;font-size:10px}
+  .head-actions>.primary{width:40px;height:40px;padding:0!important;border-radius:12px;font-size:0;justify-content:center}
+  .head-actions>.primary::first-letter{font-size:0}
+  .head-actions>.primary{color:transparent}
+  .head-actions>.primary:before{content:"＋";color:#fff;font-size:20px;font-weight:500;line-height:1}
+
+  .content{padding:12px 12px 26px!important;max-width:none!important}
+  .filterbar{position:relative!important;top:auto!important;grid-template-columns:1fr 1fr!important;gap:8px!important;padding:10px!important;margin-bottom:12px!important}
+  .filterbar .search{grid-column:1/-1}
+  .filterbar>.secondary{grid-column:1/-1;justify-content:center;min-height:40px}
+  .filterbox{display:block!important}
+  .filterbox label{display:block;margin:0 0 5px 2px;font-size:8px!important}
+  .select,.search,.field,.textarea{min-height:42px!important;font-size:12px!important;padding:10px 11px!important}
+
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+  .kpi{min-height:112px!important;padding:13px!important;grid-template-columns:40px minmax(0,1fr)!important;gap:9px!important;border-radius:14px!important}
+  .kicon{width:40px!important;height:40px!important;font-size:18px!important}
+  .kpi b{font-size:28px!important}.kpi small{font-size:8px!important}.kpi span{font-size:8px!important;margin-top:8px!important}
+
+  .grid-3,.grid-2,.form-layout,.settings{grid-template-columns:1fr!important;gap:10px!important}
+  .data-health{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+  .stats4{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+  .qualitygrid{grid-template-columns:1fr!important}.peoplegrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .card,.formcard,.reportbox,.setting,.person,.quality,.stat{border-radius:14px!important}
+  .card{padding:13px!important}.cardhead{align-items:flex-start!important;gap:8px!important}
+  .card h3,.cardhead h3{font-size:11px!important}.cardhead a{font-size:8px!important;white-space:nowrap}
+  .sectiontitle{align-items:flex-start!important;gap:10px!important}.sectiontitle h2{font-size:22px!important}.sectiontitle p{font-size:9px!important;line-height:1.45}
+  .sectiontitle>.primary{flex:0 0 auto;padding:9px 10px!important;font-size:9px!important}
+
+  .donutrow{grid-template-columns:1fr!important;gap:8px!important}.donut{width:138px!important;height:138px!important}.donut:after{inset:33px!important}
+  .chart{height:190px!important;overflow:hidden}.evo-stats{gap:5px!important}.evomini{padding:7px 4px!important}
+  .citybar{grid-template-columns:minmax(76px,1fr) minmax(90px,2fr) 46px!important;gap:6px!important;font-size:8px!important}
+
+  /* Tabelas continuam completas, mas viram uma viewport horizontal de toque. */
+  .tablewrap{
+    width:100%;max-width:100%;overflow-x:auto!important;overflow-y:auto!important;
+    -webkit-overflow-scrolling:touch;overscroll-behavior-inline:contain;
+    border-radius:11px!important;
+  }
+  .datatable{min-width:720px!important;font-size:8.5px!important}
+  .datatable th,.datatable td{padding:9px 8px!important;white-space:nowrap}
+  .datatable th:first-child,.datatable td:first-child{position:sticky;left:0;z-index:2;background:#fff;box-shadow:1px 0 0 #edf2f7}
+  .datatable thead th:first-child{z-index:6;background:#f5f8fc}
+
+  .formgrid{grid-template-columns:1fr!important}.formgrid label.full{grid-column:auto!important}
+  .form-actions,.report-actions,.confirm-actions{flex-wrap:wrap!important}
+  .form-actions>*{flex:1 1 130px;justify-content:center}
+  .modal{padding:10px!important;align-items:flex-end!important}
+  .modalbox{width:100%!important;max-height:88dvh!important;border-radius:18px 18px 0 0!important;padding:16px!important;padding-bottom:calc(16px + env(safe-area-inset-bottom))!important}
+  .modalhead h3{font-size:18px!important}
+  .entity{align-items:flex-start}.entity>div{min-width:0}.entity strong,.entity small{overflow-wrap:anywhere}
+  .system-strip{grid-template-columns:1fr 1fr!important;margin-bottom:8px!important}
+  .system-item{min-height:54px!important;padding:9px 10px!important}.system-item:nth-child(2):after{display:none!important}
+}
+
+@media (max-width:620px){
+  .header{min-height:82px!important;padding:11px 12px!important}
+  .greeting h1{font-size:20px!important}.greeting p{max-width:62vw;font-size:8.5px!important}.greeting:after{width:105px!important}
+  .avatar{display:none!important}
+  .content{padding:10px 9px 22px!important}
+  .filterbar{grid-template-columns:1fr!important}
+  .filterbar .search,.filterbar>.secondary{grid-column:auto}
+  .kpis{grid-template-columns:1fr!important}
+  .kpi{min-height:96px!important;grid-template-columns:44px 1fr!important;align-items:center!important}
+  .kicon{width:44px!important;height:44px!important}.kpi b{font-size:30px!important}
+  .data-health,.stats4,.peoplegrid,.system-strip{grid-template-columns:1fr!important}
+  .health-item{min-height:62px}
+  .sectiontitle{display:grid!important;grid-template-columns:1fr!important}.sectiontitle>.primary{width:100%;justify-content:center}
+  .card{padding:12px!important}.cardhead{margin-bottom:10px!important}
+  .evo-stats{grid-template-columns:1fr 1fr 1fr!important;overflow-x:auto}
+  .alert{padding:10px!important}.alert strong,.alert span{font-size:8.5px!important}
+  .datatable{min-width:660px!important}
+  .system-item:after{display:none!important}
+  .toast-container{left:9px!important;right:9px!important;bottom:calc(82px + env(safe-area-inset-bottom))!important}
+}
+
+@media (max-width:380px){
+  .greeting h1{font-size:18px!important}.greeting p{max-width:66vw}
+  .navbtn{flex-basis:76px!important;min-width:76px!important}
+  .kpi{padding:11px!important}.content{padding-left:8px!important;padding-right:8px!important}
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -843,7 +1001,7 @@ function renderReport(a,m,al){
 }
 
 const titles={overview:['Que bom ter você aqui!','Acompanhe e fortaleça cada grupo de oração.'],territory:['Território','Visão da presença da Província 1B.'],groups:['Grupos','Todos os grupos em um só lugar.'],people:['Coordenadoras','Pessoas que fazem a rede acontecer.'],evolution:['Evolução','Acompanhe o crescimento ao longo dos anos.'],quality:['Qualidade da Base','Mantenha os cadastros completos e confiáveis.'],registry:['Cadastros','Alimente o painel sem precisar alterar o código.'],reports:['Relatórios','Gere uma visão executiva pronta para compartilhar.'],settings:['Configurações','Base preparada para a próxima etapa de hospedagem.']};
-function go(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.page===id));headerTitle.textContent=titles[id][0];headerSub.textContent=titles[id][1];window.scrollTo({top:0,behavior:'smooth'})}
+function go(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x.dataset.page===id));headerTitle.textContent=titles[id][0];headerSub.textContent=titles[id][1];if(window.innerWidth<=950){const a=document.querySelector('.navbtn.active'),n=document.querySelector('.nav');if(a&&n)n.scrollTo({left:a.offsetLeft-(n.clientWidth-a.clientWidth)/2,behavior:'smooth'})}window.scrollTo({top:0,behavior:'smooth'})}
 document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>go(b.dataset.page));
 
 function formHtml(){return document.getElementById('formTemplate').innerHTML}
